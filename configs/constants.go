@@ -24,5 +24,4 @@ const (
 	RedisKeyPrefixSignature = ProjectName + ":signature:"
 
 	ZhCN = "zh-cn"
-	EnUS = "en-us"
 )
