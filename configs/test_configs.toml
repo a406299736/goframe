@@ -1,0 +1,51 @@
+[app]
+  logpath="/usr/local/var/logs/"
+
+[hashids]
+  length = 12
+  secret = "6ab6122836cfef95f8db8"
+
+[jwt]
+  expireduration = 24
+  secret = "i1ydX9RtHy8uJTrw7frcu"
+
+[language]
+  local = "zh-cn"
+
+[mysql]
+  [mysql.base]
+    connmaxlifetime = 60
+    maxidleconn = 60
+    maxopenconn = 10
+
+  [mysql.read]
+    addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
+    name = "wm_class"
+    pass = "l%meFN!Z88yRgrjz"
+    user = "web_user"
+
+  [mysql.write]
+  addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
+  name = "wm_class"
+  pass = "l%meFN!Z88yRgrjz"
+  user = "web_user"
+
+[redis]
+  addr = "127.0.0.1:6379"
+  db = "0"
+  maxretries = 3
+  minidleconns = 5
+  pass = ""
+  poolsize = 10
+
+[urltoken]
+  expireduration = 10
+  secret = "i1ydX9RtHy8uJTrw7frcu"
+
+[rocket]
+  httpendpoint="http://1566301846632690.mqrest.cn-beijing.aliyuncs.com"
+  accesskey="LTAI4Fzq5GKmmj5XH3xTqCwp"
+  secretkey="FxX9hQnZ6qzT6KeuihnKHm1WJG8hKT"
+  instanceid="MQ_INST_1566301846632690_BcvtClKQ"
+  topic="wm_internal_contract"
+  groupid="GID_http_wm_internal_sms"
