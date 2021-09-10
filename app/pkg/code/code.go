@@ -42,9 +42,5 @@ func Text(code int) string {
 		return zhCNText[code]
 	}
 
-	if lang == configs.EnUS {
-		return enUSText[code]
-	}
-
 	return zhCNText[code]
 }

@@ -11,17 +11,11 @@ var _ Error = (*err)(nil)
 type Error interface {
 	// i 为了避免被其他包实现
 	i()
-	// WithErr 设置错误信息
 	WithErr(err error) Error
-	// GetBusinessCode 获取 Business Code
 	GetBusinessCode() int
-	// GetHttpCode 获取 HTTP Code
 	GetHttpCode() int
-	// GetMsg 获取 Msg
 	GetMsg() string
-	// GetErr 获取错误信息
 	GetErr() error
-	// ToString 返回 JSON 格式的错误详情
 	ToString() string
 }
 
