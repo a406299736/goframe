@@ -71,7 +71,6 @@ func WithRecordMetrics(record RecordMetrics) Option {
 func WithEnableCors() Option {
 	return func(opt *option) {
 		opt.enableCors = true
-		fmt.Println("* [开启 cors]")
 	}
 }
 
@@ -79,7 +78,6 @@ func WithEnableCors() Option {
 func WithPanicNotify(notify OnPanicNotify) Option {
 	return func(opt *option) {
 		opt.panicNotify = notify
-		fmt.Println("* [开启 panic notify]")
 	}
 }
 
@@ -87,7 +85,6 @@ func WithPanicNotify(notify OnPanicNotify) Option {
 func WithEnableRate() Option {
 	return func(opt *option) {
 		opt.enableRate = true
-		fmt.Println("* [开启 rate]")
 	}
 }
 
@@ -222,10 +219,6 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 		engine: gin.New(),
 	}
 
-	fmt.Println(_UI)
-	fmt.Println(fmt.Sprintf("* [开启 port %s]", configs.ProjectPort))
-	fmt.Println(fmt.Sprintf("* [运行环境 %s]", env.Active().Value()))
-
 	// withoutLogPaths 不记录日志
 	withoutTracePaths := map[string]bool{
 		"/metrics": true,
@@ -255,13 +248,11 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 	if !opt.disablePProf {
 		if !env.Active().IsPro() {
 			pprof.Register(mux.engine)
-			fmt.Println("* [注册 pprof]")
 		}
 	}
 
 	if !opt.disablePrometheus {
 		mux.engine.GET("/metrics", gin.WrapH(promhttp.Handler()))
-		fmt.Println("* [注册 prometheus]")
 	}
 
 	if opt.enableCors {
