@@ -1,4 +1,5 @@
 ### Usage
+wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=29118938
 
 #### 部署时设置环境变量 export PROJECT_PATH=项目绝对路径.
         使用goland IDE可编辑configurations中environment项，设置为PROJECT_PATH=项目绝对路径
