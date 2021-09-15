@@ -10,7 +10,6 @@ import (
 	"strings"
 )
 
-// UrlSign
 // path 请求的路径 (不附带 querystring)
 func (t *token) UrlSign(path string, method string, params url.Values) (tokenString string, err error) {
 	methods := map[string]bool{

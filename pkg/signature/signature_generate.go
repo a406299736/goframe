@@ -13,7 +13,6 @@ import (
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/time-parse"
 )
 
-// Generate
 // path 请求的路径 (不附带 querystring)
 func (s *signature) Generate(path string, method string, params url.Values) (authorization, date string, err error) {
 	if path == "" {

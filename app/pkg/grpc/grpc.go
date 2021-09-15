@@ -24,7 +24,7 @@ type clientConn struct {
 
 func New() (ClientConn, error) {
 	// TODO 需从配置文件中获取 暂未实现
-	//target := "127.0.0.1:9988"
+	//target := "127.0.0.1:8006"
 	//secret := "abcdef"
 	//
 	//clientInterceptor := NewClientInterceptor(func(message []byte) (authorization string, err error) {

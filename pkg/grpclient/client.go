@@ -23,21 +23,18 @@ type option struct {
 	unaryInterceptor grpc.UnaryClientInterceptor
 }
 
-// WithCredential setup credential for tls
 func WithCredential(credential credentials.TransportCredentials) Option {
 	return func(opt *option) {
 		opt.credential = credential
 	}
 }
 
-// WithKeepAlive setup keepalive parameters
 func WithKeepAlive(keepalive *keepalive.ClientParameters) Option {
 	return func(opt *option) {
 		opt.keepalive = keepalive
 	}
 }
 
-// WithDialTimeout setup the dial timeout
 func WithDialTimeout(timeout time.Duration) Option {
 	return func(opt *option) {
 		opt.dialTimeout = timeout

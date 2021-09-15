@@ -10,7 +10,6 @@ import (
 var _ Token = (*token)(nil)
 
 type Token interface {
-	// i 为了避免被其他包实现
 	i()
 
 	// JwtSign 签名
