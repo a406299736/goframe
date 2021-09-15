@@ -74,6 +74,10 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 	{
 		// demo
 		setDemoRouter(r)
+		// demo2
+		setDemo2Router2(r)
+		// demo3 不传任何参数
+		//setDemoRouter3() r.db 和 r.cache 都可以不传
 	}
 
 	s := new(Server)

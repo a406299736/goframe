@@ -45,11 +45,13 @@
              ./scripts/gormgen.sh wm_class wm_user
 
 #### 9. rocketMQ
+            参考 console/cmd/rocketMQ.go
             use r := mq.New(nil)
             r.Producer(...).Push(...) // 生产
             or r.Consumer(...).pull(doFunc) // 消费
 
-#### 10. console
+#### 10. console 如果使用Context接口,需要使用 core.NewCmdContext(logger)
+            参考 console/cmd/mockDemo.go
             go run console/main.go MockDemo 
             or go build -o cmd
             ./cmd MockDemo

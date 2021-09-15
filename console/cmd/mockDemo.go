@@ -17,6 +17,11 @@ package cmd
 
 import (
 	"fmt"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
+	db2 "gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
+	"go.uber.org/zap"
 
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/logger"
@@ -41,7 +46,7 @@ var MockDemoCmd = &cobra.Command{
 		fmt.Println(is)
 		if is {
 			fmt.Println("Is you")
-			initMock(args)
+			initMock(log, args)
 		} else {
 			log.Info("Not you")
 			fmt.Println("Not you")
@@ -49,9 +54,29 @@ var MockDemoCmd = &cobra.Command{
 	},
 }
 
-func initMock(args []string) {
+func initMock(logger *zap.Logger, args []string) {
 	// TODO something
 	fmt.Println("initMock called")
+
+	db, err := db2.New()
+	if err != nil {
+		fmt.Printf("%v", err)
+		return
+	}
+
+	redis, err := cache.New()
+	if err != nil {
+		fmt.Println("%v", err)
+		return
+	}
+
+	srv := demo.NewDemoService2(db, redis, core.NewCmdContext(logger))
+	info, e := srv.Create()
+	if e != nil {
+		fmt.Printf("%v", e)
+		return
+	}
+	fmt.Printf("%v", info)
 }
 
 func init() {

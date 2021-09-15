@@ -1,4 +1,4 @@
-package damo_handler
+package demo_handler
 
 import (
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"

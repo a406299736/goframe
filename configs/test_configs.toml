@@ -49,3 +49,6 @@
   instanceid="MQ_INST_1566301846632690_BcvtClKQ"
   topic="wm_internal_contract"
   groupid="GID_http_wm_internal_sms"
+
+[center]
+classUrl="http://test-internal-class-middle.weimiaocaishang.com"

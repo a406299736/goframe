@@ -1,4 +1,4 @@
-package damo_handler
+package demo_handler
 
 import (
 	"net/http"

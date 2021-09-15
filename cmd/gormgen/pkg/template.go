@@ -24,8 +24,9 @@ import (
 	"time"
 
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
+	e "gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
 
-	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -37,9 +38,9 @@ func NewQueryBuilder() *{{.QueryBuilderName}} {
 	return new({{.QueryBuilderName}})
 }
 
-func (t *{{.StructName}}) Create(db *gorm.DB) (id int32, err error) {
-	if err = db.Create(t).Error; err != nil {
-		return 0, errors.Wrap(err, "create err")
+func (t *{{.StructName}}) Create(db *gorm.DB) (id int32, er e.Er) {
+	if err := db.Create(t).Error; err != nil {
+		return 0, e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return t.Id, nil
 }
@@ -66,49 +67,49 @@ func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) (er e.Er) {
 	db = db.Model(&{{.StructName}}{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
+	if err := db.Updates(m).Error; err != nil {
+		return e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return nil
 }
 
-func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (err error) {
+func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (er e.Er) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&{{.StructName}}{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	if err := db.Delete(&{{.StructName}}{}).Error; err != nil {
+		return e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return nil
 }
 
-func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, error) {
+func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 	var c int64
 	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, e.NewErr(code.MySQLExecError, res.Error.Error()) 
 	}
-	return c, res.Error
+	return c, nil
 }
 
-func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, error) {
+func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	ret := &{{.StructName}}{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
 	}
-	return ret, res.Error
+	return ret, nil
 }
 
-func (qb *{{.QueryBuilderName}}) QueryOne(db *gorm.DB) (*{{.StructName}}, error) {
+func (qb *{{.QueryBuilderName}}) QueryOne(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	qb.limit = 1
 	ret, err := qb.QueryAll(db)
 	if len(ret) > 0 {
@@ -117,10 +118,13 @@ func (qb *{{.QueryBuilderName}}) QueryOne(db *gorm.DB) (*{{.StructName}}, error)
 	return nil, err
 }
 
-func (qb *{{.QueryBuilderName}}) QueryAll(db *gorm.DB) ([]*{{.StructName}}, error) {
+func (qb *{{.QueryBuilderName}}) QueryAll(db *gorm.DB) ([]*{{.StructName}}, e.Er) {
 	var ret []*{{.StructName}}
 	err := qb.buildQuery(db).Find(&ret).Error
-	return ret, err
+	if err != nil {
+		return nil, e.NewErr(code.MySQLExecError, err.Error())
+	}
+	return ret, nil
 }
 
 func (qb *{{.QueryBuilderName}}) Limit(limit int) *{{.QueryBuilderName}} {

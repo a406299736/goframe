@@ -9,7 +9,6 @@ import (
 var _ Error = (*err)(nil)
 
 type Error interface {
-	// i 为了避免被其他包实现
 	i()
 	WithErr(err error) Error
 	GetBusinessCode() int

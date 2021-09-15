@@ -37,6 +37,7 @@ type Repo interface {
 	Exists(keys ...string) bool
 	Incr(key string, options ...Option) int64
 	Close() error
+	Client() *redis.Client
 }
 
 type cacheRepo struct {
@@ -72,6 +73,10 @@ func redisConnect() (*redis.Client, error) {
 	}
 
 	return client, nil
+}
+
+func (c *cacheRepo) Client() *redis.Client {
+	return c.client
 }
 
 // Set set some <key,value> into redis

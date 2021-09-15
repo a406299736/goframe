@@ -74,6 +74,10 @@ type Config struct {
 	App struct {
 		LogPath string `toml:"logPath"`
 	} `toml:"app"`
+
+	Center struct{
+		ClassUrl string `toml:"classUrl"`
+	} `toml:"center"`
 }
 
 func init() {

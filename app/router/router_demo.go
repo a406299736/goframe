@@ -1,13 +1,13 @@
 package router
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/controller/damo-handler"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/controller/demo-handler"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 )
 
 func setDemoRouter(r *resource) {
 
-	back := damo_handler.New(r.db, r.cache)
+	back := demo_handler.New(r.db, r.cache)
 
 	// 三种验证规则
 
