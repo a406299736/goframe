@@ -9,12 +9,17 @@
 
 #### 3. 编写路由规则和鉴权规则.
             参考 app/router/router-demo.go
+            推荐简化版示例: app/router/router-demo2.go
 
 #### 4. 实现 service 侧接口时 统一返回 errors.Er类型错误；handler 侧接收到 errors.Er 错误时，调用用context.Failed(errno.Error)压入 _abort_error_ 调用栈，core包最后统一处理日志.
 ##### ①. 参考 
             app/router/router_demo.go
             app/api/controller/damo-handler/handler.go
             app/api/service/demo/service.go
+            推荐简化版示例:
+            app/router/router_demo2.go
+            app/api/controller/damo-handler/handler2.go
+            app/api/service/demo/service2.go
 
 #### 5. 监控 
             {{host}}/debug/pprof/
@@ -26,6 +31,8 @@
             ctx.ShouldBindURI(req)  // 获取url参数 
             ... ...
 #### 7. CRUD
+            简化版示例: app/api/service/demo/service2.go
+
             dc := demo.NewDemo()
             dc.Aspirations = "demo"
             id, err := dc.Create(src.db.GetDbR().WithContext(c.RequestContext()))
