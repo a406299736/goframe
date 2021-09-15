@@ -15,6 +15,5 @@ func TestPush(t *testing.T) {
 	t.Log(rocket, log, conf)
 
 	//producer
-	//rocket.Producer(InstanceConfig2P{InstanceId: conf.InstanceId,
-	//	TopicId: conf.Topic}).Push("producer test", "", nil, log)
+	//rocket.Producer(conf.InstanceId, conf.Topic).Push("producer test", "", nil, log)
 }

@@ -39,9 +39,7 @@ var rocketMQCmd = &cobra.Command{
 		log, _ := logger.NewJSONLogger(logger.WithFileP(configs.Get().LogPath()), logger.WithTrace())
 
 		// consumer
-		rocket.Consumer(mq.InstanceConfig2C{GroupId: conf.GroupId,
-			InstanceConfig2P: mq.InstanceConfig2P{InstanceId: conf.InstanceId,
-				TopicId: conf.Topic}}).Pull(func(ctxStr string) {
+		rocket.Consumer(conf.InstanceId, conf.Topic, conf.GroupId, "").Pull(func(ctxStr string) {
 			fmt.Println("pull msg:" + ctxStr)
 		}, log)
 

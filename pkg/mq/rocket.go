@@ -46,15 +46,6 @@ func (d defaultConnectConfig) config() (c connectConfig) {
 	return
 }
 
-type InstanceConfig2C struct {
-	InstanceConfig2P
-	GroupId, MsgTag string
-}
-
-type InstanceConfig2P struct {
-	InstanceId, TopicId string
-}
-
 type rocketClient struct {
 	client mq.MQClient
 }
@@ -176,10 +167,10 @@ func New(confer mqConnectConfer) rocketClient {
 	return rocketClient{client: mqClient}
 }
 
-func (r rocketClient) Consumer(icf InstanceConfig2C) consume {
-	return consume{con: r.client.GetConsumer(icf.InstanceId, icf.TopicId, icf.GroupId, icf.MsgTag)}
+func (r rocketClient) Consumer(instanceId, topicId, groupId, msgTag string) consume {
+	return consume{con: r.client.GetConsumer(instanceId, topicId, groupId, msgTag)}
 }
 
-func (r rocketClient) Producer(icf InstanceConfig2P) product {
-	return product{pro: r.client.GetProducer(icf.InstanceId, icf.TopicId)}
+func (r rocketClient) Producer(instanceId, topicId string) product {
+	return product{pro: r.client.GetProducer(instanceId, topicId)}
 }
