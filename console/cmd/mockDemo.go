@@ -45,11 +45,11 @@ var MockDemoCmd = &cobra.Command{
 		is, _ := cmd.Flags().GetBool("isYou")
 		fmt.Println(is)
 		if is {
-			fmt.Println("Is you")
+			fmt.Println("Here")
 			initMock(log, args)
 		} else {
-			log.Info("Not you")
-			fmt.Println("Not you")
+			log.Info("Not here")
+			fmt.Println("Not here")
 		}
 	},
 }
