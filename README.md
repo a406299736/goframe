@@ -29,7 +29,7 @@ wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=2911893
 
 #### 6. 常用请求
             ctx.ShouldBindJSON(req) // 获取body值 json格式
-            ctx.ShouldBindURI(req)  // 获取url参数 
+            ctx.ShouldBindForm(req)  // 获取url参数 定义结构体tag: `form:"xxx"`
             ... ...
 #### 7. CRUD
             简化版示例: app/api/service/demo/service2.go

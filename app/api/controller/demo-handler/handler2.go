@@ -1,6 +1,7 @@
 package demo_handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
@@ -18,6 +19,10 @@ type handler2 struct {
 	db      db.Repo
 }
 
+type infoReq struct {
+	Id int32 `form:"id"`
+}
+
 func New2(db db.Repo, cache cache.Repo) *handler2 {
 	return &handler2{
 		cache: cache,
@@ -30,7 +35,14 @@ func New2(db db.Repo, cache cache.Repo) *handler2 {
 func (h *handler2) Info() core.HandlerFunc {
 	return func(c core.Context) {
 		srv := demo.NewDemoService2(h.db, h.cache, c)
-		info, e := srv.Info()
+
+		req := new(infoReq)
+		t := c.ShouldBindForm(req)
+		if t != nil {
+			fmt.Printf("%v\n", t)
+		}
+
+		info, e := srv.Info(req.Id)
 		if e != nil {
 			c.Failed(errno.NewError(http.StatusOK, e.Code(), e.Error()))
 		}

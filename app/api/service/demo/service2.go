@@ -3,15 +3,15 @@ package demo
 import (
 	"encoding/json"
 	"fmt"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/httpclient"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/httpclient"
 	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
 	"go.uber.org/zap"
 )
@@ -48,8 +48,10 @@ func (s *service2) Create() (id int32, e errors.Er) {
 }
 
 // 查询 省略传参...
-func (s *service2) Info() (one *wm_about.WmAbout, e errors.Er) {
+func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 	s.ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
+
+	fmt.Printf("%p\n", s.ctx)
 
 	demo2 := wm_about.NewQueryBuilder()
 
