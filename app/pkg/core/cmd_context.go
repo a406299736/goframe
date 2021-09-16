@@ -2,17 +2,19 @@ package core
 
 import (
 	stdctx "context"
-	"github.com/gin-gonic/gin"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
-	"go.uber.org/zap"
 	"net/http"
 	"net/url"
+
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type cmdContext struct {
 	logger *zap.Logger
-	trace Trace
+	trace  Trace
 }
 
 func NewCmdContext(logger *zap.Logger) Context {
@@ -169,4 +171,3 @@ func (c cmdContext) RequestContext() StdContext {
 func (c cmdContext) ResponseWriter() gin.ResponseWriter {
 	return nil
 }
-

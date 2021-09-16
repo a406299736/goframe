@@ -3,17 +3,16 @@ package demo
 import (
 	"encoding/json"
 	"fmt"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
+	"time"
+
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/httpclient"
 	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/demo"
-	"time"
-
 	"go.uber.org/zap"
 )
 
@@ -24,6 +23,7 @@ type service2 struct {
 	ctx   core.Context
 }
 
+// 根据实际业务 参数自定义
 func NewDemoService2(db db.Repo, cache cache.Repo, ctx core.Context) *service2 {
 	return &service2{
 		db:    db,
@@ -33,38 +33,37 @@ func NewDemoService2(db db.Repo, cache cache.Repo, ctx core.Context) *service2 {
 }
 
 // 新增 省略传参...
-func (s *service2) Create() (id int, e errors.Er) {
-	demo2 := demo.NewDemo()
+func (s *service2) Create() (id int32, e errors.Er) {
+	demo2 := wm_about.NewModel()
 	demo2.Call = "call"
 	demo2.Aspirations = "asp"
 	demo2.Recruit = "rec"
 	demo2.Map = "map"
-	id, err := demo2.Create(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
-	if err != nil {
-		return id, errors.NewErr(code.MySQLExecError, err.Error())
+	id, e = demo2.Create(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
+	if e != nil {
+		return 0, e
 	}
 
 	return id, nil
 }
 
 // 查询 省略传参...
-func (s *service2) Info() (one *demo.WmAbout, e errors.Er) {
+func (s *service2) Info() (one *wm_about.WmAbout, e errors.Er) {
 	s.ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
 
-	demo2 := demo.NewDemoQueryBuilder()
+	demo2 := wm_about.NewQueryBuilder()
 
-	err2 := s.cache.Set("aaaa", "abs", time.Minute * 3, cache.WithTrace(s.ctx.Trace()))
+	err2 := s.cache.Set("aaaa", "abs", time.Minute*3, cache.WithTrace(s.ctx.Trace()))
 	if err2 != nil {
 		return nil, errors.NewErr(100000, err2.Error())
 	}
 
-	js, _ := json.Marshal(map[string]interface{}{"id":11001694})
-	res, err := httpclient.PostJSON(configs.Get().Center.ClassUrl + "/api/class/info",
-		js, httpclient.WithHeader("h-app-id", "98"))
-	if err != nil {
-		return nil, errors.NewErr(100002, err.Error())
+	js, _ := json.Marshal(map[string]interface{}{"id": 11001694})
+	info, error2 := center.ClassInfo(js)
+	if error2 != nil {
+		return nil, error2
 	}
-	fmt.Printf("%v", string(res))
+	fmt.Printf("%v", info)
 
 	body, err2 := httpclient.Get("http://www.baidu.com", nil)
 	if err2 != nil {
@@ -72,10 +71,10 @@ func (s *service2) Info() (one *demo.WmAbout, e errors.Er) {
 	}
 	fmt.Printf("%v", string(body))
 
-	one, err = demo2.WhereId(db_repo.EqualPredicate, 1).
+	one, e = demo2.WhereId(db_repo.EqualPredicate, 1).
 		QueryOne(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
-	if err != nil {
-		return nil, errors.NewErr(code.MySQLExecError, err.Error())
+	if e != nil {
+		return nil, e
 	}
 
 	return one, nil
@@ -83,14 +82,13 @@ func (s *service2) Info() (one *demo.WmAbout, e errors.Er) {
 
 // 更新 省略传参...
 func (s *service2) Update2() errors.Er {
-	demo2 := demo.NewDemoQueryBuilder()
-	err := demo2.WhereMobile(db_repo.EqualPredicate, "18686868686").
-		WhereNicknameIn([]string{"zhang.san", "li.si"}).
-		WhereIsDeletedNotIn([]int32{2, 3, 4}).
+	demo2 := wm_about.NewQueryBuilder()
+	err := demo2.WhereMap(db_repo.EqualPredicate, "18686868686").
+		WhereRecruitIn([]string{"zhang.san", "li.si"}).
 		Updates(s.db.GetDbR().WithContext(s.ctx.RequestContext()),
-			map[string]interface{}{"mobile": "1861021234", "nickname": "hahahha"})
+			map[string]interface{}{"aspirations": "aaaaaassss", "call": "hahahha"})
 	if err != nil {
-		return errors.NewErr(code.MySQLExecError, err.Error())
+		return err
 	}
 
 	return nil
@@ -98,25 +96,22 @@ func (s *service2) Update2() errors.Er {
 
 // 删除 省略传参...
 func (s *service2) Del() errors.Er {
-	demo2 := demo.NewDemoQueryBuilder()
+	demo2 := wm_about.NewQueryBuilder()
 	err := demo2.WhereIdIn([]int32{1000, 2000, 3000}).Delete(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
 	if err != nil {
-		return errors.NewErr(code.MySQLExecError, err.Error())
+		return err
 	}
 
 	return nil
 }
 
 // 列表
-func (s *service2) List() (lt []*demo.WmAbout, er errors.Er) {
-	demo2 := demo.NewDemoQueryBuilder()
-	all, err := demo2.WhereIsDeleted(db_repo.EqualPredicate, 0).
-		OrderByUpdatedAt(false).
+func (s *service2) List() (lt []*wm_about.WmAbout, er errors.Er) {
+	demo2 := wm_about.NewQueryBuilder()
+	lt, er = demo2.WhereAspirations(db_repo.EqualPredicate, "aaaa").
+		OrderByUpdated(false).
 		Limit(1).Offset(200).
 		QueryAll(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
-	if err != nil {
-		return lt, errors.NewErr(code.MySQLExecError, err.Error())
-	}
 
-	return all, nil
+	return
 }

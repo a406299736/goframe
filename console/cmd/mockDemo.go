@@ -17,16 +17,16 @@ package cmd
 
 import (
 	"fmt"
+
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	db2 "gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"go.uber.org/zap"
-
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/logger"
 
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
 // MockDemoCmd represents the MockDemo command

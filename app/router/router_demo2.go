@@ -15,7 +15,7 @@ func setDemo2Router2(r *resource) {
 	{
 		//login.GET("/no/detail", back.Detail()) //demo
 		login.POST("/no/detail", demo2.Info()) //demo
-		login.POST("/no/c", demo2.Create()) //demo
+		login.POST("/no/c", demo2.Create())    //demo
 	}
 
 	// 2. 需要签名验证、登录验证，无需 RBAC 权限验证

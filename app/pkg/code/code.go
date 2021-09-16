@@ -33,6 +33,12 @@ const (
 
 	NotAllowed    = 20000
 	UserNotExists = 20001
+	NotExists     = 20002
+
+	ThirdRespError = 30000
+
+	JsonParseError  = 40000
+	MapKeyNotExists = 40001
 )
 
 func Text(code int) string {

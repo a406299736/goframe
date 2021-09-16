@@ -24,4 +24,10 @@ var zhCNText = map[int]string{
 
 	NotAllowed:    "无权限",
 	UserNotExists: "学员不存在",
+	NotExists:     "不存在",
+
+	ThirdRespError: "三方接口返回错误",
+
+	JsonParseError:  "json解析失败",
+	MapKeyNotExists: "map key不存在",
 }

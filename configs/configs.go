@@ -75,7 +75,7 @@ type Config struct {
 		LogPath string `toml:"logPath"`
 	} `toml:"app"`
 
-	Center struct{
+	Center struct {
 		ClassUrl string `toml:"classUrl"`
 	} `toml:"center"`
 }
