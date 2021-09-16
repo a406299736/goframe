@@ -14,7 +14,7 @@ func setDemo2Router2(r *resource) {
 	login := r.mux.Group("/api/demo2", r.middles.Signature())
 	{
 		//login.GET("/no/detail", back.Detail()) //demo
-		login.POST("/no/detail", demo2.Info()) //demo
+		login.GET("/no/detail", demo2.Info()) //demo
 		login.POST("/no/c", demo2.Create())    //demo
 	}
 
