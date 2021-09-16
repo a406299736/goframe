@@ -12,6 +12,8 @@ import (
 	"go.uber.org/zap"
 )
 
+var _ Context = (*cmdContext)(nil)
+
 type cmdContext struct {
 	logger *zap.Logger
 	trace  Trace
