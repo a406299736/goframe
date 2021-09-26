@@ -10,7 +10,6 @@ const (
 	subsystem = "ginBasic"
 )
 
-// metricsRequestsTotal 计数器（Counter）
 var metricsRequestsTotal = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
 		Namespace: namespace,
@@ -21,7 +20,6 @@ var metricsRequestsTotal = prometheus.NewCounterVec(
 	[]string{"method", "path"},
 )
 
-// metricsRequestsCost 累积直方图（Histogram）
 var metricsRequestsCost = prometheus.NewHistogramVec(
 	prometheus.HistogramOpts{
 		Namespace: namespace,
@@ -36,7 +34,6 @@ func init() {
 	prometheus.MustRegister(metricsRequestsTotal, metricsRequestsCost)
 }
 
-// RecordMetrics 记录指标
 func RecordMetrics(method, uri string, success bool, httpCode, businessCode int, costSeconds float64, traceId string) {
 	metricsRequestsTotal.With(prometheus.Labels{
 		"method": method,

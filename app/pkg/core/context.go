@@ -9,17 +9,13 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
 	"go.uber.org/zap"
 )
 
 type HandlerFunc func(c Context)
-
-type Trace = trace.T
 
 const (
 	_Alias          = "_alias_"
@@ -55,29 +51,6 @@ var _ Context = (*context)(nil)
 type Context interface {
 	init()
 
-	// ShouldBindQuery 反序列化 querystring
-	// tag: `form:"xxx"` (注：不要写成 query)
-	ShouldBindQuery(obj interface{}) error
-
-	// ShouldBindPostForm 反序列化 postform (querystring会被忽略)
-	// tag: `form:"xxx"`
-	ShouldBindPostForm(obj interface{}) error
-
-	// ShouldBindForm 同时反序列化 querystring 和 postform;
-	// 当 querystring 和 postform 存在相同字段时，postform 优先使用。
-	// tag: `form:"xxx"`
-	ShouldBindForm(obj interface{}) error
-
-	// ShouldBindJSON 反序列化 postjson
-	// tag: `json:"xxx"`
-	ShouldBindJSON(obj interface{}) error
-
-	// ShouldBindURI 反序列化 path 参数(如路由路径为 /user/:name)
-	// tag: `uri:"xxx"`
-	ShouldBindURI(obj interface{}) error
-
-	Redirect(code int, location string)
-
 	Trace() Trace
 	setTrace(trace Trace)
 	disableTrace()
@@ -107,23 +80,24 @@ type Context interface {
 	UserName() string
 	setUserName(userName string)
 
-	// Alias 设置路由别名, 用在监控中间件
 	Alias() string
 	setAlias(path string)
 
-	// RequestInputParams 获取所有参数
+	ShouldBindQuery(obj interface{}) error
+	ShouldBindPostForm(obj interface{}) error
+	ShouldBindForm(obj interface{}) error
+	ShouldBindJSON(obj interface{}) error
+	ShouldBindURI(obj interface{}) error
+	Redirect(code int, location string)
+
 	RequestInputParams() url.Values
-	// RequestPostFormParams  获取 PostForm 参数
 	RequestPostFormParams() url.Values
 	Request() *http.Request
-	// RawData 获取 Request.Body
 	RawData() []byte
-	// Method 获取 Request.Method
 	Method() string
 	Host() string
 	Path() string
 	URI() string
-	// RequestContext 获取请求的 context (当 client 关闭后，会自动 canceled)
 	RequestContext() StdContext
 
 	ResponseWriter() gin.ResponseWriter
@@ -149,33 +123,22 @@ func (c *context) init() {
 	c.ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 }
 
-// ShouldBindQuery 反序列化querystring
-// tag: `form:"xxx"` (注：不要写成query)
 func (c *context) ShouldBindQuery(obj interface{}) error {
 	return c.ctx.ShouldBindWith(obj, binding.Query)
 }
 
-// ShouldBindPostForm 反序列化 postform (querystring 会被忽略)
-// tag: `form:"xxx"`
 func (c *context) ShouldBindPostForm(obj interface{}) error {
 	return c.ctx.ShouldBindWith(obj, binding.FormPost)
 }
 
-// ShouldBindForm 同时反序列化querystring和postform;
-// 当querystring和postform存在相同字段时，postform优先使用。
-// tag: `form:"xxx"`
 func (c *context) ShouldBindForm(obj interface{}) error {
 	return c.ctx.ShouldBindWith(obj, binding.Form)
 }
 
-// ShouldBindJSON 反序列化postjson
-// tag: `json:"xxx"`
 func (c *context) ShouldBindJSON(obj interface{}) error {
 	return c.ctx.ShouldBindWith(obj, binding.JSON)
 }
 
-// ShouldBindURI 反序列化path参数(如路由路径为 /user/:name)
-// tag: `uri:"xxx"`
 func (c *context) ShouldBindURI(obj interface{}) error {
 	return c.ctx.ShouldBindUri(obj)
 }
@@ -316,13 +279,11 @@ func (c *context) setAlias(path string) {
 	}
 }
 
-// RequestInputParams 获取所有参数
 func (c *context) RequestInputParams() url.Values {
 	_ = c.ctx.Request.ParseForm()
 	return c.ctx.Request.Form
 }
 
-// RequestPostFormParams 获取 PostForm 参数
 func (c *context) RequestPostFormParams() url.Values {
 	_ = c.ctx.Request.ParseForm()
 	return c.ctx.Request.PostForm
@@ -358,7 +319,6 @@ func (c *context) URI() string {
 	return uri
 }
 
-// RequestContext (包装 Trace + Logger) 获取请求的 context (当client关闭后，会自动canceled)
 func (c *context) RequestContext() StdContext {
 	return StdContext{
 		stdctx.Background(),

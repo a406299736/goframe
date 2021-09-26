@@ -36,21 +36,18 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 	r := new(resource)
 	r.logger = logger
 
-	// 初始化 DB
 	dbRepo, err := db.New()
 	if err != nil {
 		logger.Fatal("new db err", zap.Error(err))
 	}
 	r.db = dbRepo
 
-	// 初始化 Cache
 	cacheRepo, err := cache.New()
 	if err != nil {
 		logger.Fatal("new cache err", zap.Error(err))
 	}
 	r.cache = cacheRepo
 
-	// 初始化 gRPC client
 	gRPCRepo, err := grpc.New()
 	if err != nil {
 		logger.Fatal("new grpc err", zap.Error(err))

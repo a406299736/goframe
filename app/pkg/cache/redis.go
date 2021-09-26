@@ -79,7 +79,6 @@ func (c *cacheRepo) Client() *redis.Client {
 	return c.client
 }
 
-// Set set some <key,value> into redis
 func (c *cacheRepo) Set(key, value string, ttl time.Duration, options ...Option) error {
 	ts := time.Now()
 	opt := newOption()
@@ -106,7 +105,6 @@ func (c *cacheRepo) Set(key, value string, ttl time.Duration, options ...Option)
 	return nil
 }
 
-// Get get some key from redis
 func (c *cacheRepo) Get(key string, options ...Option) (string, error) {
 	ts := time.Now()
 	opt := newOption()
@@ -132,7 +130,6 @@ func (c *cacheRepo) Get(key string, options ...Option) (string, error) {
 	return value, nil
 }
 
-// TTL get some key from redis
 func (c *cacheRepo) TTL(key string) (time.Duration, error) {
 	ttl, err := c.client.TTL(key).Result()
 	if err != nil {
@@ -142,13 +139,11 @@ func (c *cacheRepo) TTL(key string) (time.Duration, error) {
 	return ttl, nil
 }
 
-// Expire expire some key
 func (c *cacheRepo) Expire(key string, ttl time.Duration) bool {
 	ok, _ := c.client.Expire(key, ttl).Result()
 	return ok
 }
 
-// ExpireAt expire some key at some time
 func (c *cacheRepo) ExpireAt(key string, ttl time.Time) bool {
 	ok, _ := c.client.ExpireAt(key, ttl).Result()
 	return ok
@@ -207,12 +202,10 @@ func (c *cacheRepo) Incr(key string, options ...Option) int64 {
 	return value
 }
 
-// Close close redis client
 func (c *cacheRepo) Close() error {
 	return c.client.Close()
 }
 
-// WithTrace 设置trace信息
 func WithTrace(t Trace) Option {
 	return func(opt *option) {
 		if t != nil {

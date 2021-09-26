@@ -2,10 +2,9 @@ package code
 
 import "gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
 
-// Failure 错误时返回结构
 type Failure struct {
-	Code    int         `json:"code"`    // 业务码
-	Message string      `json:"message"` // 描述信息
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
 

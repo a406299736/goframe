@@ -17,7 +17,6 @@ var (
 
 var _ Environment = (*environment)(nil)
 
-// Environment 环境配置
 type Environment interface {
 	Value() string
 	IsDev() bool
@@ -54,7 +53,7 @@ func (e *environment) IsPro() bool {
 func (e *environment) t() {}
 
 func init() {
-	env := flag.String("env", "", "请输入运行环境:\n dev:开发环境\n test:测试环境\n rel:预上线环境\n pro:正式环境\n")
+	env := flag.String("env", "", "运行环境:\n dev:开发环境\n test:测试环境\n rel:预上线环境\n pro:正式环境\n")
 
 	// 防止单元测试时报错
 	testing.Init()
@@ -76,7 +75,6 @@ func init() {
 	}
 }
 
-// Active 当前配置的env
 func Active() Environment {
 	return active
 }

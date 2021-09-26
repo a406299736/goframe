@@ -27,6 +27,8 @@ const _UI = `Go Basic`
 
 const _MaxBurstSize = 100000
 
+type Trace = trace.T
+
 type Option func(*option)
 
 type option struct {
@@ -39,28 +41,22 @@ type option struct {
 	enableOpenBrowser string
 }
 
-// OnPanicNotify 发生panic时通知用
 type OnPanicNotify func(ctx Context, err interface{}, stackInfo string)
 
-// RecordMetrics 记录prometheus指标用
-// 如果使用AliasForRecordMetrics配置了别名，uri将被替换为别名。
 type RecordMetrics func(method, uri string, success bool, httpCode, businessCode int, costSeconds float64, traceId string)
 
-// WithDisablePProf 禁用 pprof 可视化和分析性能分析数据的工具
 func WithDisablePProf() Option {
 	return func(opt *option) {
 		opt.disablePProf = true
 	}
 }
 
-// WithDisablePrometheus 禁用prometheus 阿里云开源监控
 func WithDisablePrometheus() Option {
 	return func(opt *option) {
 		opt.disablePrometheus = true
 	}
 }
 
-// WithRecordMetrics 设置记录prometheus记录指标回调
 func WithRecordMetrics(record RecordMetrics) Option {
 	return func(opt *option) {
 		opt.recordMetrics = record
@@ -74,14 +70,12 @@ func WithEnableCors() Option {
 	}
 }
 
-// WithPanicNotify 设置panic时的通知消息
 func WithPanicNotify(notify OnPanicNotify) Option {
 	return func(opt *option) {
 		opt.panicNotify = notify
 	}
 }
 
-// WithEnableRate 是否限速
 func WithEnableRate() Option {
 	return func(opt *option) {
 		opt.enableRate = true
@@ -92,15 +86,12 @@ func DisableTrace(ctx Context) {
 	ctx.disableTrace()
 }
 
-// AliasForRecordMetrics 对请求uri起个别名，用于prometheus记录指标。
-// 如：Get /user/:username 这样的uri，因为username会有非常多的情况，这样记录prometheus指标会非常的不友好。
 func AliasForRecordMetrics(path string) HandlerFunc {
 	return func(ctx Context) {
 		ctx.setAlias(path)
 	}
 }
 
-// WrapAuthHandler 用来处理 Auth 的入口，在之后的handler中只需 ctx.UserID() ctx.UserName()
 func WrapAuthHandler(handler func(Context) (userID int64, userName string, err errno.Error)) HandlerFunc {
 	return func(ctx Context) {
 		userID, userName, err := handler(ctx)
@@ -113,7 +104,6 @@ func WrapAuthHandler(handler func(Context) (userID int64, userName string, err e
 	}
 }
 
-// RouterGroup 包装gin的RouterGroup
 type RouterGroup interface {
 	Group(string, ...HandlerFunc) RouterGroup
 	IRoutes
@@ -121,7 +111,6 @@ type RouterGroup interface {
 
 var _ IRoutes = (*router)(nil)
 
-// IRoutes 封装gin IRoutes
 type IRoutes interface {
 	Any(string, ...HandlerFunc)
 	GET(string, ...HandlerFunc)
@@ -175,17 +164,17 @@ func (r *router) HEAD(relativePath string, handlers ...HandlerFunc) {
 }
 
 func wrapHandlers(handlers ...HandlerFunc) []gin.HandlerFunc {
-	funcs := make([]gin.HandlerFunc, len(handlers))
+	fs := make([]gin.HandlerFunc, len(handlers))
 	for i, handler := range handlers {
 		handler := handler
-		funcs[i] = func(c *gin.Context) {
+		fs[i] = func(c *gin.Context) {
 			ctx := newContext(c)
 			defer releaseContext(ctx)
 			handler(ctx)
 		}
 	}
 
-	return funcs
+	return fs
 }
 
 var _ Mux = (*mux)(nil)
@@ -394,7 +383,6 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 
 			decodedURL, _ := url.QueryUnescape(ctx.Request.URL.RequestURI())
 
-			// ctx.Request.Header，精简 Header 参数
 			traceHeader := map[string]string{
 				"Content-Type":              ctx.GetHeader("Content-Type"),
 				configs.HeaderLoginToken:    ctx.GetHeader(configs.HeaderLoginToken),
@@ -468,7 +456,6 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 	mux.engine.NoRoute(wrapHandlers(DisableTrace)...)
 	system := mux.Group("/system")
 	{
-		// 健康检查
 		system.GET("/health", func(ctx Context) {
 			resp := &struct {
 				Timestamp   time.Time `json:"timestamp"`
