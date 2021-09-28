@@ -2,18 +2,15 @@ package demo
 
 import (
 	"encoding/json"
-	"fmt"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/httpclient"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
-	"time"
-
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
 	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
 	"go.uber.org/zap"
+	"strconv"
 )
 
 // 相当于 service 层
@@ -50,28 +47,29 @@ func (s *service2) Create() (id int32, e errors.Er) {
 // 查询 省略传参...
 func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 	s.ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
+	s.ctx.Logger().Info("user id:" + strconv.Itoa(int(s.ctx.UserID())))
 
-	fmt.Printf("%p\n", s.ctx)
+	//fmt.Printf("%p\n", s.ctx)
 
 	demo2 := wm_about.NewQueryBuilder()
 
-	err2 := s.cache.Set("aaaa", "abs", time.Minute*3, cache.WithTrace(s.ctx.Trace()))
-	if err2 != nil {
-		return nil, errors.NewErr(100000, err2.Error())
-	}
+	//err2 := s.cache.Set("aaaa", "abs", time.Minute*3, cache.WithTrace(s.ctx.Trace()))
+	//if err2 != nil {
+	//	return nil, errors.NewErr(100000, err2.Error())
+	//}
 
 	js, _ := json.Marshal(map[string]interface{}{"id": 11001694})
-	info, error2 := center.ClassInfo(js)
+	_, error2 := center.ClassInfo(js)
 	if error2 != nil {
 		return nil, error2
 	}
-	fmt.Printf("%v", info)
+	//fmt.Printf("%v", info)
 
-	body, err2 := httpclient.Get("http://www.baidu.com", nil)
-	if err2 != nil {
-		return nil, errors.NewErr(100003, err2.Error())
-	}
-	fmt.Printf("%v", string(body))
+	//body, err2 := httpclient.Get("http://www.baidu.com", nil)
+	//if err2 != nil {
+	//	return nil, errors.NewErr(100003, err2.Error())
+	//}
+	//fmt.Printf("%v", string(body))
 
 	one, e = demo2.WhereId(db_repo.EqualPredicate, 1).
 		QueryOne(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
