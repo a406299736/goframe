@@ -2,6 +2,7 @@ package router
 
 import (
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/controller/demo-handler"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 )
 
 func setDemo2Router2(r *resource) {
@@ -11,7 +12,7 @@ func setDemo2Router2(r *resource) {
 	// 三种验证规则
 
 	// 1. 需要签名验证，无需登录验证，无需 RBAC 权限验证
-	login := r.mux.Group("/api/demo2", r.middles.Signature())
+	login := r.mux.Group("/api/demo2", core.WrapAuthHandler(r.middles.Token))
 	{
 		//login.GET("/no/detail", back.Detail()) //demo
 		login.GET("/no/detail", demo2.Info()) //demo

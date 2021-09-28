@@ -1,10 +1,11 @@
 package middleware
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"net/http"
+	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
@@ -13,7 +14,14 @@ import (
 )
 
 func (m *middleware) Token(ctx core.Context) (userId int64, userName string, err errno.Error) {
-	token := ctx.GetHeader(configs.HeaderLoginToken)
+	token, e := ctx.Cookie(configs.HeaderLoginToken)
+	if e != nil {
+		return 0, "", errno.NewError(
+			http.StatusUnauthorized,
+			code.AuthorizationError,
+			code.Text(code.AuthorizationError)).WithErr(e)
+	}
+
 	if token == "" {
 		err = errno.NewError(
 			http.StatusUnauthorized,
@@ -23,7 +31,39 @@ func (m *middleware) Token(ctx core.Context) (userId int64, userName string, err
 		return
 	}
 
-	if !m.cache.Exists(configs.RedisKeyPrefixLoginUser + token) {
+	split := strings.Split(token, ".")
+	if len(split) < 2 {
+		err = errno.NewError(
+			http.StatusUnauthorized,
+			code.AuthorizationError,
+			code.Text(code.AuthorizationError)).WithErr(errors.New("未获取登录信息"))
+		return
+	}
+
+	userEncoding, er := base64.RawStdEncoding.DecodeString(split[1])
+	if er != nil {
+		err = errno.NewError(
+			http.StatusUnauthorized,
+			code.AuthorizationError,
+			code.Text(code.AuthorizationError)).WithErr(errors.New("解析出错"))
+		return
+	}
+
+	user := struct {
+		Userid int64 `json:"userid"`
+		Username string `json:"username"`
+	}{}
+	dt := json.NewDecoder(strings.NewReader(string(userEncoding)))
+	dt.UseNumber()
+	if e := dt.Decode(&user); e != nil {
+		err = errno.NewError(
+			http.StatusUnauthorized,
+			code.AuthorizationError,
+			code.Text(code.AuthorizationError)).WithErr(errors.New("解析出错"))
+		return
+	}
+
+	if user.Userid <= 0 {
 		err = errno.NewError(
 			http.StatusUnauthorized,
 			code.AuthorizationError,
@@ -32,35 +72,8 @@ func (m *middleware) Token(ctx core.Context) (userId int64, userName string, err
 		return
 	}
 
-	cacheData, cacheErr := m.cache.Get(configs.RedisKeyPrefixLoginUser+token, cache.WithTrace(ctx.Trace()))
-	if cacheErr != nil {
-		err = errno.NewError(
-			http.StatusUnauthorized,
-			code.AuthorizationError,
-			code.Text(code.AuthorizationError)).WithErr(cacheErr)
-
-		return
-	}
-
-	type userInfo struct {
-		Id       int64  `json:"id"`       // 用户ID
-		Username string `json:"username"` // 用户名
-	}
-
-	var userData userInfo
-
-	jsonErr := json.Unmarshal([]byte(cacheData), &userData)
-	if jsonErr != nil {
-		errno.NewError(
-			http.StatusUnauthorized,
-			code.AuthorizationError,
-			code.Text(code.AuthorizationError)).WithErr(jsonErr)
-
-		return
-	}
-
-	userId = userData.Id
-	userName = userData.Username
+	userId = user.Userid
+	userName = user.Username
 
 	return
 }

@@ -15,6 +15,7 @@ import (
 var _ Context = (*cmdContext)(nil)
 
 type cmdContext struct {
+	Context
 	logger *zap.Logger
 	trace  Trace
 }

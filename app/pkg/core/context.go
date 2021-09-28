@@ -74,6 +74,9 @@ type Context interface {
 	GetHeader(key string) string
 	SetHeader(key, value string)
 
+	Cookie(key string) (string, error)
+	SetCookie(key, value string, maxAge int, path, domain string, secure, httpOnly bool)
+
 	UserID() int64
 	setUserID(userID int64)
 
@@ -121,6 +124,14 @@ func (c *context) init() {
 
 	c.ctx.Set(_BodyName, body)
 	c.ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+}
+
+func (c *context) Cookie(key string) (string, error) {
+	return c.ctx.Cookie(key)
+}
+
+func (c *context) SetCookie(key, value string, maxAge int, path, domain string, secure, httpOnly bool) {
+	c.ctx.SetCookie(key, value, maxAge, path, domain, secure, httpOnly)
 }
 
 func (c *context) ShouldBindQuery(obj interface{}) error {
