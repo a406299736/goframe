@@ -21,36 +21,36 @@ type cmdContext struct {
 }
 
 func NewCmdContext(logger *zap.Logger) Context {
-	return cmdContext{
+	return &cmdContext{
 		logger: logger,
 	}
 }
 
-func (c cmdContext) init() {}
+func (c *cmdContext) init() {}
 
-func (c cmdContext) ShouldBindQuery(obj interface{}) error {
+func (c *cmdContext) ShouldBindQuery(obj interface{}) error {
 	return nil
 }
 
-func (c cmdContext) ShouldBindPostForm(obj interface{}) error {
+func (c *cmdContext) ShouldBindPostForm(obj interface{}) error {
 	return nil
 }
 
-func (c cmdContext) ShouldBindForm(obj interface{}) error {
+func (c *cmdContext) ShouldBindForm(obj interface{}) error {
 	return nil
 }
 
-func (c cmdContext) ShouldBindJSON(obj interface{}) error {
+func (c *cmdContext) ShouldBindJSON(obj interface{}) error {
 	return nil
 }
 
-func (c cmdContext) ShouldBindURI(obj interface{}) error {
+func (c *cmdContext) ShouldBindURI(obj interface{}) error {
 	return nil
 }
 
-func (c cmdContext) Redirect(code int, location string) {}
+func (c *cmdContext) Redirect(code int, location string) {}
 
-func (c cmdContext) Trace() Trace {
+func (c *cmdContext) Trace() Trace {
 	if c.trace == nil {
 		c.trace = trace.New("")
 	}
@@ -58,112 +58,112 @@ func (c cmdContext) Trace() Trace {
 	return c.trace
 }
 
-func (c cmdContext) setTrace(trace Trace) {
+func (c *cmdContext) setTrace(trace Trace) {
 	c.trace = trace
 }
 
-func (c cmdContext) disableTrace() {}
+func (c *cmdContext) disableTrace() {}
 
-func (c cmdContext) TraceId() string {
+func (c *cmdContext) TraceId() string {
 	if t := c.Trace(); t != nil {
 		return t.ID()
 	}
 	return ""
 }
 
-func (c cmdContext) Logger() *zap.Logger {
+func (c *cmdContext) Logger() *zap.Logger {
 	return c.logger
 }
 
-func (c cmdContext) setLogger(logger *zap.Logger) {
+func (c *cmdContext) setLogger(logger *zap.Logger) {
 	c.logger = logger
 }
 
-func (c cmdContext) Info(msg string, fields ...zap.Field) {
+func (c *cmdContext) Info(msg string, fields ...zap.Field) {
 	c.logger.Info(msg, fields...)
 }
 
-func (c cmdContext) Error(msg string, fields ...zap.Field) {
+func (c *cmdContext) Error(msg string, fields ...zap.Field) {
 	c.logger.Error(msg, fields...)
 }
 
-func (c cmdContext) Warning(msg string, fields ...zap.Field) {
+func (c *cmdContext) Warning(msg string, fields ...zap.Field) {
 	c.logger.Warn(msg, fields...)
 }
 
-func (c cmdContext) Success(data interface{}) {}
+func (c *cmdContext) Success(data interface{}) {}
 
-func (c cmdContext) getSuccess() interface{} {
+func (c *cmdContext) getSuccess() interface{} {
 	return nil
 }
 
-func (c cmdContext) Failed(err errno.Error) {}
+func (c *cmdContext) Failed(err errno.Error) {}
 
-func (c cmdContext) failedError() errno.Error {
+func (c *cmdContext) failedError() errno.Error {
 	return nil
 }
 
-func (c cmdContext) Header() http.Header {
+func (c *cmdContext) Header() http.Header {
 	return nil
 }
 
-func (c cmdContext) GetHeader(key string) string {
+func (c *cmdContext) GetHeader(key string) string {
 	return ""
 }
 
-func (c cmdContext) SetHeader(key, value string) {}
+func (c *cmdContext) SetHeader(key, value string) {}
 
-func (c cmdContext) UserID() int64 {
+func (c *cmdContext) UserID() int64 {
 	return 0
 }
 
-func (c cmdContext) setUserID(userID int64) {}
+func (c *cmdContext) setUserID(userID int64) {}
 
-func (c cmdContext) UserName() string {
+func (c *cmdContext) UserName() string {
 	return ""
 }
 
-func (c cmdContext) setUserName(userName string) {}
+func (c *cmdContext) setUserName(userName string) {}
 
-func (c cmdContext) Alias() string {
+func (c *cmdContext) Alias() string {
 	return ""
 }
 
-func (c cmdContext) setAlias(path string) {}
+func (c *cmdContext) setAlias(path string) {}
 
-func (c cmdContext) RequestInputParams() url.Values {
+func (c *cmdContext) RequestInputParams() url.Values {
 	return nil
 }
 
-func (c cmdContext) RequestPostFormParams() url.Values {
+func (c *cmdContext) RequestPostFormParams() url.Values {
 	return nil
 }
 
-func (c cmdContext) Request() *http.Request {
+func (c *cmdContext) Request() *http.Request {
 	return nil
 }
 
-func (c cmdContext) RawData() []byte {
+func (c *cmdContext) RawData() []byte {
 	return []byte("")
 }
 
-func (c cmdContext) Method() string {
+func (c *cmdContext) Method() string {
 	return ""
 }
 
-func (c cmdContext) Host() string {
+func (c *cmdContext) Host() string {
 	return ""
 }
 
-func (c cmdContext) Path() string {
+func (c *cmdContext) Path() string {
 	return ""
 }
 
-func (c cmdContext) URI() string {
+func (c *cmdContext) URI() string {
 	return ""
 }
 
-func (c cmdContext) RequestContext() StdContext {
+func (c *cmdContext) RequestContext() StdContext {
 	return StdContext{
 		stdctx.Background(),
 		c.Trace(),
@@ -171,6 +171,6 @@ func (c cmdContext) RequestContext() StdContext {
 	}
 }
 
-func (c cmdContext) ResponseWriter() gin.ResponseWriter {
+func (c *cmdContext) ResponseWriter() gin.ResponseWriter {
 	return nil
 }
