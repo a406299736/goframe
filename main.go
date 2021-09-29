@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/apollo"
 	"net/http"
 	"time"
 
@@ -26,6 +27,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	go func() {
+		err = apollo.CheckStart()
+		if err != nil {
+			panic(err)
+		}
+	}()
 
 	defer func() {
 		_ = loggers.Sync()

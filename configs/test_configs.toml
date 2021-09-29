@@ -52,3 +52,9 @@
 
 [center]
 classUrl="http://test-internal-class-middle.weimiaocaishang.com"
+
+[apollo]
+appId="wm-course-class"
+cluster="default"
+namespaceName="application"
+ip="http://test-apollo.weimiaocaishang.com"

@@ -2,10 +2,12 @@ package demo
 
 import (
 	"encoding/json"
+	"fmt"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
+	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/apollo"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
 	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
 	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
@@ -49,15 +51,24 @@ func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 	s.ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
 	s.ctx.Logger().Info("user id:" + strconv.Itoa(int(s.ctx.UserID())))
 
+	// apollo demo
+	conf, err := apollo.New(apollo.WithNamespace("application"))
+	if err != nil {
+		fmt.Printf("%+v", err)
+	}
+	s.ctx.Info("apollo value USER_LIST:" + conf.GetStringValue("USER_LIST", "2222"))
+
 	//fmt.Printf("%p\n", s.ctx)
 
 	demo2 := wm_about.NewQueryBuilder()
 
+	// redis demo
 	//err2 := s.cache.Set("aaaa", "abs", time.Minute*3, cache.WithTrace(s.ctx.Trace()))
 	//if err2 != nil {
 	//	return nil, errors.NewErr(100000, err2.Error())
 	//}
 
+	//  http post请求中心demo
 	js, _ := json.Marshal(map[string]interface{}{"id": 11001694})
 	_, error2 := center.ClassInfo(js)
 	if error2 != nil {
@@ -65,12 +76,14 @@ func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 	}
 	//fmt.Printf("%v", info)
 
+	// http get demo
 	//body, err2 := httpclient.Get("http://www.baidu.com", nil)
 	//if err2 != nil {
 	//	return nil, errors.NewErr(100003, err2.Error())
 	//}
 	//fmt.Printf("%v", string(body))
 
+	// 查询db demo
 	one, e = demo2.WhereId(db_repo.EqualPredicate, 1).
 		QueryOne(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
 	if e != nil {

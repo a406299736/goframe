@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/aliyunmq/mq-http-go-sdk v1.0.3
 	github.com/andybalholm/brotli v1.0.3 // indirect
+	github.com/apolloconfig/agollo/v4 v4.0.9 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
 	github.com/fsnotify/fsnotify v1.5.1

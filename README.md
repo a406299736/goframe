@@ -3,6 +3,8 @@ wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=2911893
 
 #### 部署时设置环境变量 export PROJECT_PATH=项目绝对路径.
         使用goland IDE可编辑configurations中environment项，设置为PROJECT_PATH=项目绝对路径
+        go build main.go
+         ./main -env test
 
 #### 1. app/router/router.go 注册路由或注册路由分组.
 
@@ -63,3 +65,21 @@ wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=2911893
             go run console/main.go MockDemo 
             or go build -o cmd
             ./cmd MockDemo
+
+#### 11. 新增支持apollo, 使用简单:
+            简述注意事项: 配置项在 ./configs/xxx_configs.tmol, 新增后在 ./configs/configs.go
+            新增viper结构体; 建议namespaceName=默认(application), cluster=默认(default),
+            这样获取conf时,可以在New函数内不用传参, 如果需要连接非默认配置,
+            则在New时需要传入WithConfig() 或 WithNamespace();
+            使用如下:
+            conf, err := apollo.New(apollo.WithNamespace("application"))
+	        if err != nil {
+		        fmt.Printf("%+v", err)
+	        }
+            // 获取 apollo配置key为USER_LIST的值,若key不存在则返回默认值
+	        fmt.Println("apollo value USER_LIST:", conf.GetStringValue("USER_LIST", "2222"))
+            
+
+常见问题:
+1. 运行测试用例时,如果出现找不到配置文件等类似错误, 可以手动执行:
+export PROJECT_PATH=项目绝对路径

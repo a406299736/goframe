@@ -78,6 +78,13 @@ type Config struct {
 	Center struct {
 		ClassUrl string `toml:"classUrl"`
 	} `toml:"center"`
+
+	Apollo struct{
+		AppId string `toml:"appId"`
+		Cluster string `toml:"cluster"`
+		NamespaceName string `toml:"namespaceName"`
+		Ip string `toml:"ip"`
+	}
 }
 
 func init() {
