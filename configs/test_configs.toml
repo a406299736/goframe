@@ -20,13 +20,13 @@
 
   [mysql.read]
     addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
-    name = "wm_class"
+    name = ""
     pass = "l%meFN!Z88yRgrjz"
-    user = "web_user"
+    user = ""
 
   [mysql.write]
   addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
-  name = "wm_class"
+  name = ""
   pass = "l%meFN!Z88yRgrjz"
   user = "web_user"
 
@@ -47,14 +47,14 @@
   accesskey="LTAI4Fzq5GKmmj5XH3xTqCwp"
   secretkey="FxX9hQnZ6qzT6KeuihnKHm1WJG8hKT"
   instanceid="MQ_INST_1566301846632690_BcvtClKQ"
-  topic="wm_internal_contract"
-  groupid="GID_http_wm_internal_sms"
+  topic=""
+  groupid=""
 
 [center]
-classUrl="http://test-internal-class-middle.weimiaocaishang.com"
+classUrl=""
 
 [apollo]
-appId="wm-course-class"
+appId=""
 cluster="default"
 namespaceName="application"
-ip="http://test-apollo.weimiaocaishang.com"
+ip=""
