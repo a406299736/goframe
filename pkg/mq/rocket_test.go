@@ -3,8 +3,8 @@ package mq
 import (
 	"testing"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/logger"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/logger"
 )
 
 func TestPush(t *testing.T) {

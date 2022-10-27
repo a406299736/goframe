@@ -1,5 +1,4 @@
 ### Usage
-wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=29118938
 
 #### 部署时设置环境变量 export PROJECT_PATH=项目绝对路径.
         使用goland IDE可编辑configurations中environment项，设置为PROJECT_PATH=项目绝对路径
@@ -52,7 +51,7 @@ wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=2911893
             err := dm.Delete(src.db.GetDbR().WithContext(c.RequestContext())))
 
 #### 8. 代码生成工具，shell脚本 参数：库名 表名；默认连接为测试库，可在cmd/mysqlmd/main.go 修改，或加入flag参数列表.
-             ./scripts/gormgen.sh wm_class wm_user
+             ./scripts/gormgen.sh databaseName tableName
 
 #### 9. rocketMQ
             参考 console/cmd/rocketMQ.go

@@ -3,7 +3,7 @@ package mysql
 import (
 	"fmt"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"github.com/a406299736/goframe/pkg/errors"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/cmd/gormgen/pkg"
+	"github.com/a406299736/goframe/cmd/gormgen/pkg"
 )
 
 var (

@@ -1,18 +1,18 @@
 package demo
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/demo"
+	"github.com/a406299736/goframe/app/pkg/code"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/repository/db-repo/demo"
 
 	"go.uber.org/zap"
 )
 
 // 方式1
 // demo 建议service不记录日志，错误直接返回上层，由app/pkg/core/core.go统一处理
-func (src *service) Detail(c core.Context) (info *demo.WmAbout, err errors.Er) {
-	info = &demo.WmAbout{}
+func (src *service) Detail(c core.Context) (info *demo.Test1, err errors.Er) {
+	info = &demo.Test1{}
 	//err = errors.NewErr(code.UserNotExists, "msg error")
 
 	i, _ := demo.NewDemoQueryBuilder().WhereIdIn([]int32{1}).First(src.db.GetDbR().WithContext(c.RequestContext()))

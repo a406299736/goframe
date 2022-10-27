@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	namespace = "weimiao"
+	namespace = "goframe"
 	subsystem = "ginBasic"
 )
 

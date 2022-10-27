@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,12 +18,12 @@ package cmd
 import (
 	"fmt"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	db2 "gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/logger"
+	"github.com/a406299736/goframe/app/api/service/demo"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	db2 "github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/logger"
 
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"

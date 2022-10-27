@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/cmd/mysqlmd/mysql"
+	"github.com/a406299736/goframe/cmd/mysqlmd/mysql"
 
 	"gorm.io/gorm"
 )
@@ -40,11 +40,11 @@ var (
 )
 
 func init() {
-	dbAddr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
-	dbUser = "web_user"
-	dbPass = "l%meFN!Z88yRgrjz"
+	dbAddr = "127.0.0.1"
+	dbUser = "test1"
+	dbPass = "test1"
 
-	flag.StringVar(&dbName, "name", "wm_class", "请输入 db 名称\n")
+	flag.StringVar(&dbName, "name", "databaseName", "请输入 db 名称\n")
 	flag.StringVar(&genTables, "tables", "", "请输入 table 名称，默认为“ ”，如需生成所有表请输入“*”，多个表可用“,”分割\n")
 
 	flag.Parse()

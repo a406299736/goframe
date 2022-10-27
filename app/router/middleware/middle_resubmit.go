@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/token"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/code"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/token"
 )
 
 const reSubmitMark = "1"

@@ -1,11 +1,11 @@
 package middleware
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
+	"github.com/a406299736/goframe/app/api/service/demo"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/pkg/errno"
 )
 
 var _ Middleware = (*middleware)(nil)

@@ -3,9 +3,9 @@ package db
 import (
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/time-parse"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/pkg/time-parse"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/utils"

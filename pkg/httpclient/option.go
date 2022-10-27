@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"go.uber.org/zap"
 )

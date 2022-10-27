@@ -3,7 +3,7 @@ package errno
 import (
 	"encoding/json"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"github.com/a406299736/goframe/pkg/errors"
 )
 
 var _ Error = (*err)(nil)

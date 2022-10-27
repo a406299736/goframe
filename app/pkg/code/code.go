@@ -1,6 +1,6 @@
 package code
 
-import "gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
+import "github.com/a406299736/goframe/configs"
 
 type Failure struct {
 	Code    int         `json:"code"`

@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"github.com/pkg/errors"
 	"go.uber.org/zap"

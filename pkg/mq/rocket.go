@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
+	"github.com/a406299736/goframe/configs"
 
 	mq "github.com/aliyunmq/mq-http-go-sdk"
 	"github.com/gogap/errors"
@@ -104,7 +104,7 @@ func (c consume) Pull(doFunc DoConsumeFun, logger *zap.Logger) {
 				{
 					// Topic中没有消息可消费。
 					if strings.Contains(err.(errors.ErrCode).Error(), "MessageNotExist") {
-						if carbon.Now().ToTimestamp()%10 == 0 {
+						if carbon.Now().Timestamp()%10 == 0 {
 							logger.Info("new msg", zap.Any("new msg continue", "pkg/mq/rocket.go"))
 						}
 					} else {

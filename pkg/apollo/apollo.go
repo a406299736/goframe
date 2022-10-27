@@ -2,17 +2,17 @@ package apollo
 
 import (
 	"errors"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/tools"
 	"github.com/apolloconfig/agollo/v4"
 	"github.com/apolloconfig/agollo/v4/env/config"
 	"github.com/apolloconfig/agollo/v4/storage"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/tools"
 	"strings"
 	"time"
 )
 
 type apollo struct {
-	config *config.AppConfig
+	config    *config.AppConfig
 	namespace string
 }
 
@@ -58,7 +58,7 @@ func WithNamespace(namespace string) options {
 	}
 }
 
-func Start(apolloConfig *config.AppConfig) (*agollo.Client, error) {
+func Start(apolloConfig *config.AppConfig) (agollo.Client, error) {
 	return agollo.StartWithConfig(func() (*config.AppConfig, error) {
 		return apolloConfig, nil
 	})
@@ -74,7 +74,7 @@ func CheckStart() error {
 
 	split := strings.Split(apolloConfig.NamespaceName, ",")
 	for _, n := range split {
-		checkKey(n,client)
+		checkKey(n, client)
 	}
 
 	time.Sleep(5 * time.Second)
@@ -82,15 +82,15 @@ func CheckStart() error {
 	return nil
 }
 
-func checkKey(namespace string,client *agollo.Client) {
+func checkKey(namespace string, client agollo.Client) {
 	cache := client.GetConfigCache(namespace)
-	count:=0
+	count := 0
 	cache.Range(func(key, value interface{}) bool {
 		//fmt.Println("key : ", key, ", value :", value)
 		count++
 		return true
 	})
-	if count < 1{
+	if count < 1 {
 		panic("config key can not be null")
 	}
 }
@@ -100,6 +100,6 @@ func defaultConfig() *config.AppConfig {
 	return &config.AppConfig{AppID: conf.Apollo.AppId,
 		Cluster: conf.Apollo.Cluster, NamespaceName: conf.Apollo.NamespaceName,
 		IP: conf.Apollo.Ip, IsBackupConfig: true,
-		BackupConfigPath: tools.GetProjectAbsolutePath() +  "/configs",
-		Secret: "", SyncServerTimeout: 3}
+		BackupConfigPath: tools.GetProjectAbsolutePath() + "/configs",
+		Secret:           "", SyncServerTimeout: 3}
 }

@@ -1,10 +1,11 @@
-package wm_about
+package test1
 
 import "time"
 
-// WmAbout
-//go:generate gormgen -structs WmAbout -input .
-type WmAbout struct {
+// Test1
+//
+//go:generate gormgen -structs Test1-input .
+type Test1 struct {
 	Id          int32     //
 	Aspirations string    // 微淼心声
 	Map         string    // 网站地图

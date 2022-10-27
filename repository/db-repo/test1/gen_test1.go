@@ -3,35 +3,35 @@
 //        ANY CHANGES DONE HERE WILL BE LOST             //
 ///////////////////////////////////////////////////////////
 
-package wm_about
+package test1
 
 import (
 	"fmt"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	e "gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
+	"github.com/a406299736/goframe/app/pkg/code"
+	e "github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/repository/db-repo"
 
 	"gorm.io/gorm"
 )
 
-func NewModel() *WmAbout {
-	return new(WmAbout)
+func NewModel() *Test1 {
+	return new(Test1)
 }
 
-func NewQueryBuilder() *wmAboutQueryBuilder {
-	return new(wmAboutQueryBuilder)
+func NewQueryBuilder() *Test1QueryBuilder {
+	return new(Test1QueryBuilder)
 }
 
-func (t *WmAbout) Create(db *gorm.DB) (id int32, er e.Er) {
+func (t *Test1) Create(db *gorm.DB) (id int32, er e.Er) {
 	if err := db.Create(t).Error; err != nil {
 		return 0, e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return t.Id, nil
 }
 
-type wmAboutQueryBuilder struct {
+type Test1QueryBuilder struct {
 	order []string
 	where []struct {
 		prefix string
@@ -41,7 +41,7 @@ type wmAboutQueryBuilder struct {
 	offset int
 }
 
-func (qb *wmAboutQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
+func (qb *Test1QueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	ret := db
 	for _, where := range qb.where {
 		ret = ret.Where(where.prefix, where.value)
@@ -53,8 +53,8 @@ func (qb *wmAboutQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *wmAboutQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (er e.Er) {
-	db = db.Model(&WmAbout{})
+func (qb *Test1QueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (er e.Er) {
+	db = db.Model(&Test1{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
@@ -66,28 +66,28 @@ func (qb *wmAboutQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (e
 	return nil
 }
 
-func (qb *wmAboutQueryBuilder) Delete(db *gorm.DB) (er e.Er) {
+func (qb *Test1QueryBuilder) Delete(db *gorm.DB) (er e.Er) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err := db.Delete(&WmAbout{}).Error; err != nil {
+	if err := db.Delete(&Test1{}).Error; err != nil {
 		return e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return nil
 }
 
-func (qb *wmAboutQueryBuilder) Count(db *gorm.DB) (int64, e.Er) {
+func (qb *Test1QueryBuilder) Count(db *gorm.DB) (int64, e.Er) {
 	var c int64
-	res := qb.buildQuery(db).Model(&WmAbout{}).Count(&c)
+	res := qb.buildQuery(db).Model(&Test1{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
 		return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
 	}
 	return c, nil
 }
 
-func (qb *wmAboutQueryBuilder) First(db *gorm.DB) (*WmAbout, e.Er) {
-	ret := &WmAbout{}
+func (qb *Test1QueryBuilder) First(db *gorm.DB) (*Test1, e.Er) {
+	ret := &Test1{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
 		return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
@@ -95,7 +95,7 @@ func (qb *wmAboutQueryBuilder) First(db *gorm.DB) (*WmAbout, e.Er) {
 	return ret, nil
 }
 
-func (qb *wmAboutQueryBuilder) QueryOne(db *gorm.DB) (*WmAbout, e.Er) {
+func (qb *Test1QueryBuilder) QueryOne(db *gorm.DB) (*Test1, e.Er) {
 	qb.limit = 1
 	ret, err := qb.QueryAll(db)
 	if len(ret) > 0 {
@@ -104,8 +104,8 @@ func (qb *wmAboutQueryBuilder) QueryOne(db *gorm.DB) (*WmAbout, e.Er) {
 	return nil, err
 }
 
-func (qb *wmAboutQueryBuilder) QueryAll(db *gorm.DB) ([]*WmAbout, e.Er) {
-	var ret []*WmAbout
+func (qb *Test1QueryBuilder) QueryAll(db *gorm.DB) ([]*Test1, e.Er) {
+	var ret []*Test1
 	err := qb.buildQuery(db).Find(&ret).Error
 	if err != nil {
 		return nil, e.NewErr(code.MySQLExecError, err.Error())
@@ -113,17 +113,17 @@ func (qb *wmAboutQueryBuilder) QueryAll(db *gorm.DB) ([]*WmAbout, e.Er) {
 	return ret, nil
 }
 
-func (qb *wmAboutQueryBuilder) Limit(limit int) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) Limit(limit int) *Test1QueryBuilder {
 	qb.limit = limit
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) Offset(offset int) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) Offset(offset int) *Test1QueryBuilder {
 	qb.offset = offset
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereId(p db_repo.Predicate, value int32) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereId(p db_repo.Predicate, value int32) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -134,7 +134,7 @@ func (qb *wmAboutQueryBuilder) WhereId(p db_repo.Predicate, value int32) *wmAbou
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereIdIn(value []int32) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereIdIn(value []int32) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -145,7 +145,7 @@ func (qb *wmAboutQueryBuilder) WhereIdIn(value []int32) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereIdNotIn(value []int32) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereIdNotIn(value []int32) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -156,7 +156,7 @@ func (qb *wmAboutQueryBuilder) WhereIdNotIn(value []int32) *wmAboutQueryBuilder 
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderById(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderById(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -166,7 +166,7 @@ func (qb *wmAboutQueryBuilder) OrderById(asc bool) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereAspirations(p db_repo.Predicate, value string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereAspirations(p db_repo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -177,7 +177,7 @@ func (qb *wmAboutQueryBuilder) WhereAspirations(p db_repo.Predicate, value strin
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereAspirationsIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereAspirationsIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -188,7 +188,7 @@ func (qb *wmAboutQueryBuilder) WhereAspirationsIn(value []string) *wmAboutQueryB
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereAspirationsNotIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereAspirationsNotIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -199,7 +199,7 @@ func (qb *wmAboutQueryBuilder) WhereAspirationsNotIn(value []string) *wmAboutQue
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByAspirations(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByAspirations(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -209,7 +209,7 @@ func (qb *wmAboutQueryBuilder) OrderByAspirations(asc bool) *wmAboutQueryBuilder
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereMap(p db_repo.Predicate, value string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereMap(p db_repo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -220,7 +220,7 @@ func (qb *wmAboutQueryBuilder) WhereMap(p db_repo.Predicate, value string) *wmAb
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereMapIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereMapIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -231,7 +231,7 @@ func (qb *wmAboutQueryBuilder) WhereMapIn(value []string) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereMapNotIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereMapNotIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -242,7 +242,7 @@ func (qb *wmAboutQueryBuilder) WhereMapNotIn(value []string) *wmAboutQueryBuilde
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByMap(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByMap(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -252,7 +252,7 @@ func (qb *wmAboutQueryBuilder) OrderByMap(asc bool) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCall(p db_repo.Predicate, value string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCall(p db_repo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -263,7 +263,7 @@ func (qb *wmAboutQueryBuilder) WhereCall(p db_repo.Predicate, value string) *wmA
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCallIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCallIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -274,7 +274,7 @@ func (qb *wmAboutQueryBuilder) WhereCallIn(value []string) *wmAboutQueryBuilder 
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCallNotIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCallNotIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -285,7 +285,7 @@ func (qb *wmAboutQueryBuilder) WhereCallNotIn(value []string) *wmAboutQueryBuild
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByCall(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByCall(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -295,7 +295,7 @@ func (qb *wmAboutQueryBuilder) OrderByCall(asc bool) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereRecruit(p db_repo.Predicate, value string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereRecruit(p db_repo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -306,7 +306,7 @@ func (qb *wmAboutQueryBuilder) WhereRecruit(p db_repo.Predicate, value string) *
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereRecruitIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereRecruitIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -317,7 +317,7 @@ func (qb *wmAboutQueryBuilder) WhereRecruitIn(value []string) *wmAboutQueryBuild
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereRecruitNotIn(value []string) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereRecruitNotIn(value []string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -328,7 +328,7 @@ func (qb *wmAboutQueryBuilder) WhereRecruitNotIn(value []string) *wmAboutQueryBu
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByRecruit(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByRecruit(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -338,7 +338,7 @@ func (qb *wmAboutQueryBuilder) OrderByRecruit(asc bool) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereUpdated(p db_repo.Predicate, value time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereUpdated(p db_repo.Predicate, value time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -349,7 +349,7 @@ func (qb *wmAboutQueryBuilder) WhereUpdated(p db_repo.Predicate, value time.Time
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereUpdatedIn(value []time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereUpdatedIn(value []time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -360,7 +360,7 @@ func (qb *wmAboutQueryBuilder) WhereUpdatedIn(value []time.Time) *wmAboutQueryBu
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereUpdatedNotIn(value []time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereUpdatedNotIn(value []time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -371,7 +371,7 @@ func (qb *wmAboutQueryBuilder) WhereUpdatedNotIn(value []time.Time) *wmAboutQuer
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByUpdated(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByUpdated(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
@@ -381,7 +381,7 @@ func (qb *wmAboutQueryBuilder) OrderByUpdated(asc bool) *wmAboutQueryBuilder {
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCreated(p db_repo.Predicate, value time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCreated(p db_repo.Predicate, value time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -392,7 +392,7 @@ func (qb *wmAboutQueryBuilder) WhereCreated(p db_repo.Predicate, value time.Time
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCreatedIn(value []time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCreatedIn(value []time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -403,7 +403,7 @@ func (qb *wmAboutQueryBuilder) WhereCreatedIn(value []time.Time) *wmAboutQueryBu
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) WhereCreatedNotIn(value []time.Time) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) WhereCreatedNotIn(value []time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -414,7 +414,7 @@ func (qb *wmAboutQueryBuilder) WhereCreatedNotIn(value []time.Time) *wmAboutQuer
 	return qb
 }
 
-func (qb *wmAboutQueryBuilder) OrderByCreated(asc bool) *wmAboutQueryBuilder {
+func (qb *Test1QueryBuilder) OrderByCreated(asc bool) *Test1QueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"

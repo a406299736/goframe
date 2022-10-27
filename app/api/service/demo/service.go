@@ -1,11 +1,11 @@
 package demo
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/demo"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/repository/db-repo/demo"
 )
 
 var _ Service = (*service)(nil)
@@ -14,7 +14,7 @@ var _ Service = (*service)(nil)
 type Service interface {
 	i()
 
-	Detail(ctx core.Context) (info *demo.WmAbout, err errors.Er)
+	Detail(ctx core.Context) (info *demo.Test1, err errors.Er)
 }
 
 type service struct {

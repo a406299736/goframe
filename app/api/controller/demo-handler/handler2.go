@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/service/demo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/hash"
+	"github.com/a406299736/goframe/app/api/service/demo"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/pkg/hash"
 )
 
 // 相当于 controller 层

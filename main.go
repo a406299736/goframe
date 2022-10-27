@@ -3,15 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/apollo"
 	"net/http"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/router"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/env"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/logger"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/shutdown"
+	"github.com/a406299736/goframe/app/router"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/env"
+	"github.com/a406299736/goframe/pkg/logger"
+	"github.com/a406299736/goframe/pkg/shutdown"
 
 	"go.uber.org/zap"
 )
@@ -28,12 +27,13 @@ func main() {
 		panic(err)
 	}
 
-	go func() {
-		err = apollo.CheckStart()
-		if err != nil {
-			panic(err)
-		}
-	}()
+	// 关闭apollo
+	//go func() {
+	//	err = apollo.CheckStart()
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//}()
 
 	defer func() {
 		_ = loggers.Sync()

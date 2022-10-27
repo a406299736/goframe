@@ -15,7 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"github.com/a406299736/goframe/pkg/errors"
 
 	"go.uber.org/zap"
 	"golang.org/x/tools/go/packages"

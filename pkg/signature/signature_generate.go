@@ -9,8 +9,8 @@ import (
 	"net/url"
 	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/time-parse"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/time-parse"
 )
 
 // path 请求的路径 (不附带 querystring)

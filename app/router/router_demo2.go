@@ -1,8 +1,8 @@
 package router
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/controller/demo-handler"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
+	"github.com/a406299736/goframe/app/api/controller/demo-handler"
+	"github.com/a406299736/goframe/app/pkg/core"
 )
 
 func setDemo2Router2(r *resource) {
@@ -16,7 +16,7 @@ func setDemo2Router2(r *resource) {
 	{
 		//login.GET("/no/detail", back.Detail()) //demo
 		login.GET("/no/detail", demo2.Info()) //demo
-		login.POST("/no/c", demo2.Create())    //demo
+		login.POST("/no/c", demo2.Create())   //demo
 	}
 
 	// 2. 需要签名验证、登录验证，无需 RBAC 权限验证

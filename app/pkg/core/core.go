@@ -7,12 +7,12 @@ import (
 	"runtime/debug"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/env"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/app/pkg/code"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/env"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"

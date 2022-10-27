@@ -1,13 +1,13 @@
 package router
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/grpc"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/metrics"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/router/middleware"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/app/pkg/grpc"
+	"github.com/a406299736/goframe/app/pkg/metrics"
+	"github.com/a406299736/goframe/app/router/middleware"
+	"github.com/a406299736/goframe/pkg/errors"
 
 	"go.uber.org/zap"
 )

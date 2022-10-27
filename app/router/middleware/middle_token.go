@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"strings"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
+	"github.com/a406299736/goframe/app/pkg/code"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/pkg/errors"
 )
 
 func (m *middleware) Token(ctx core.Context) (userId int64, userName string, err errno.Error) {
@@ -50,7 +50,7 @@ func (m *middleware) Token(ctx core.Context) (userId int64, userName string, err
 	}
 
 	user := struct {
-		Userid int64 `json:"userid"`
+		Userid   int64  `json:"userid"`
 		Username string `json:"username"`
 	}{}
 	dt := json.NewDecoder(strings.NewReader(string(userEncoding)))

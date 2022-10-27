@@ -3,14 +3,14 @@ package demo
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/api/center"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/cache"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/db"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/apollo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/wm_about"
+	"github.com/a406299736/goframe/app/api/center"
+	"github.com/a406299736/goframe/app/pkg/cache"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/pkg/apollo"
+	"github.com/a406299736/goframe/pkg/errors"
+	db_repo "github.com/a406299736/goframe/repository/db-repo"
+	"github.com/a406299736/goframe/repository/db-repo/test1"
 	"go.uber.org/zap"
 	"strconv"
 )
@@ -33,7 +33,7 @@ func NewDemoService2(db db.Repo, cache cache.Repo, ctx core.Context) *service2 {
 
 // 新增 省略传参...
 func (s *service2) Create() (id int32, e errors.Er) {
-	demo2 := wm_about.NewModel()
+	demo2 := test1.NewModel()
 	demo2.Call = "call"
 	demo2.Aspirations = "asp"
 	demo2.Recruit = "rec"
@@ -47,7 +47,7 @@ func (s *service2) Create() (id int32, e errors.Er) {
 }
 
 // 查询 省略传参...
-func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
+func (s *service2) Info(id int32) (one *test1.Test1, e errors.Er) {
 	s.ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
 	s.ctx.Logger().Info("user id:" + strconv.Itoa(int(s.ctx.UserID())))
 
@@ -60,7 +60,7 @@ func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 
 	//fmt.Printf("%p\n", s.ctx)
 
-	demo2 := wm_about.NewQueryBuilder()
+	demo2 := test1.NewQueryBuilder()
 
 	// redis demo
 	//err2 := s.cache.Set("aaaa", "abs", time.Minute*3, cache.WithTrace(s.ctx.Trace()))
@@ -95,7 +95,7 @@ func (s *service2) Info(id int32) (one *wm_about.WmAbout, e errors.Er) {
 
 // 更新 省略传参...
 func (s *service2) Update2() errors.Er {
-	demo2 := wm_about.NewQueryBuilder()
+	demo2 := test1.NewQueryBuilder()
 	err := demo2.WhereMap(db_repo.EqualPredicate, "18686868686").
 		WhereRecruitIn([]string{"zhang.san", "li.si"}).
 		Updates(s.db.GetDbR().WithContext(s.ctx.RequestContext()),
@@ -109,7 +109,7 @@ func (s *service2) Update2() errors.Er {
 
 // 删除 省略传参...
 func (s *service2) Del() errors.Er {
-	demo2 := wm_about.NewQueryBuilder()
+	demo2 := test1.NewQueryBuilder()
 	err := demo2.WhereIdIn([]int32{1000, 2000, 3000}).Delete(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
 	if err != nil {
 		return err
@@ -119,8 +119,8 @@ func (s *service2) Del() errors.Er {
 }
 
 // 列表
-func (s *service2) List() (lt []*wm_about.WmAbout, er errors.Er) {
-	demo2 := wm_about.NewQueryBuilder()
+func (s *service2) List() (lt []*test1.Test1, er errors.Er) {
+	demo2 := test1.NewQueryBuilder()
 	lt, er = demo2.WhereAspirations(db_repo.EqualPredicate, "aaaa").
 		OrderByUpdated(false).
 		Limit(1).Offset(200).

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/core"
 )
 
 func (m *middleware) Signature() core.HandlerFunc {

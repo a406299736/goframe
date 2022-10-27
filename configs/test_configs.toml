@@ -54,7 +54,7 @@
 classUrl=""
 
 [apollo]
-appId=""
+appId="test"
 cluster="default"
 namespaceName="application"
-ip=""
+ip="127.0.0.1"

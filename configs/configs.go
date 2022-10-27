@@ -3,8 +3,8 @@ package configs
 import (
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/env"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/tools"
+	"github.com/a406299736/goframe/pkg/env"
+	"github.com/a406299736/goframe/pkg/tools"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/golang-module/carbon"
@@ -79,11 +79,11 @@ type Config struct {
 		ClassUrl string `toml:"classUrl"`
 	} `toml:"center"`
 
-	Apollo struct{
-		AppId string `toml:"appId"`
-		Cluster string `toml:"cluster"`
+	Apollo struct {
+		AppId         string `toml:"appId"`
+		Cluster       string `toml:"cluster"`
 		NamespaceName string `toml:"namespaceName"`
-		Ip string `toml:"ip"`
+		Ip            string `toml:"ip"`
 	}
 }
 

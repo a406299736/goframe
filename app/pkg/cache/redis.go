@@ -3,10 +3,10 @@ package cache
 import (
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/time-parse"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/time-parse"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"github.com/go-redis/redis/v7"
 )

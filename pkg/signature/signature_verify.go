@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/time-parse"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/time-parse"
 )
 
 func (s *signature) Verify(authorization, date string, path string, method string, params url.Values) (ok bool, err error) {

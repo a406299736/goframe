@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/configs"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/httpclient"
+	"github.com/a406299736/goframe/app/pkg/code"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/pkg/httpclient"
 )
 
 const successCode = 20000

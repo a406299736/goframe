@@ -3,9 +3,9 @@ package demo_handler
 import (
 	"net/http"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/core"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo/demo"
+	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/repository/db-repo/demo"
 
 	"go.uber.org/zap"
 )
@@ -15,7 +15,7 @@ func (h *handler) Detail() core.HandlerFunc {
 	return func(c core.Context) {
 		res, err := h.demoService.Detail(c)
 
-		dm := new(demo.WmAbout)
+		dm := new(demo.Test1)
 		//c.ShouldBindURI(dm) // 获取get参数
 		c.ShouldBindJSON(dm) // 获取body json
 		c.Info("demo", zap.Any("p11111", dm))

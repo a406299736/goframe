@@ -20,7 +20,7 @@ type Demo struct {
 	UpdatedUser string    `json:"updatedUser"`           // 更新人
 }
 
-type WmAbout struct {
+type Test1 struct {
 	Id          int       `gorm:"column:id;primary_key;AUTO_INCREMENT" json:"id"`
 	Aspirations string    `gorm:"column:aspirations;NOT NULL" json:"aspirations"`                   // 微淼心声
 	Map         string    `gorm:"column:map;NOT NULL" json:"map"`                                   // 网站地图
@@ -30,11 +30,11 @@ type WmAbout struct {
 	Created     time.Time `gorm:"column:created;default:CURRENT_TIMESTAMP;NOT NULL" json:"created"` // 创建时间
 }
 
-func (m *WmAbout) TableName() string {
-	return "wm_about"
+func (m *Test1) TableName() string {
+	return "test1"
 }
 
-func (m *WmAbout) String() string {
+func (m *Test1) String() string {
 	bytes, _ := json.Marshal(m)
 	return string(bytes)
 }

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
 	"go.uber.org/zap"
 )
 

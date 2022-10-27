@@ -4,21 +4,21 @@ import (
 	"fmt"
 	"time"
 
-	db_repo "gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
+	db_repo "github.com/a406299736/goframe/repository/db-repo"
 
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
-func NewDemo() *WmAbout {
-	return new(WmAbout)
+func NewDemo() *Test1 {
+	return new(Test1)
 }
 
 func NewDemoQueryBuilder() *demoQueryBuilder {
 	return new(demoQueryBuilder)
 }
 
-func (t *WmAbout) Create(db *gorm.DB) (id int, err error) {
+func (t *Test1) Create(db *gorm.DB) (id int, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -48,7 +48,7 @@ func (qb *demoQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 }
 
 func (qb *demoQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
-	db = db.Model(&WmAbout{})
+	db = db.Model(&Test1{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
@@ -65,7 +65,7 @@ func (qb *demoQueryBuilder) Delete(db *gorm.DB) (err error) {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&WmAbout{}).Error; err != nil {
+	if err = db.Delete(&Test1{}).Error; err != nil {
 		return errors.Wrap(err, "delete err")
 	}
 	return nil
@@ -73,15 +73,15 @@ func (qb *demoQueryBuilder) Delete(db *gorm.DB) (err error) {
 
 func (qb *demoQueryBuilder) Count(db *gorm.DB) (int64, error) {
 	var c int64
-	res := qb.buildQuery(db).Model(&WmAbout{}).Count(&c)
+	res := qb.buildQuery(db).Model(&Test1{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
 		c = 0
 	}
 	return c, res.Error
 }
 
-func (qb *demoQueryBuilder) First(db *gorm.DB) (*WmAbout, error) {
-	ret := &WmAbout{}
+func (qb *demoQueryBuilder) First(db *gorm.DB) (*Test1, error) {
+	ret := &Test1{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
 		ret = nil
@@ -89,7 +89,7 @@ func (qb *demoQueryBuilder) First(db *gorm.DB) (*WmAbout, error) {
 	return ret, res.Error
 }
 
-func (qb *demoQueryBuilder) QueryOne(db *gorm.DB) (*WmAbout, error) {
+func (qb *demoQueryBuilder) QueryOne(db *gorm.DB) (*Test1, error) {
 	qb.limit = 1
 	ret, err := qb.QueryAll(db)
 	if len(ret) > 0 {
@@ -98,8 +98,8 @@ func (qb *demoQueryBuilder) QueryOne(db *gorm.DB) (*WmAbout, error) {
 	return nil, err
 }
 
-func (qb *demoQueryBuilder) QueryAll(db *gorm.DB) ([]*WmAbout, error) {
-	var ret []*WmAbout
+func (qb *demoQueryBuilder) QueryAll(db *gorm.DB) ([]*Test1, error) {
+	var ret []*Test1
 	err := qb.buildQuery(db).Find(&ret).Error
 	return ret, err
 }

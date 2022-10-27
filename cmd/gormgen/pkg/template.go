@@ -23,9 +23,9 @@ import (
 	"fmt"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
-	e "gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errors"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/app/pkg/code"
+	"github.com/a406299736/goframe/repository/db-repo"
+	e "github.com/a406299736/goframe/pkg/errors"
+	"github.com/a406299736/goframe/app/pkg/code"
 
 	"gorm.io/gorm"
 )

@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"time"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/repository/db-repo"
+	"github.com/a406299736/goframe/repository/db-repo"
 
 	"github.com/pkg/errors"
 	"gorm.io/gorm"

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/errno"
-	"gitlab.weimiaocaishang.com/weimiao/go-basic/pkg/trace"
+	"github.com/a406299736/goframe/pkg/errno"
+	"github.com/a406299736/goframe/pkg/trace"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
