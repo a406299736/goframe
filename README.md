@@ -83,3 +83,4 @@ wiki地址: http://wiki.weimiaocaishang.com/pages/viewpage.action?pageId=2911893
 常见问题:
 1. 运行测试用例时,如果出现找不到配置文件等类似错误, 可以手动执行:
 export PROJECT_PATH=项目绝对路径
+2. db连接当参数传递时不会增加连接数, 直接在业务逻辑调用db.New()会增加mysql连接数,从而导致超过mysql最大连接数报错.
