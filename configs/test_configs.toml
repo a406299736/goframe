@@ -7,7 +7,7 @@
 
 [jwt]
   expireduration = 24
-  secret = "i1ydX9RtHy8uJTrw7frcu"
+  secret = "ABC"
 
 [language]
   local = "zh-cn"
@@ -19,16 +19,16 @@
     maxopenconn = 10
 
   [mysql.read]
-    addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
-    name = ""
-    pass = "l%meFN!Z88yRgrjz"
-    user = ""
+    addr = "127.0.0.1"
+    name = "test1"
+    pass = "root"
+    user = "root"
 
   [mysql.write]
-  addr = "rm-2zeti0v9e6940n93p.mysql.rds.aliyuncs.com:3306"
-  name = ""
-  pass = "l%meFN!Z88yRgrjz"
-  user = "web_user"
+  addr = "127.0.0.1"
+  name = "test1"
+  pass = "root"
+  user = "root"
 
 [redis]
   addr = "127.0.0.1:6379"
@@ -40,13 +40,13 @@
 
 [urltoken]
   expireduration = 10
-  secret = "i1ydX9RtHy8uJTrw7frcu"
+  secret = "ABC"
 
 [rocket]
-  httpendpoint="http://1566301846632690.mqrest.cn-beijing.aliyuncs.com"
-  accesskey="LTAI4Fzq5GKmmj5XH3xTqCwp"
-  secretkey="FxX9hQnZ6qzT6KeuihnKHm1WJG8hKT"
-  instanceid="MQ_INST_1566301846632690_BcvtClKQ"
+  httpendpoint=""
+  accesskey=""
+  secretkey=""
+  instanceid=""
   topic=""
   groupid=""
 
