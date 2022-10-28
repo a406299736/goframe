@@ -1,0 +1,4 @@
+  httpendpoint="http://1566301846632690.mqrest.cn-beijing.aliyuncs.com"
+  accesskey="LTAI4Fzq5GKmmj5XH3xTqCwp"
+  secretkey="FxX9hQnZ6qzT6KeuihnKHm1WJG8hKT"
+  instanceid="MQ_INST_1566301846632690_BcvtClKQ"
