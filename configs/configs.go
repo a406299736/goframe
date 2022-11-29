@@ -27,6 +27,20 @@ type Config struct {
 			Pass string `toml:"pass"`
 			Name string `toml:"name"`
 		} `toml:"write"`
+		// 连接conn1读库
+		Conn1read struct {
+			Addr string `toml:"addr"`
+			User string `toml:"user"`
+			Pass string `toml:"pass"`
+			Name string `toml:"name"`
+		} `toml:"conn1read"`
+		// 连接conn1写库
+		Conn1write struct {
+			Addr string `toml:"addr"`
+			User string `toml:"user"`
+			Pass string `toml:"pass"`
+			Name string `toml:"name"`
+		} `toml:"conn1write"`
 		Base struct {
 			MaxOpenConn     int           `toml:"maxOpenConn"`
 			MaxIdleConn     int           `toml:"maxIdleConn"`

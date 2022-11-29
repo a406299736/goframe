@@ -30,6 +30,18 @@
   pass = "root"
   user = "root"
 
+  [mysql.conn1read]
+    addr = "127.0.0.1"
+    name = "test1"
+    pass = "root"
+    user = "root"
+
+  [mysql.conn1write]
+    addr = "127.0.0.1"
+    name = "test1"
+    pass = "root"
+    user = "root"
+
 [redis]
   addr = "127.0.0.1:6379"
   db = "0"
