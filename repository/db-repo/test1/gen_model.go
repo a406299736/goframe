@@ -7,7 +7,7 @@ import "time"
 //go:generate gormgen -structs Test1-input .
 type Test1 struct {
 	Id          int32     //
-	Aspirations string    // 微淼心声
+	Aspirations string    
 	Map         string    // 网站地图
 	Call        string    // 联系我们
 	Recruit     string    // 人才招聘

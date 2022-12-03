@@ -22,7 +22,7 @@ type Demo struct {
 
 type Test1 struct {
 	Id          int       `gorm:"column:id;primary_key;AUTO_INCREMENT" json:"id"`
-	Aspirations string    `gorm:"column:aspirations;NOT NULL" json:"aspirations"`                   // 微淼心声
+	Aspirations string    `gorm:"column:aspirations;NOT NULL" json:"aspirations"`                   
 	Map         string    `gorm:"column:map;NOT NULL" json:"map"`                                   // 网站地图
 	Call        string    `gorm:"column:call;NOT NULL" json:"call"`                                 // 联系我们
 	Recruit     string    `gorm:"column:recruit;NOT NULL" json:"recruit"`                           // 人才招聘
