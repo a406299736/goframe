@@ -15,8 +15,8 @@
 [mysql]
   [mysql.base]
     connmaxlifetime = 60
-    maxidleconn = 60
-    maxopenconn = 10
+    maxidleconn = 10
+    maxopenconn = 100
 
   [mysql.read]
     addr = "127.0.0.1"
