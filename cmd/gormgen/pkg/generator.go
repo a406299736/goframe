@@ -7,6 +7,7 @@ import (
 	"go/format"
 	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/jinzhu/gorm"
@@ -117,6 +118,11 @@ func (g *Generator) Format() *Generator {
 func (g *Generator) Flush() error {
 	for k := range g.buf {
 		filename := g.inputFile + "/gen_" + strings.ToLower(k) + ".go"
+		_, err := os.Stat(filename)
+		if err == nil {
+			// 存在文件,跳过
+			continue
+		}
 		if err := ioutil.WriteFile(filename, g.buf[k].Bytes(), 0777); err != nil {
 			log.Fatalln(err)
 		}
