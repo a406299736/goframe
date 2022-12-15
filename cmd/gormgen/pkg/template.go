@@ -103,7 +103,11 @@ func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	ret := &{{.StructName}}{}
 	res := qb.buildQuery(db).First(ret)
-	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
+	if res.Error == gorm.ErrRecordNotFound {
+		return nil, e.NewErr(code.NotExists, res.Error.Error())
+	}
+
+	if res.Error != nil {
 		return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
 	}
 	return ret, nil
