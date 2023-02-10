@@ -27,11 +27,11 @@ type dbRepo struct {
 	DbW *gorm.DB
 }
 
-var MyDb *dbRepo
+var IDb *dbRepo
 
 func New() (Repo, error) {
-	if MyDb != nil {
-		return MyDb, nil
+	if IDb != nil {
+		return IDb, nil
 	}
 
 	cfg := configs.Get().MySQL
@@ -45,12 +45,12 @@ func New() (Repo, error) {
 		return nil, err
 	}
 
-	MyDb = &dbRepo{
+	IDb = &dbRepo{
 		DbR: dbr,
 		DbW: dbw,
 	}
 
-	return MyDb, nil
+	return IDb, nil
 }
 
 func (d *dbRepo) i() {}

@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"context"
 	"time"
 
 	"github.com/a406299736/goframe/configs"
@@ -8,7 +9,7 @@ import (
 	"github.com/a406299736/goframe/pkg/time-parse"
 	"github.com/a406299736/goframe/pkg/trace"
 
-	"github.com/go-redis/redis/v7"
+	"github.com/redis/go-redis/v9"
 )
 
 type Option func(*option)
@@ -25,6 +26,8 @@ func newOption() *option {
 }
 
 var _ Repo = (*cacheRepo)(nil)
+
+var ctx context.Context = context.TODO()
 
 type Repo interface {
 	i()
@@ -76,7 +79,7 @@ func redisConnect() (*redis.Client, error) {
 		MinIdleConns: cfg.MinIdleConns,
 	})
 
-	if err := client.Ping().Err(); err != nil {
+	if err := client.Ping(ctx).Err(); err != nil {
 		return nil, errors.Wrap(err, "ping redis err")
 	}
 
@@ -106,7 +109,7 @@ func (c *cacheRepo) Set(key, value string, ttl time.Duration, options ...Option)
 		f(opt)
 	}
 
-	if err := c.client.Set(key, value, ttl).Err(); err != nil {
+	if err := c.client.Set(ctx, key, value, ttl).Err(); err != nil {
 		return errors.Wrapf(err, "redis set key: %s err", key)
 	}
 
@@ -130,7 +133,7 @@ func (c *cacheRepo) Get(key string, options ...Option) (string, error) {
 		f(opt)
 	}
 
-	value, err := c.client.Get(key).Result()
+	value, err := c.client.Get(ctx, key).Result()
 	if err != nil {
 		return "", errors.Wrapf(err, "redis get key: %s err", key)
 	}
@@ -139,7 +142,7 @@ func (c *cacheRepo) Get(key string, options ...Option) (string, error) {
 }
 
 func (c *cacheRepo) TTL(key string) (time.Duration, error) {
-	ttl, err := c.client.TTL(key).Result()
+	ttl, err := c.client.TTL(ctx, key).Result()
 	if err != nil {
 		return -1, errors.Wrapf(err, "redis get key: %s err", key)
 	}
@@ -148,12 +151,12 @@ func (c *cacheRepo) TTL(key string) (time.Duration, error) {
 }
 
 func (c *cacheRepo) Expire(key string, ttl time.Duration) bool {
-	ok, _ := c.client.Expire(key, ttl).Result()
+	ok, _ := c.client.Expire(ctx, key, ttl).Result()
 	return ok
 }
 
 func (c *cacheRepo) ExpireAt(key string, ttl time.Time) bool {
-	ok, _ := c.client.ExpireAt(key, ttl).Result()
+	ok, _ := c.client.ExpireAt(ctx, key, ttl).Result()
 	return ok
 }
 
@@ -161,7 +164,7 @@ func (c *cacheRepo) Exists(keys ...string) bool {
 	if len(keys) == 0 {
 		return true
 	}
-	value, _ := c.client.Exists(keys...).Result()
+	value, _ := c.client.Exists(ctx, keys...).Result()
 	return value > 0
 }
 
@@ -186,7 +189,7 @@ func (c *cacheRepo) Del(key string, options ...Option) bool {
 		return true
 	}
 
-	value, _ := c.client.Del(key).Result()
+	value, _ := c.client.Del(ctx, key).Result()
 	return value > 0
 }
 
@@ -206,7 +209,7 @@ func (c *cacheRepo) Incr(key string, options ...Option) int64 {
 	for _, f := range options {
 		f(opt)
 	}
-	value, _ := c.client.Incr(key).Result()
+	value, _ := c.client.Incr(ctx, key).Result()
 	return value
 }
 
