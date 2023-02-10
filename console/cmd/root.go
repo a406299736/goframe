@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -62,13 +62,16 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	} else {
 		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
+		//home, err := os.UserHomeDir()
+		//cobra.CheckErr(err)
 
 		// Search config in home directory with name ".console" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".console")
+		//viper.AddConfigPath(home)
+		//viper.SetConfigType("yaml")
+		//viper.SetConfigName(".console")
+		cfgFile = "./configs/test_configs.toml"
+		viper.SetConfigFile(cfgFile)
+		fmt.Fprintln(os.Stderr, "未明确指定配置文件路径, 使用默认路径:", viper.ConfigFileUsed())
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
