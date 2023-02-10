@@ -27,7 +27,13 @@ type dbRepo struct {
 	DbW *gorm.DB
 }
 
+var MyDb *dbRepo
+
 func New() (Repo, error) {
+	if MyDb != nil {
+		return MyDb, nil
+	}
+
 	cfg := configs.Get().MySQL
 	dbr, err := dbConnect(cfg.Read.User, cfg.Read.Pass, cfg.Read.Addr, cfg.Read.Name)
 	if err != nil {
@@ -39,10 +45,12 @@ func New() (Repo, error) {
 		return nil, err
 	}
 
-	return &dbRepo{
+	MyDb = &dbRepo{
 		DbR: dbr,
 		DbW: dbw,
-	}, nil
+	}
+
+	return MyDb, nil
 }
 
 func (d *dbRepo) i() {}
