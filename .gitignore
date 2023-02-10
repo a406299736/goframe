@@ -1,1 +1,7 @@
 **/.idea/
+#/configs/*.toml
+/app/**/configs
+/pkg/**/configs
+/console/**/configs
+/panic.log
+/console/cmd/*Demo.go
