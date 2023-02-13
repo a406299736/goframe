@@ -84,7 +84,7 @@ func (s *service2) Info(id int32) (one *test1.Test1, e errors.Er) {
 	//fmt.Printf("%v", string(body))
 
 	// 查询db demo
-	one, e = demo2.WhereId(db_repo.EqualPredicate, 1).
+	one, e = demo2.WhereId(db_repo.EqualPd, 1).
 		QueryOne(s.db.GetDbR().WithContext(s.ctx.RequestContext()))
 	if e != nil {
 		return nil, e
@@ -96,7 +96,7 @@ func (s *service2) Info(id int32) (one *test1.Test1, e errors.Er) {
 // 更新 省略传参...
 func (s *service2) Update2() errors.Er {
 	demo2 := test1.NewQueryBuilder()
-	err := demo2.WhereMap(db_repo.EqualPredicate, "18686868686").
+	err := demo2.WhereMap(db_repo.EqualPd, "18686868686").
 		WhereRecruitIn([]string{"zhang.san", "li.si"}).
 		Updates(s.db.GetDbR().WithContext(s.ctx.RequestContext()),
 			map[string]interface{}{"aspirations": "aaaaaassss", "call": "hahahha"})
@@ -121,7 +121,7 @@ func (s *service2) Del() errors.Er {
 // 列表
 func (s *service2) List() (lt []*test1.Test1, er errors.Er) {
 	demo2 := test1.NewQueryBuilder()
-	lt, er = demo2.WhereAspirations(db_repo.EqualPredicate, "aaaa").
+	lt, er = demo2.WhereAspirations(db_repo.EqualPd, "aaaa").
 		OrderByUpdated(false).
 		Limit(1).Offset(200).
 		QueryAll(s.db.GetDbR().WithContext(s.ctx.RequestContext()))

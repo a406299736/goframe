@@ -3,11 +3,11 @@ package dbrepo
 type Predicate string
 
 var (
-	EqualPredicate              = Predicate("=")
-	NotEqualPredicate           = Predicate("<>")
-	GreaterThanPredicate        = Predicate(">")
-	GreaterThanOrEqualPredicate = Predicate(">=")
-	SmallerThanPredicate        = Predicate("<")
-	SmallerThanOrEqualPredicate = Predicate("<=")
-	LikePredicate               = Predicate("LIKE")
+	EqualPd          = Predicate("=")
+	NotEqualPd       = Predicate("<>")
+	GreaterPd        = Predicate(">")
+	GreaterOrEqualPd = Predicate(">=")
+	SmallerPd        = Predicate("<")
+	SmallerOrEqualPd = Predicate("<=")
+	LikePd           = Predicate("LIKE")
 )
