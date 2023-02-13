@@ -1,13 +1,13 @@
 package router
 
 import (
-	"github.com/a406299736/goframe/app/api/controller/demo-handler"
+	"github.com/a406299736/goframe/app/api/controller/demohandler"
 	"github.com/a406299736/goframe/app/pkg/core"
 )
 
 func setDemoRouter(r *resource) {
 
-	back := demo_handler.New(r.db, r.cache)
+	back := demohandler.New(r.db, r.cache)
 
 	// 三种验证规则
 

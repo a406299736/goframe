@@ -1,4 +1,4 @@
-package demo_handler
+package demohandler
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package demo_handler
+package demohandler
 
 import (
 	"github.com/a406299736/goframe/app/api/service/demo"
