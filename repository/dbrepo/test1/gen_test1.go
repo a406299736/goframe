@@ -11,7 +11,7 @@ import (
 
 	"github.com/a406299736/goframe/app/pkg/code"
 	e "github.com/a406299736/goframe/pkg/errors"
-	"github.com/a406299736/goframe/repository/db-repo"
+	"github.com/a406299736/goframe/repository/dbrepo"
 
 	"gorm.io/gorm"
 )
@@ -123,7 +123,7 @@ func (qb *Test1QueryBuilder) Offset(offset int) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereId(p db_repo.Predicate, value int32) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereId(p dbrepo.Predicate, value int32) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -166,7 +166,7 @@ func (qb *Test1QueryBuilder) OrderById(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereAspirations(p db_repo.Predicate, value string) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereAspirations(p dbrepo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -209,7 +209,7 @@ func (qb *Test1QueryBuilder) OrderByAspirations(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereMap(p db_repo.Predicate, value string) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereMap(p dbrepo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -252,7 +252,7 @@ func (qb *Test1QueryBuilder) OrderByMap(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereCall(p db_repo.Predicate, value string) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereCall(p dbrepo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -295,7 +295,7 @@ func (qb *Test1QueryBuilder) OrderByCall(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereRecruit(p db_repo.Predicate, value string) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereRecruit(p dbrepo.Predicate, value string) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -338,7 +338,7 @@ func (qb *Test1QueryBuilder) OrderByRecruit(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereUpdated(p db_repo.Predicate, value time.Time) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereUpdated(p dbrepo.Predicate, value time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -381,7 +381,7 @@ func (qb *Test1QueryBuilder) OrderByUpdated(asc bool) *Test1QueryBuilder {
 	return qb
 }
 
-func (qb *Test1QueryBuilder) WhereCreated(p db_repo.Predicate, value time.Time) *Test1QueryBuilder {
+func (qb *Test1QueryBuilder) WhereCreated(p dbrepo.Predicate, value time.Time) *Test1QueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

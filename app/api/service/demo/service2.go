@@ -9,8 +9,8 @@ import (
 	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/apollo"
 	"github.com/a406299736/goframe/pkg/errors"
-	db_repo "github.com/a406299736/goframe/repository/db-repo"
-	"github.com/a406299736/goframe/repository/db-repo/test1"
+	db_repo "github.com/a406299736/goframe/repository/dbrepo"
+	"github.com/a406299736/goframe/repository/dbrepo/test1"
 	"go.uber.org/zap"
 	"strconv"
 )

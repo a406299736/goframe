@@ -5,7 +5,7 @@ import (
 	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/errors"
-	"github.com/a406299736/goframe/repository/db-repo/demo"
+	"github.com/a406299736/goframe/repository/dbrepo/demo"
 )
 
 var _ Service = (*service)(nil)

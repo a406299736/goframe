@@ -5,7 +5,7 @@ import (
 
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/pkg/errno"
-	"github.com/a406299736/goframe/repository/db-repo/demo"
+	"github.com/a406299736/goframe/repository/dbrepo/demo"
 
 	"go.uber.org/zap"
 )

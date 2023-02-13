@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	db_repo "github.com/a406299736/goframe/repository/db-repo"
+	db_repo "github.com/a406299736/goframe/repository/dbrepo"
 
 	"github.com/pkg/errors"
 	"gorm.io/gorm"

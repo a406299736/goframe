@@ -1,4 +1,4 @@
-package db_repo
+package dbrepo
 
 type Predicate string
 
