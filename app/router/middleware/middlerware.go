@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"github.com/a406299736/goframe/app/api/service/demo"
-	"github.com/a406299736/goframe/app/pkg/cache"
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/errno"
 )
 
@@ -34,12 +34,12 @@ type Middleware interface {
 }
 
 type middleware struct {
-	cache       cache.Repo
+	cache       redis.Repo
 	db          db.Repo
 	backService demo.Service
 }
 
-func New(cache cache.Repo, db db.Repo) Middleware {
+func New(cache redis.Repo, db db.Repo) Middleware {
 	return &middleware{
 		cache:       cache,
 		db:          db,

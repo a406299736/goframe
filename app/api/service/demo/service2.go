@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/a406299736/goframe/app/api/center"
-	"github.com/a406299736/goframe/app/pkg/cache"
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/apollo"
 	"github.com/a406299736/goframe/pkg/errors"
 	db_repo "github.com/a406299736/goframe/repository/db-repo"
@@ -18,12 +18,12 @@ import (
 // 相当于 service 层
 type service2 struct {
 	db    db.Repo
-	cache cache.Repo
+	cache redis.Repo
 	ctx   core.Context
 }
 
 // 根据实际业务 参数自定义
-func NewDemoService2(db db.Repo, cache cache.Repo, ctx core.Context) *service2 {
+func NewDemoService2(db db.Repo, cache redis.Repo, ctx core.Context) *service2 {
 	return &service2{
 		db:    db,
 		cache: cache,

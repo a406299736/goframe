@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/a406299736/goframe/app/pkg/cache"
 	"github.com/a406299736/goframe/app/pkg/code"
 	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/configs"
 	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/a406299736/goframe/pkg/errors"
@@ -44,7 +44,7 @@ func (m *middleware) Resubmit() core.HandlerFunc {
 			return
 		}
 
-		redisValue, err := m.cache.Get(redisKey, cache.WithTrace(c.Trace()))
+		redisValue, err := m.cache.Get(redisKey, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.Failed(errno.NewError(
 				http.StatusBadRequest,

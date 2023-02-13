@@ -5,16 +5,16 @@ import (
 	"net/http"
 
 	"github.com/a406299736/goframe/app/api/service/demo"
-	"github.com/a406299736/goframe/app/pkg/cache"
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/a406299736/goframe/pkg/hash"
 )
 
 // 相当于 controller 层
 type handler2 struct {
-	cache   cache.Repo
+	cache   redis.Repo
 	hashids hash.Hash
 	db      db.Repo
 }
@@ -23,7 +23,7 @@ type infoReq struct {
 	Id int32 `form:"id"`
 }
 
-func New2(db db.Repo, cache cache.Repo) *handler2 {
+func New2(db db.Repo, cache redis.Repo) *handler2 {
 	return &handler2{
 		cache: cache,
 		db:    db,

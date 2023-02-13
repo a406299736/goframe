@@ -1,11 +1,11 @@
 package router
 
 import (
-	"github.com/a406299736/goframe/app/pkg/cache"
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/app/pkg/grpc"
 	"github.com/a406299736/goframe/app/pkg/metrics"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/app/router/middleware"
 	"github.com/a406299736/goframe/pkg/errors"
 
@@ -16,7 +16,7 @@ type resource struct {
 	mux     core.Mux
 	logger  *zap.Logger
 	db      db.Repo
-	cache   cache.Repo
+	cache   redis.Repo
 	grpConn grpc.ClientConn
 	middles middleware.Middleware
 }
@@ -24,7 +24,7 @@ type resource struct {
 type Server struct {
 	Mux       core.Mux
 	Db        db.Repo
-	Cache     cache.Repo
+	Cache     redis.Repo
 	GrpClient grpc.ClientConn
 }
 
@@ -42,7 +42,7 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 	}
 	r.db = dbRepo
 
-	cacheRepo, err := cache.New()
+	cacheRepo, err := redis.New()
 	if err != nil {
 		logger.Fatal("new cache err", zap.Error(err))
 	}
