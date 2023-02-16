@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/a406299736/goframe/repository/db-repo"
+	"github.com/a406299736/goframe/repository/dbrepo"
 	e "github.com/a406299736/goframe/pkg/errors"
 	"github.com/a406299736/goframe/app/pkg/code"
 

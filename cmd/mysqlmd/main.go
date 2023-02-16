@@ -71,7 +71,7 @@ func main() {
 
 	for _, table := range tables {
 
-		filepath := "./repository/db-repo/" + table.Name
+		filepath := "./repository/dbrepo/" + table.Name
 		_ = os.Mkdir(filepath, 0766)
 		fmt.Println("create dir : ", filepath)
 
