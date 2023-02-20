@@ -86,11 +86,23 @@ type Context interface {
 	Alias() string
 	setAlias(path string)
 
+	// 反序列化 querystring
+	// tag: `form:"xxx"` (注：不要写成 query)
 	ShouldBindQuery(obj interface{}) error
+	// 反序列化 postform (querystring会被忽略)
+	// tag: `form:"xxx"`
 	ShouldBindPostForm(obj interface{}) error
+	// 同时反序列化 querystring 和 postform;
+	// 当 querystring 和 postform 存在相同字段时，postform 优先使用。
+	// tag: `form:"xxx"`
 	ShouldBindForm(obj interface{}) error
+	// 反序列化 postjson
+	// tag: `json:"xxx"`
 	ShouldBindJSON(obj interface{}) error
+	// 反序列化 path 参数(如路由路径为 /user/:name)
+	// tag: `uri:"xxx"`
 	ShouldBindURI(obj interface{}) error
+	// 重定向
 	Redirect(code int, location string)
 
 	RequestInputParams() url.Values
