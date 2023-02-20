@@ -16,7 +16,7 @@ func (h *handler) Detail() core.HandlerFunc {
 		res, err := h.demoService.Detail(c)
 
 		dm := new(demo.Test1)
-		//c.ShouldBindURI(dm) // 获取get参数
+		//c.ShouldBindQuery(dm) // 获取get参数
 		c.ShouldBindJSON(dm) // 获取body json
 		c.Info("demo", zap.Any("p11111", dm))
 
