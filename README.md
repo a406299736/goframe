@@ -4,6 +4,9 @@
         使用goland IDE可编辑configurations中environment项，设置为PROJECT_PATH=项目绝对路径
         go build main.go
          ./main -env test
+#### 本地构建linux环境
+##### 命令行: CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o cmds ./console/main.go
+##### 接口服务: CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o main ./main.go
 
 #### 1. app/router/router.go 注册路由或注册路由分组.
 
