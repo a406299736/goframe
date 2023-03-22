@@ -6,6 +6,13 @@ import "github.com/a406299736/goframe/configs"
 // TODO 未验证能否正确连接
 var Conn1 *dbRepo
 
+func init() {
+	_, err := NewConn1()
+	if err != nil {
+		panic("connection Conn1 mysql err" + err.Error())
+	}
+}
+
 func NewConn1() (Repo, error) {
 	if Conn1 != nil {
 		return Conn1, nil

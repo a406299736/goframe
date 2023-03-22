@@ -7,7 +7,7 @@ import (
 
 func setDemoRouter(r *resource) {
 
-	back := demohandler.New(r.db, r.cache)
+	back := demohandler.New()
 
 	// 三种验证规则
 

@@ -2,10 +2,8 @@ package router
 
 import (
 	"github.com/a406299736/goframe/app/pkg/core"
-	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/app/pkg/grpc"
 	"github.com/a406299736/goframe/app/pkg/metrics"
-	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/app/router/middleware"
 	"github.com/a406299736/goframe/pkg/errors"
 
@@ -15,16 +13,12 @@ import (
 type resource struct {
 	mux     core.Mux
 	logger  *zap.Logger
-	db      db.Repo
-	cache   redis.Repo
 	grpConn grpc.ClientConn
 	middles middleware.Middleware
 }
 
 type Server struct {
 	Mux       core.Mux
-	Db        db.Repo
-	Cache     redis.Repo
 	GrpClient grpc.ClientConn
 }
 
@@ -35,18 +29,6 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 
 	r := new(resource)
 	r.logger = logger
-
-	dbRepo, err := db.New()
-	if err != nil {
-		logger.Fatal("new db err", zap.Error(err))
-	}
-	r.db = dbRepo
-
-	cacheRepo, err := redis.New()
-	if err != nil {
-		logger.Fatal("new cache err", zap.Error(err))
-	}
-	r.cache = cacheRepo
 
 	gRPCRepo, err := grpc.New()
 	if err != nil {
@@ -65,7 +47,7 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 	}
 
 	r.mux = mux
-	r.middles = middleware.New(r.cache, r.db)
+	r.middles = middleware.New()
 
 	// 注册 分组路由
 	{
@@ -79,8 +61,6 @@ func NewHTTPServer(logger *zap.Logger) (*Server, error) {
 
 	s := new(Server)
 	s.Mux = mux
-	s.Db = r.db
-	s.Cache = r.cache
 	s.GrpClient = r.grpConn
 
 	return s, nil

@@ -29,6 +29,13 @@ type dbRepo struct {
 
 var IDb *dbRepo
 
+func init() {
+	_, err := New()
+	if err != nil {
+		panic("connection mysql err" + err.Error())
+	}
+}
+
 func New() (Repo, error) {
 	if IDb != nil {
 		return IDb, nil

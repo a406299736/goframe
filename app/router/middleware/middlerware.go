@@ -39,11 +39,9 @@ type middleware struct {
 	backService demo.Service
 }
 
-func New(cache redis.Repo, db db.Repo) Middleware {
+func New() Middleware {
 	return &middleware{
-		cache:       cache,
-		db:          db,
-		backService: demo.New(db, cache),
+		backService: nil,
 	}
 }
 

@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/a406299736/goframe/app/pkg/db"
+	"github.com/a406299736/goframe/app/pkg/redis"
 	"net/http"
 	"time"
 
@@ -68,12 +70,22 @@ func main() {
 
 		// 关闭 db
 		func() {
-			if s.Db != nil {
-				if err := s.Db.DbWClose(); err != nil {
+			if db.IDb != nil {
+				if err := db.IDb.DbWClose(); err != nil {
 					loggers.Error("dbw close err", zap.Error(err))
 				}
 
-				if err := s.Db.DbRClose(); err != nil {
+				if err := db.IDb.DbRClose(); err != nil {
+					loggers.Error("dbr close err", zap.Error(err))
+				}
+			}
+
+			if db.Conn1 != nil {
+				if err := db.Conn1.DbWClose(); err != nil {
+					loggers.Error("dbw close err", zap.Error(err))
+				}
+
+				if err := db.Conn1.DbRClose(); err != nil {
 					loggers.Error("dbr close err", zap.Error(err))
 				}
 			}
@@ -81,8 +93,8 @@ func main() {
 
 		// 关闭 cache
 		func() {
-			if s.Cache != nil {
-				if err := s.Cache.Close(); err != nil {
+			if redis.RedisRepo != nil {
+				if err := redis.RedisRepo.Close(); err != nil {
 					loggers.Error("cache close err", zap.Error(err))
 				}
 			}

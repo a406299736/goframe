@@ -49,6 +49,13 @@ type cacheRepo struct {
 
 var RedisRepo *cacheRepo
 
+func init() {
+	_, err := New()
+	if err != nil {
+		panic("connection redis err" + err.Error())
+	}
+}
+
 func New() (Repo, error) {
 	if RedisRepo != nil {
 		return RedisRepo, nil

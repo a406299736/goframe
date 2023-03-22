@@ -30,6 +30,8 @@ type option struct {
 	isWithTrace    bool
 }
 
+var Log *zap.Logger
+
 func WithTrace() Option {
 	return func(opt *option) {
 		opt.isWithTrace = true
@@ -198,6 +200,8 @@ func NewJSONLogger(opts ...Option) (*zap.Logger, error) {
 		tc := trace.New("")
 		logger = logger.With(zap.Any("Trace-Id", tc.ID()))
 	}
+
+	Log = logger
 
 	return logger, nil
 }

@@ -3,6 +3,7 @@ package demo
 import (
 	"github.com/a406299736/goframe/app/pkg/code"
 	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/pkg/errors"
 	"github.com/a406299736/goframe/repository/dbrepo/demo"
 
@@ -15,13 +16,13 @@ func (src *service) Detail(c core.Context) (info *demo.Test1, err errors.Er) {
 	info = &demo.Test1{}
 	//err = errors.NewErr(code.UserNotExists, "msg error")
 
-	i, _ := demo.NewDemoQueryBuilder().WhereIdIn([]int32{1}).First(src.db.GetDbR().WithContext(c.RequestContext()))
+	i, _ := demo.NewDemoQueryBuilder().WhereIdIn([]int32{1}).First(db.IDb.GetDbR().WithContext(c.RequestContext()))
 	c.Info("demo", zap.Any("demo", i.Id))
 
 	dm := demo.NewDemoQueryBuilder()
 	all, er := dm.WhereIdIn([]int32{1, 2, 3}).
 		OrderById(false).
-		QueryAll(src.db.GetDbR().WithContext(c.RequestContext()))
+		QueryAll(db.IDb.GetDbR().WithContext(c.RequestContext()))
 	if er != nil {
 		err = errors.NewErr(code.UserNotExists, "query all error")
 	}
