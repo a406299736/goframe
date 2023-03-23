@@ -1,12 +1,84 @@
 package tools
 
-import "os"
+import (
+	"bufio"
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"github.com/golang-module/carbon"
+	"log"
+	"os"
+	"runtime/debug"
+	"strings"
+)
 
-// 项目绝对路径
-func GetProjectAbsolutePath() string {
-	s := os.Getenv("PROJECT_PATH")
-	if s == "" {
-		return "."
+func FmtPrintf(format string, val ...any) {
+	fmt.Printf(carbon.Now().ToDateTimeString()+" "+format+" \n", val...)
+}
+
+func Go(x func()) {
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				t := fmt.Sprintf("[%s] ", carbon.Now().ToDateTimeString())
+				file := "./panic.log"
+				msg := t + fmt.Sprintf("panic %s\n", err)
+				fmt.Println(msg)
+				FilePutContents(file, msg)
+
+				stackMsg := t + fmt.Sprint(string(debug.Stack()))
+				fmt.Println(stackMsg)
+				FilePutContents(file, stackMsg)
+			}
+		}()
+		x()
+	}()
+}
+
+// 文件中追加内容
+func FilePutContents(filename string, data string) (n int) {
+	fileHandle, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Println("open file error :", err)
+		return
+	}
+	defer fileHandle.Close()
+	buf := bufio.NewWriter(fileHandle)
+	n, _ = buf.WriteString(data)
+	err = buf.Flush()
+	if err != nil {
+		log.Println("flush error :", err)
+	}
+
+	return
+}
+
+// 文件是否存在
+func CheckFileExist(fileName string) bool {
+	_, err := os.Stat(fileName)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+// 进行md5加密
+func Md5(str string) string {
+	m := md5.New()
+	m.Write([]byte(str))
+
+	return hex.EncodeToString(m.Sum(nil))
+}
+
+// 去除字符串左右字符
+// s 目标字符串
+// ts 要去除的特殊字符串
+// return 去除后的字符串
+func Trims(s string, ts []string) string {
+	for i := 0; i < len(ts); i++ {
+		for _, v := range ts {
+			s = strings.Trim(s, v)
+		}
 	}
 	return s
 }

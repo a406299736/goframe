@@ -3,7 +3,6 @@ package apollo
 import (
 	"errors"
 	"github.com/a406299736/goframe/configs"
-	"github.com/a406299736/goframe/pkg/tools"
 	"github.com/apolloconfig/agollo/v4"
 	"github.com/apolloconfig/agollo/v4/env/config"
 	"github.com/apolloconfig/agollo/v4/storage"
@@ -100,6 +99,6 @@ func defaultConfig() *config.AppConfig {
 	return &config.AppConfig{AppID: conf.Apollo.AppId,
 		Cluster: conf.Apollo.Cluster, NamespaceName: conf.Apollo.NamespaceName,
 		IP: conf.Apollo.Ip, IsBackupConfig: true,
-		BackupConfigPath: tools.GetProjectAbsolutePath() + "/configs",
+		BackupConfigPath: "./configs",
 		Secret:           "", SyncServerTimeout: 3}
 }

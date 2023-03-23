@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"github.com/a406299736/goframe/pkg/env"
-	"github.com/a406299736/goframe/pkg/tools"
-
 	"github.com/fsnotify/fsnotify"
 	"github.com/golang-module/carbon"
 	"github.com/spf13/viper"
@@ -104,7 +102,7 @@ type Config struct {
 func init() {
 	viper.SetConfigName(env.Active().Value() + "_configs")
 	viper.SetConfigType("toml")
-	viper.AddConfigPath(tools.GetProjectAbsolutePath() + "/configs")
+	viper.AddConfigPath("./configs")
 
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
