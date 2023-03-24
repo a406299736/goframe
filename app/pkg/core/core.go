@@ -234,7 +234,7 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 	}
 
 	if !opt.disablePProf {
-		if configs.Get().App.Env != "pro" {
+		if !configs.IsPro() {
 			pprof.Register(mux.engine)
 		}
 	}

@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"gorm.io/gorm/logger"
 	"time"
 
 	"github.com/a406299736/goframe/configs"
@@ -95,12 +96,17 @@ func dbConnect(user, pass, addr, dbName string) (*gorm.DB, error) {
 		true,
 		"Local")
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	cf := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
-		//Logger: logger.Default.LogMode(logger.Info), // 日志配置
-	})
+	}
+
+	if !configs.IsPro() {
+		cf.Logger = logger.Default.LogMode(logger.Info) // 日志配置
+	}
+
+	db, err := gorm.Open(mysql.Open(dsn), cf)
 
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("[db connection failed] Database name: %s", dbName))

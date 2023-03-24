@@ -124,6 +124,10 @@ func Get() Config {
 	return *config
 }
 
+func IsPro() bool {
+	return config.App.Env == "pro"
+}
+
 func (c Config) LogPath() string {
 	date := carbon.Now()
 	return c.App.LogPath + ProjectName + date.ToDateString() + ".log"
