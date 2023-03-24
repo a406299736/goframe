@@ -1,5 +1,6 @@
 [app]
   logpath="/usr/local/var/logs/"
+  env="dev"
 
 [hashids]
   length = 12

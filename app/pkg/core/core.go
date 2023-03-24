@@ -9,7 +9,6 @@ import (
 
 	"github.com/a406299736/goframe/app/pkg/code"
 	"github.com/a406299736/goframe/configs"
-	"github.com/a406299736/goframe/pkg/env"
 	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/a406299736/goframe/pkg/errors"
 	"github.com/a406299736/goframe/pkg/trace"
@@ -235,7 +234,7 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 	}
 
 	if !opt.disablePProf {
-		if !env.Active().IsPro() {
+		if configs.Get().App.Env != "pro" {
 			pprof.Register(mux.engine)
 		}
 	}
@@ -464,7 +463,7 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 				Status      string    `json:"status"`
 			}{
 				Timestamp:   time.Now(),
-				Environment: env.Active().Value(),
+				Environment: configs.Get().App.Env,
 				Host:        ctx.Host(),
 				Status:      "ok",
 			}

@@ -10,7 +10,6 @@ import (
 
 	"github.com/a406299736/goframe/app/router"
 	"github.com/a406299736/goframe/configs"
-	"github.com/a406299736/goframe/pkg/env"
 	"github.com/a406299736/goframe/pkg/logger"
 	"github.com/a406299736/goframe/pkg/shutdown"
 
@@ -21,7 +20,7 @@ import (
 func main() {
 	loggers, err := logger.NewJSONLogger(
 		logger.WithDisableConsole(),
-		logger.WithField("domain", fmt.Sprintf("%s[%s]", configs.ProjectName, env.Active().Value())),
+		logger.WithField("domain", fmt.Sprintf("%s[%s]", configs.ProjectName, configs.Get().App.Env)),
 		logger.WithTimeLayout("2006-01-02 15:04:05"),
 		logger.WithFileP(configs.Get().LogPath()),
 	)

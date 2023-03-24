@@ -3,7 +3,6 @@ package configs
 import (
 	"time"
 
-	"github.com/a406299736/goframe/pkg/env"
 	"github.com/fsnotify/fsnotify"
 	"github.com/golang-module/carbon"
 	"github.com/spf13/viper"
@@ -85,6 +84,7 @@ type Config struct {
 
 	App struct {
 		LogPath string `toml:"logPath"`
+		Env     string `toml:"env"`
 	} `toml:"app"`
 
 	Center struct {
@@ -100,7 +100,7 @@ type Config struct {
 }
 
 func init() {
-	viper.SetConfigName(env.Active().Value() + "_configs")
+	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath("./configs")
 
