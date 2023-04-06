@@ -5,3 +5,4 @@
 /console/**/configs
 /panic.log
 /console/cmd/*Demo.go
+main
