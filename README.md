@@ -1,12 +1,8 @@
 ### Usage
 
 #### 部署时设置环境变量 export PROJECT_PATH=项目绝对路径.
-        使用goland IDE可编辑configurations中environment项，设置为PROJECT_PATH=项目绝对路径
         go build main.go
-         ./main -env test
-#### 本地构建linux环境
-##### 命令行: CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o cmds ./console/main.go
-##### 接口服务: CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build -o main ./main.go
+         ./main
 
 #### 1. app/router/router.go 注册路由或注册路由分组.
 
@@ -69,7 +65,7 @@
             ./cmd MockDemo
 
 #### 11. 新增支持apollo, 使用简单:
-            简述注意事项: 配置项在 ./configs/xxx_configs.tmol, 新增后在 ./configs/configs.go
+            简述注意事项: 配置项在 ./configs/configs.tmol, 新增后在 ./configs/configs.go
             新增viper结构体; 建议namespaceName=默认(application), cluster=默认(default),
             这样获取conf时,可以在New函数内不用传参, 如果需要连接非默认配置,
             则在New时需要传入WithConfig() 或 WithNamespace();
