@@ -8,31 +8,11 @@ import (
 	"github.com/golang-module/carbon"
 	"log"
 	"os"
-	"runtime/debug"
 	"strings"
 )
 
 func FmtPrintf(format string, val ...any) {
 	fmt.Printf(carbon.Now().ToDateTimeString()+" "+format+" \n", val...)
-}
-
-func Go(x func()) {
-	go func() {
-		defer func() {
-			if err := recover(); err != nil {
-				t := fmt.Sprintf("[%s] ", carbon.Now().ToDateTimeString())
-				file := "./panic.log"
-				msg := t + fmt.Sprintf("panic %s\n", err)
-				fmt.Println(msg)
-				FilePutContents(file, msg)
-
-				stackMsg := t + fmt.Sprint(string(debug.Stack()))
-				fmt.Println(stackMsg)
-				FilePutContents(file, stackMsg)
-			}
-		}()
-		x()
-	}()
 }
 
 // 文件中追加内容
