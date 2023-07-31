@@ -83,6 +83,14 @@ func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) 
 		db.Where(where.prefix, where.value)
 	}
 
+	if qb.limit > 0 {
+		db.Limit(qb.limit)
+	}
+
+	for _, order := range qb.order {
+		db = db.Order(order)
+	}
+
 	if err := db.Updates(m).Error; err != nil {
 		return e.NewErr(code.MySQLExecError, err.Error())
 	}
@@ -92,6 +100,14 @@ func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) 
 func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (er e.Er) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
+	}
+
+	if qb.limit > 0 {
+		db.Limit(qb.limit)
+	}
+
+	for _, order := range qb.order {
+		db = db.Order(order)
 	}
 
 	if err := db.Delete(&{{.StructName}}{}).Error; err != nil {
