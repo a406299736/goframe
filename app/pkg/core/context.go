@@ -102,6 +102,7 @@ type Context interface {
 	// 反序列化 path 参数(如路由路径为 /user/:name)
 	// tag: `uri:"xxx"`
 	ShouldBindURI(obj interface{}) error
+	ShouldBind(obj interface{}) error
 	// 重定向
 	Redirect(code int, location string)
 
@@ -164,6 +165,10 @@ func (c *context) ShouldBindJSON(obj interface{}) error {
 
 func (c *context) ShouldBindURI(obj interface{}) error {
 	return c.ctx.ShouldBindUri(obj)
+}
+
+func (c *context) ShouldBind(obj interface{}) error {
+	return c.ctx.ShouldBind(obj)
 }
 
 func (c *context) Redirect(code int, location string) {

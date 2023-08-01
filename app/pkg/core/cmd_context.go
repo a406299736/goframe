@@ -48,6 +48,10 @@ func (c *cmdContext) ShouldBindURI(obj interface{}) error {
 	return nil
 }
 
+func (c *cmdContext) ShouldBind(obj interface{}) error {
+	return nil
+}
+
 func (c *cmdContext) Redirect(code int, location string) {}
 
 func (c *cmdContext) Trace() Trace {
