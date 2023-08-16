@@ -67,7 +67,10 @@ func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
 	for _, order := range qb.order {
 		ret = ret.Order(order)
 	}
-	ret = ret.Limit(qb.limit).Offset(qb.offset)
+	if qb.limit > 0 {
+		ret = ret.Limit(qb.limit)
+	}
+	ret = ret.Offset(qb.offset)
 	return ret
 }
 
@@ -119,8 +122,12 @@ func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (er e.Er) {
 func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 	var c int64
 	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
-	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		return 0, e.NewErr(code.MySQLExecError, res.Error.Error()) 
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return 0, nil
+		} else {
+			return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
+		}
 	}
 	return c, nil
 }
