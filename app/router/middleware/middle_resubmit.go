@@ -19,6 +19,8 @@ func (m *middleware) Resubmit() core.HandlerFunc {
 	return func(c core.Context) {
 		cfg := configs.Get().URLToken
 
+		cache := redis.RedisRepo
+
 		tokenString, err := token.New(cfg.Secret).UrlSign(c.Path(), c.Method(), c.RequestInputParams())
 		if err != nil {
 			c.Failed(errno.NewError(
@@ -30,8 +32,8 @@ func (m *middleware) Resubmit() core.HandlerFunc {
 		}
 
 		redisKey := configs.RedisKeyPrefixRequestID + tokenString
-		if !m.cache.Exists(redisKey) {
-			err = m.cache.Set(redisKey, reSubmitMark, time.Minute*cfg.ExpireDuration)
+		if !cache.Exists(redisKey) {
+			err = cache.Set(redisKey, reSubmitMark, time.Minute*cfg.ExpireDuration)
 			if err != nil {
 				c.Failed(errno.NewError(
 					http.StatusBadRequest,
@@ -44,7 +46,7 @@ func (m *middleware) Resubmit() core.HandlerFunc {
 			return
 		}
 
-		redisValue, err := m.cache.Get(redisKey, redis.WithTrace(c.Trace()))
+		redisValue, err := cache.Get(redisKey, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.Failed(errno.NewError(
 				http.StatusBadRequest,

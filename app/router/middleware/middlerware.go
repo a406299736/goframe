@@ -1,10 +1,7 @@
 package middleware
 
 import (
-	"github.com/a406299736/goframe/app/api/service/demo"
 	"github.com/a406299736/goframe/app/pkg/core"
-	"github.com/a406299736/goframe/app/pkg/db"
-	"github.com/a406299736/goframe/app/pkg/redis"
 	"github.com/a406299736/goframe/pkg/errno"
 )
 
@@ -34,15 +31,10 @@ type Middleware interface {
 }
 
 type middleware struct {
-	cache       redis.Repo
-	db          db.Repo
-	backService demo.Service
 }
 
 func New() Middleware {
-	return &middleware{
-		backService: nil,
-	}
+	return &middleware{}
 }
 
 func (m *middleware) i() {}
