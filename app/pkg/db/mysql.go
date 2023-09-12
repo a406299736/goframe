@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/a406299736/goframe/pkg/tools"
 	"gorm.io/gorm/logger"
 	"time"
 
@@ -95,6 +96,8 @@ func dbConnect(user, pass, addr, dbName string) (*gorm.DB, error) {
 		dbName,
 		true,
 		"Local")
+
+	tools.FmtPrintf("启动mysql：" + dsn)
 
 	cf := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{

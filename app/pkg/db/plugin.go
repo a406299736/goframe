@@ -1,10 +1,10 @@
 package db
 
 import (
+	"github.com/golang-module/carbon"
 	"time"
 
 	"github.com/a406299736/goframe/app/pkg/core"
-	"github.com/a406299736/goframe/pkg/time-parse"
 	"github.com/a406299736/goframe/pkg/trace"
 
 	"gorm.io/gorm"
@@ -69,7 +69,7 @@ func after(db *gorm.DB) {
 	sql := db.Dialector.Explain(db.Statement.SQL.String(), db.Statement.Vars...)
 
 	sqlInfo := new(trace.SQL)
-	sqlInfo.Timestamp = time_parse.CSTLayoutString()
+	sqlInfo.Timestamp = carbon.Now().ToDateTimeString()
 	sqlInfo.SQL = sql
 	sqlInfo.Stack = utils.FileWithLineNum()
 	sqlInfo.Rows = db.Statement.RowsAffected

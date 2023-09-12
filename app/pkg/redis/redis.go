@@ -2,11 +2,12 @@ package redis
 
 import (
 	"context"
+	"github.com/a406299736/goframe/pkg/tools"
+	"github.com/golang-module/carbon"
 	"time"
 
 	"github.com/a406299736/goframe/configs"
 	"github.com/a406299736/goframe/pkg/errors"
-	"github.com/a406299736/goframe/pkg/time-parse"
 	"github.com/a406299736/goframe/pkg/trace"
 
 	"github.com/redis/go-redis/v9"
@@ -86,6 +87,8 @@ func redisConnect() (*redis.Client, error) {
 		MinIdleConns: cfg.MinIdleConns,
 	})
 
+	tools.FmtPrintf("启动redis：%s, DB：%d", cfg.Addr, cfg.Db)
+
 	if err := client.Ping(ctx).Err(); err != nil {
 		return nil, errors.Wrap(err, "ping redis err")
 	}
@@ -102,7 +105,7 @@ func (c *cacheRepo) Set(key, value string, ttl time.Duration, options ...Option)
 	opt := newOption()
 	defer func() {
 		if opt.Trace != nil {
-			opt.Redis.Timestamp = time_parse.CSTLayoutString()
+			opt.Redis.Timestamp = carbon.Now().ToDateTimeString()
 			opt.Redis.Handle = "set"
 			opt.Redis.Key = key
 			opt.Redis.Value = value
@@ -128,7 +131,7 @@ func (c *cacheRepo) Get(key string, options ...Option) (string, error) {
 	opt := newOption()
 	defer func() {
 		if opt.Trace != nil {
-			opt.Redis.Timestamp = time_parse.CSTLayoutString()
+			opt.Redis.Timestamp = carbon.Now().ToDateTimeString()
 			opt.Redis.Handle = "get"
 			opt.Redis.Key = key
 			opt.Redis.RTime = time.Since(ts).Seconds()
@@ -180,7 +183,7 @@ func (c *cacheRepo) Del(key string, options ...Option) bool {
 	opt := newOption()
 	defer func() {
 		if opt.Trace != nil {
-			opt.Redis.Timestamp = time_parse.CSTLayoutString()
+			opt.Redis.Timestamp = carbon.Now().ToDateTimeString()
 			opt.Redis.Handle = "del"
 			opt.Redis.Key = key
 			opt.Redis.RTime = time.Since(ts).Seconds()
@@ -205,7 +208,7 @@ func (c *cacheRepo) Incr(key string, options ...Option) int64 {
 	opt := newOption()
 	defer func() {
 		if opt.Trace != nil {
-			opt.Redis.Timestamp = time_parse.CSTLayoutString()
+			opt.Redis.Timestamp = carbon.Now().ToDateTimeString()
 			opt.Redis.Handle = "incr"
 			opt.Redis.Key = key
 			opt.Redis.RTime = time.Since(ts).Seconds()

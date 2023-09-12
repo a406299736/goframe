@@ -6,11 +6,11 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"github.com/golang-module/carbon"
 	"net/url"
 	"strings"
 
 	"github.com/a406299736/goframe/pkg/errors"
-	"github.com/a406299736/goframe/pkg/time-parse"
 )
 
 // path 请求的路径 (不附带 querystring)
@@ -32,7 +32,7 @@ func (s *signature) Generate(path string, method string, params url.Values) (aut
 	}
 
 	// Date
-	date = time_parse.CSTLayoutString()
+	date = carbon.Now().ToDateTimeString()
 
 	// Encode() 方法中自带 sorted by key
 	sortParamsEncode, err := url.QueryUnescape(params.Encode())
