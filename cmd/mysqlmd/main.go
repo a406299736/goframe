@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"github.com/a406299736/goframe/configs"
 	"log"
 	"os"
 	"regexp"
@@ -40,9 +41,10 @@ var (
 )
 
 func init() {
-	dbAddr = "127.0.0.1"
-	dbUser = "test1"
-	dbPass = "test1"
+	conf := configs.Get().MySQL
+	dbAddr = conf.Read.Addr
+	dbUser = conf.Read.User
+	dbPass = conf.Read.Pass
 
 	flag.StringVar(&dbName, "name", "databaseName", "请输入 db 名称\n")
 	flag.StringVar(&genTables, "tables", "", "请输入 table 名称，默认为“ ”，如需生成所有表请输入“*”，多个表可用“,”分割\n")

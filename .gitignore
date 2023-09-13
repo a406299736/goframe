@@ -3,6 +3,9 @@
 /app/**/configs
 /pkg/**/configs
 /console/**/configs
+/repository/**/configs
 /panic.log
 /console/cmd/*Demo.go
 main
+cmds
+build.sh
