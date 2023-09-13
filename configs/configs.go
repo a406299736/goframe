@@ -85,11 +85,8 @@ type Config struct {
 	App struct {
 		LogPath string `toml:"logPath"`
 		Env     string `toml:"env"`
+		Debug   bool   `toml:"debug"`
 	} `toml:"app"`
-
-	Center struct {
-		ClassUrl string `toml:"classUrl"`
-	} `toml:"center"`
 
 	Apollo struct {
 		AppId         string `toml:"appId"`

@@ -1,6 +1,7 @@
 [app]
   logpath="/usr/local/var/logs/"
   env="dev"
+debug=true
 
 [hashids]
   length = 12
@@ -62,9 +63,6 @@
   instanceid=""
   topic=""
   groupid=""
-
-[center]
-classUrl=""
 
 [apollo]
 appId="test"
