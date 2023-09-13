@@ -382,36 +382,38 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 
 			decodedURL, _ := url.QueryUnescape(ctx.Request.URL.RequestURI())
 
-			traceHeader := map[string]string{
-				"Content-Type":              ctx.GetHeader("Content-Type"),
-				configs.HeaderLoginToken:    ctx.GetHeader(configs.HeaderLoginToken),
-				configs.HeaderSignToken:     ctx.GetHeader(configs.HeaderSignToken),
-				configs.HeaderSignTokenDate: ctx.GetHeader(configs.HeaderSignTokenDate),
+			if configs.Get().App.Debug {
+				traceHeader := map[string]string{
+					"Content-Type":              ctx.GetHeader("Content-Type"),
+					configs.HeaderLoginToken:    ctx.GetHeader(configs.HeaderLoginToken),
+					configs.HeaderSignToken:     ctx.GetHeader(configs.HeaderSignToken),
+					configs.HeaderSignTokenDate: ctx.GetHeader(configs.HeaderSignTokenDate),
+				}
+
+				t.WithRequest(&trace.Request{
+					TTL:        "un-limit",
+					Method:     ctx.Request.Method,
+					DecodedURL: decodedURL,
+					Header:     traceHeader,
+					Body:       string(context.RawData()),
+				})
+
+				var responseBody interface{}
+
+				if response != nil {
+					responseBody = response
+				}
+
+				t.WithResponse(&trace.Response{
+					Header:          ctx.Writer.Header(),
+					HttpCode:        ctx.Writer.Status(),
+					HttpCodeMsg:     http.StatusText(ctx.Writer.Status()),
+					BusinessCode:    businessCode,
+					BusinessCodeMsg: businessCodeMsg,
+					Body:            responseBody,
+					RTime:           time.Since(ts).Seconds(),
+				})
 			}
-
-			t.WithRequest(&trace.Request{
-				TTL:        "un-limit",
-				Method:     ctx.Request.Method,
-				DecodedURL: decodedURL,
-				Header:     traceHeader,
-				Body:       string(context.RawData()),
-			})
-
-			var responseBody interface{}
-
-			if response != nil {
-				responseBody = response
-			}
-
-			t.WithResponse(&trace.Response{
-				Header:          ctx.Writer.Header(),
-				HttpCode:        ctx.Writer.Status(),
-				HttpCodeMsg:     http.StatusText(ctx.Writer.Status()),
-				BusinessCode:    businessCode,
-				BusinessCodeMsg: businessCodeMsg,
-				Body:            responseBody,
-				RTime:           time.Since(ts).Seconds(),
-			})
 
 			t.Success = !ctx.IsAborted() && ctx.Writer.Status() == http.StatusOK
 			t.RTime = time.Since(ts).Seconds()
@@ -424,9 +426,12 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 				zap.Any("business_code", businessCode),
 				zap.Any("success", t.Success),
 				zap.Any("r_time", t.RTime),
-				zap.Any("trace_info", t),
 				zap.Error(abortErr),
 			)
+
+			if configs.Get().App.Debug {
+				logger.Info("trace-info", zap.Any("info", t))
+			}
 		}()
 
 		ctx.Next()

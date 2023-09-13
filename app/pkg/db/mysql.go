@@ -105,8 +105,10 @@ func dbConnect(user, pass, addr, dbName string) (*gorm.DB, error) {
 		},
 	}
 
-	if !configs.IsPro() {
+	if configs.Get().App.Debug {
 		cf.Logger = logger.Default.LogMode(logger.Info) // 日志配置
+	} else {
+		cf.Logger = logger.Discard
 	}
 
 	db, err := gorm.Open(mysql.Open(dsn), cf)
