@@ -6,6 +6,7 @@
 /repository/**/configs
 /panic.log
 /console/cmd/*Demo.go
+**/logs
 main
 cmds
 build.sh
