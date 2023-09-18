@@ -90,7 +90,8 @@ type Context interface {
 	// tag: `form:"xxx"` (注：不要写成 query)
 	ShouldBindQuery(obj interface{}) error
 	// 反序列化 postform (querystring会被忽略)
-	// tag: `form:"xxx"`
+	// 兼容content-type类型：multipart/form-data, application/x-www-form-urlencoded, application/json;
+	// tag: `json:"xxx" form:"xxx"`
 	ShouldBindPostForm(obj interface{}) error
 	// 同时反序列化 querystring 和 postform;
 	// 当 querystring 和 postform 存在相同字段时，postform 优先使用。
@@ -152,7 +153,14 @@ func (c *context) ShouldBindQuery(obj interface{}) error {
 }
 
 func (c *context) ShouldBindPostForm(obj interface{}) error {
-	return c.ctx.ShouldBindWith(obj, binding.FormPost)
+	switch c.ctx.ContentType() {
+	case binding.MIMEJSON:
+		return c.ctx.ShouldBindWith(obj, binding.JSON)
+	case binding.MIMEPOSTForm:
+		return c.ctx.ShouldBindWith(obj, binding.Form)
+	default:
+		return c.ctx.ShouldBindWith(obj, binding.FormMultipart)
+	}
 }
 
 func (c *context) ShouldBindForm(obj interface{}) error {
