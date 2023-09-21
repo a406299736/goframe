@@ -1,5 +1,7 @@
 package code
 
+import "github.com/a406299736/goframe/pkg/errors"
+
 var zhCNText = map[int]string{
 	Success:            "SUCCESS",
 	ServerError:        "内部服务器错误",
@@ -31,3 +33,5 @@ var zhCNText = map[int]string{
 	JsonParseError:  "json解析失败",
 	MapKeyNotExists: "map key不存在",
 }
+
+var NilError = errors.NewErr(NotExists, "received a nil pointer")
