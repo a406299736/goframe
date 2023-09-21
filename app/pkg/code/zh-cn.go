@@ -23,6 +23,7 @@ var zhCNText = map[int]string{
 	SendEmailError:     "发送邮件失败",
 	MySQLExecError:     "SQL 执行失败",
 	GoVersionError:     "Go 版本不满足要求",
+	ValueIsNil:         "nil pointer",
 
 	NotAllowed:    "无权限",
 	UserNotExists: "学员不存在",
@@ -34,4 +35,4 @@ var zhCNText = map[int]string{
 	MapKeyNotExists: "map key不存在",
 }
 
-var NilError = errors.NewErr(NotExists, "received a nil pointer")
+var NilError = errors.NewErr(ValueIsNil, "received a nil pointer")

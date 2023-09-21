@@ -29,6 +29,7 @@ const (
 	SendEmailError     = 10117
 	MySQLExecError     = 10118
 	GoVersionError     = 10119
+	ValueIsNil         = 10120
 
 	NotAllowed    = 20000
 	UserNotExists = 20001
