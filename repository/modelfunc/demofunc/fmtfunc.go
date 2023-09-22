@@ -14,7 +14,7 @@ type DemoFunc struct {
 
 func New(x *demo.Test1) (*DemoFunc, errors.Er) {
 	if x == nil {
-		return nil, code.NilError
+		return nil, code.NilEr
 	}
 	return &DemoFunc{x}, nil
 }

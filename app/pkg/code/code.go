@@ -9,36 +9,33 @@ type Failure struct {
 }
 
 const (
-	Success            = 0
-	ServerError        = 10101
-	TooManyRequests    = 10102
-	ParamBindError     = 10103
-	AuthorizationError = 10104
-	UrlSignError       = 10105
-	CacheSetError      = 10106
-	CacheGetError      = 10107
-	CacheDelError      = 10108
-	CacheNotExist      = 10109
-	ResubmitError      = 10110
-	HashIdsEncodeError = 10111
-	HashIdsDecodeError = 10112
-	RBACError          = 10113
-	RedisConnectError  = 10114
-	MySQLConnectError  = 10115
-	WriteConfigError   = 10116
-	SendEmailError     = 10117
-	MySQLExecError     = 10118
-	GoVersionError     = 10119
-	ValueIsNil         = 10120
+	Success            = 0     // 成功code
+	ServerError        = 11000 // 内部服务错误
+	TooManyRequests    = 11001 // 请求频繁
+	ResubmitError      = 11002 // 重复提交
+	NotAllowed         = 12002 // 无权限
+	AuthorizationError = 12003 // 授权错误
+	SignError          = 12004 // 参数签名错误
+	EncodeError        = 14006 // 加密失败
+	DecodeError        = 14007 // 解密失败
 
-	NotAllowed    = 20000
-	UserNotExists = 20001
-	NotExists     = 20002
+	NotExists     = 20001 // 不存在
+	KeyNotExists  = 20002 // key不存在
+	UserNotExists = 20003 // 用户不存在
+	ParseError    = 21000 // 解析失败
+	ParamError    = 21001 // 参数错误
+	ValueIsNil    = 21002 // nil错误
 
-	ThirdRespError = 30000
+	ThirdRespError = 30000 // 三方服务返回错误
 
-	JsonParseError  = 40000
-	MapKeyNotExists = 40001
+	QueryNotExist     = 50000 // 查询记录不存在
+	MySQLConnectError = 50001 // 数据库连接错误
+	MySQLExecError    = 50002 // sql执行错误
+	CacheSetError     = 51000 // 缓存设置出错
+	CacheGetError     = 51001 // 获取缓存出错
+	CacheDelError     = 51002 // 删除缓存出错
+	CacheNotExist     = 51003 // 缓存不存在
+	RedisConnectError = 51004 // redis连接错误
 )
 
 func Text(code int) string {

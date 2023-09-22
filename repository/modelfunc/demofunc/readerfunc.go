@@ -29,7 +29,7 @@ func More() {
 
 func fmtRows(rows []*demo.Test1) ([]*DemoFunc, errors.Er) {
 	if rows == nil || len(rows) == 0 {
-		return nil, code.NilError
+		return nil, code.NilEr
 	}
 
 	f := make([]*DemoFunc, len(rows))

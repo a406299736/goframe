@@ -25,8 +25,8 @@ func (m *middleware) Resubmit() core.HandlerFunc {
 		if err != nil {
 			c.Failed(errno.NewError(
 				http.StatusBadRequest,
-				code.UrlSignError,
-				code.Text(code.UrlSignError)).WithErr(err),
+				code.SignError,
+				code.Text(code.SignError)).WithErr(err),
 			)
 			return
 		}
