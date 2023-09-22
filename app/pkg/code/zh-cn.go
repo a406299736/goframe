@@ -32,7 +32,7 @@ var zhCNText = map[int]string{
 }
 
 var NilEr = errors.NewErr(ValueIsNil, zhCNText[ValueIsNil])                   // nil错误
-var ParseEr = errors.NewErr(ParseError, zhCNText[ParamError])                 // 解析错误
+var ParseEr = errors.NewErr(ParseError, zhCNText[ParseError])                 // 解析错误
 var ParamsEr = errors.NewErr(ParamError, zhCNText[ParamError])                // 参数错误
 var NotAllowedEr = errors.NewErr(NotAllowed, zhCNText[NotAllowed])            // 无权限
 var NotExistEr = errors.NewErr(NotExists, zhCNText[NotExists])                // 不存在
