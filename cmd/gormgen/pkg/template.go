@@ -136,7 +136,7 @@ func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	ret := &{{.StructName}}{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error == gorm.ErrRecordNotFound {
-		return nil, e.NewErr(code.NotExists, res.Error.Error())
+		return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
 	}
 
 	if res.Error != nil {
