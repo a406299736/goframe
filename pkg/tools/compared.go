@@ -112,3 +112,16 @@ func Slice2MapKey[T comparable](s []T) map[T]struct{} {
 
 	return t
 }
+
+// SliceUnique 去重
+func SliceUnique[T comparable](in []T) (out []T) {
+	t := make(map[T]struct{})
+	for k := range in {
+		if _, ok := t[in[k]]; !ok {
+			out = append(out, in[k])
+			t[in[k]] = struct{}{}
+		}
+	}
+
+	return
+}
