@@ -21,6 +21,8 @@ package {{.PkgName}}
 
 import (
 	"fmt"
+	"github.com/go-sql-driver/mysql"
+	"github.com/pkg/errors"
 	"time"
 
 	"github.com/a406299736/goframe/repository/dbrepo"
@@ -40,6 +42,10 @@ func NewQueryBuilder() *{{.QueryBuilderName}} {
 
 func (t *{{.StructName}}) Create(db *gorm.DB) (id int32, er e.Er) {
 	if err := db.Create(t).Error; err != nil {
+		var sqlError *mysql.MySQLError
+		if errors.As(err, &sqlError) && sqlError.Number == 1062 {
+			return 0, e.NewErr(code.UniqueKeyConflict, err.Error())
+		}
 		return 0, e.NewErr(code.MySQLExecError, err.Error())
 	}
 	return t.Id, nil
@@ -123,8 +129,8 @@ func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 	var c int64
 	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
 	if res.Error != nil {
-		if res.Error == gorm.ErrRecordNotFound {
-			return 0, nil
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			return 0, e.NewErr(code.QueryNotExist, res.Error.Error())
 		} else {
 			return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
 		}
@@ -135,12 +141,12 @@ func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	ret := &{{.StructName}}{}
 	res := qb.buildQuery(db).First(ret)
-	if res.Error == gorm.ErrRecordNotFound {
-		return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
-	}
-
 	if res.Error != nil {
-		return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
+		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+			return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
+		} else {
+			return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
+		}
 	}
 	return ret, nil
 }

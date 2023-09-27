@@ -31,6 +31,7 @@ const (
 	QueryNotExist     = 50000 // 查询记录不存在
 	MySQLConnectError = 50001 // 数据库连接错误
 	MySQLExecError    = 50002 // sql执行错误
+	UniqueKeyConflict = 50003 // 唯一键冲突
 	CacheSetError     = 51000 // 缓存设置出错
 	CacheGetError     = 51001 // 获取缓存出错
 	CacheDelError     = 51002 // 删除缓存出错
