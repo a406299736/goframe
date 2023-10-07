@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/a406299736/goframe/app/api/service/demo"
 	"github.com/a406299736/goframe/app/pkg/core"
+	"github.com/a406299736/goframe/app/service/demo"
 	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/a406299736/goframe/pkg/hash"
 )

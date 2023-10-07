@@ -1,9 +1,7 @@
 package demo
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/a406299736/goframe/app/api/center"
 	"github.com/a406299736/goframe/app/pkg/core"
 	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/pkg/apollo"
@@ -61,11 +59,11 @@ func (s *service2) Info(ctx core.Context, id int32) (one *test1.Test1, e errors.
 	//}
 
 	//  http post请求中心demo
-	js, _ := json.Marshal(map[string]interface{}{"id": 11001694})
-	_, error2 := center.ClassInfo(js)
-	if error2 != nil {
-		return nil, error2
-	}
+	//js, _ := json.Marshal(map[string]interface{}{"id": 11001694})
+	//_, error2 := center.ClassInfo(js)
+	//if error2 != nil {
+	//	return nil, error2
+	//}
 	//fmt.Printf("%v", info)
 
 	// http get demo
