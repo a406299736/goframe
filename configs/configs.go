@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"github.com/spf13/viper"
 )
 

@@ -8,7 +8,7 @@ import (
 
 	mq "github.com/aliyunmq/mq-http-go-sdk"
 	"github.com/gogap/errors"
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"go.uber.org/zap"
 )
 

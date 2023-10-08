@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"net/url"
 	"strings"
 

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"time"
 
 	"github.com/a406299736/goframe/app/pkg/core"

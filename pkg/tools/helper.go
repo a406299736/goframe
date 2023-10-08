@@ -5,7 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"html"
 	"log"
 	"os"

@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 	"github.com/a406299736/goframe/pkg/tools"
-	"github.com/golang-module/carbon"
+	"github.com/golang-module/carbon/v2"
 	"time"
 
 	"github.com/a406299736/goframe/configs"
