@@ -1,4 +1,4 @@
-package demo
+package demosrv
 
 import (
 	"github.com/a406299736/goframe/app/pkg/core"

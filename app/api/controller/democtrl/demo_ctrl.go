@@ -1,11 +1,11 @@
-package demohandler
+package democtrl
 
 import (
 	"fmt"
 	"net/http"
 
 	"github.com/a406299736/goframe/app/pkg/core"
-	"github.com/a406299736/goframe/app/service/demo"
+	"github.com/a406299736/goframe/app/service/demosrv"
 	"github.com/a406299736/goframe/pkg/errno"
 	"github.com/a406299736/goframe/pkg/hash"
 )
@@ -28,7 +28,7 @@ func New2() *handler2 {
 
 func (h *handler2) Info() core.HandlerFunc {
 	return func(c core.Context) {
-		srv := demo.NewDemoService2()
+		srv := demosrv.NewDemoService2()
 
 		req := new(infoReq)
 		t := c.ShouldBindForm(req)
@@ -46,7 +46,7 @@ func (h *handler2) Info() core.HandlerFunc {
 
 func (h *handler2) Create() core.HandlerFunc {
 	return func(c core.Context) {
-		srv := demo.NewDemoService2()
+		srv := demosrv.NewDemoService2()
 		info, e := srv.Create(c)
 		if e != nil {
 			c.Failed(errno.NewError(http.StatusOK, e.Code(), e.Error()))

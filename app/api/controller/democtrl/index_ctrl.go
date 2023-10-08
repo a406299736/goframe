@@ -1,8 +1,8 @@
-package demohandler
+package democtrl
 
 import (
 	"github.com/a406299736/goframe/app/pkg/core"
-	"github.com/a406299736/goframe/app/service/demo"
+	"github.com/a406299736/goframe/app/service/demosrv"
 	"github.com/a406299736/goframe/configs"
 	"github.com/a406299736/goframe/pkg/hash"
 )
@@ -21,12 +21,12 @@ type Handler interface {
 
 type handler struct {
 	hashids     hash.Hash
-	demoService demo.Service
+	demoService demosrv.Service
 }
 
 type handler1 struct {
 	hashids     hash.Hash
-	demoService *demo.Service1
+	demoService *demosrv.Service1
 }
 
 // 方式1. 返回接口 推荐
@@ -35,7 +35,7 @@ func New() Handler {
 	return &handler{
 		hashids: hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 		//hashids:     nil, // 用不到可忽略或赋值nil
-		demoService: demo.New(),
+		demoService: demosrv.New(),
 	}
 }
 
@@ -45,6 +45,6 @@ func (h *handler) i() {}
 func New1() *handler1 {
 	return &handler1{
 		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		demoService: demo.New1(),
+		demoService: demosrv.New1(),
 	}
 }

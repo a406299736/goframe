@@ -1,4 +1,4 @@
-package demohandler
+package democtrl
 
 import (
 	"net/http"
