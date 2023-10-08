@@ -40,6 +40,8 @@ func (s *service2) Create(ctx core.Context) (id int32, e errors.Er) {
 func (s *service2) Info(ctx core.Context, id int32) (one *test1.Test1, e errors.Er) {
 	ctx.Logger().Info("info", zap.Any("aaa", "bbbb"))
 	ctx.Logger().Info("user id:" + strconv.Itoa(int(ctx.UserID())))
+	one = &test1.Test1{}
+	return
 
 	// apollo demo
 	conf, err := apollo.New(apollo.WithNamespace("application"))

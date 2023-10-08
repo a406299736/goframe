@@ -26,6 +26,7 @@ const (
 	_UserID         = "_user_id_"
 	_UserName       = "_user_name_"
 	_AbortErrorName = "_abort_error_"
+	_ForceBreak     = "_force_break_"
 )
 
 var contextPool = &sync.Pool{
@@ -118,6 +119,11 @@ type Context interface {
 	RequestContext() StdContext
 
 	ResponseWriter() gin.ResponseWriter
+
+	GinCtx() *gin.Context
+
+	SetForceBreak(is bool)
+	IsForceBreak() bool
 }
 
 type context struct {
@@ -138,6 +144,22 @@ func (c *context) init() {
 
 	c.ctx.Set(_BodyName, body)
 	c.ctx.Request.Body = io.NopCloser(bytes.NewBuffer(body))
+}
+
+func (c *context) SetForceBreak(is bool) {
+	c.ctx.Set(_ForceBreak, is)
+}
+
+func (c *context) IsForceBreak() bool {
+	is, ok := c.ctx.Get(_ForceBreak)
+	if !ok {
+		return false
+	}
+	return is.(bool)
+}
+
+func (c *context) GinCtx() *gin.Context {
+	return c.ctx
 }
 
 func (c *context) Cookie(key string) (string, error) {

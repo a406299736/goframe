@@ -341,6 +341,10 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 					})
 				}
 			} else {
+				if context.IsForceBreak() {
+					return
+				}
+
 				resp := context.getSuccess()
 				response = struct {
 					Code int         `json:"code"`

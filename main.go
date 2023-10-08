@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/a406299736/goframe/app/pkg/db"
 	"github.com/a406299736/goframe/app/pkg/redis"
+	"github.com/a406299736/goframe/app/router"
 	"net/http"
 	"time"
 
-	"github.com/a406299736/goframe/app/router"
 	"github.com/a406299736/goframe/configs"
 	"github.com/a406299736/goframe/pkg/logger"
 	"github.com/a406299736/goframe/pkg/shutdown"
