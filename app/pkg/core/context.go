@@ -3,7 +3,7 @@ package core
 import (
 	"bytes"
 	stdctx "context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -137,7 +137,7 @@ func (c *context) init() {
 	}
 
 	c.ctx.Set(_BodyName, body)
-	c.ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	c.ctx.Request.Body = io.NopCloser(bytes.NewBuffer(body))
 }
 
 func (c *context) Cookie(key string) (string, error) {
