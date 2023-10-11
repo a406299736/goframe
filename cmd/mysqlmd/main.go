@@ -41,15 +41,25 @@ var (
 )
 
 func init() {
-	conf := configs.Get().MySQL
-	dbAddr = conf.Read.Addr
-	dbUser = conf.Read.User
-	dbPass = conf.Read.Pass
-
 	flag.StringVar(&dbName, "name", "databaseName", "请输入 db 名称\n")
 	flag.StringVar(&genTables, "tables", "", "请输入 table 名称，默认为“ ”，如需生成所有表请输入“*”，多个表可用“,”分割\n")
-
 	flag.Parse()
+
+	conf := configs.Get().MySQL
+	switch dbName {
+	case "conn":
+		dbAddr = conf.Read.Addr
+		dbUser = conf.Read.User
+		dbPass = conf.Read.Pass
+	case "conn1":
+		dbAddr = conf.Conn1read.Addr
+		dbUser = conf.Conn1read.User
+		dbPass = conf.Conn1read.Pass
+	default:
+		dbAddr = conf.Read.Addr
+		dbUser = conf.Read.User
+		dbPass = conf.Read.Pass
+	}
 }
 
 func main() {
