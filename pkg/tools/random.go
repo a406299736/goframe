@@ -33,3 +33,11 @@ func RandString(n int) string {
 
 	return sb.String()
 }
+
+// RandomInt 随机数， 左闭右开[0, 2) => 0,1
+func RandomInt(start int, end int) int {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	random := r.Intn(end - start)
+	random = start + random
+	return random
+}
