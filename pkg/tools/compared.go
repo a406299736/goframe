@@ -125,3 +125,21 @@ func SliceUnique[T comparable](in []T) (out []T) {
 
 	return
 }
+
+// ToIntSlice 粗暴转化
+func ToIntSlice(s []string) []int {
+	i := make([]int, len(s))
+	for k, v := range s {
+		i[k], _ = strconv.Atoi(v)
+	}
+	return i
+}
+
+// ToStringSlice 粗暴转化
+func ToStringSlice(s []int) []string {
+	i := make([]string, len(s))
+	for k, v := range s {
+		i[k] = strconv.Itoa(v)
+	}
+	return i
+}
