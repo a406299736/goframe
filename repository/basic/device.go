@@ -1,4 +1,4 @@
-package basicstructs
+package basic
 
 // DeviceInfo 设备信息
 type DeviceInfo struct {

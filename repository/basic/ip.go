@@ -1,4 +1,4 @@
-package basicstructs
+package basic
 
 import "github.com/a406299736/goframe/pkg/tools"
 

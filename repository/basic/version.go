@@ -1,4 +1,4 @@
-package basicstructs
+package basic
 
 const (
 	v10000 = "1.0.0"

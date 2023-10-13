@@ -1,4 +1,4 @@
-package basicstructs
+package basic
 
 // Pagination 分页
 type Pagination struct {

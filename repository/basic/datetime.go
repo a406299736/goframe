@@ -1,4 +1,4 @@
-package basicstructs
+package basic
 
 import (
 	"fmt"
