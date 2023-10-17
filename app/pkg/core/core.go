@@ -336,8 +336,8 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 					}
 
 					ctx.JSON(err.GetHttpCode(), &code.Failure{
-						Code:    businessCode,
-						Message: businessCodeMsg,
+						Code: businessCode,
+						Msg:  businessCodeMsg,
 					})
 				}
 			} else {
