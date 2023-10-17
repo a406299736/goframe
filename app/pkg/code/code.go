@@ -1,6 +1,10 @@
 package code
 
-import "github.com/a406299736/goframe/configs"
+import (
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/errno"
+	"net/http"
+)
 
 type Failure struct {
 	Code    int         `json:"code"`
@@ -47,4 +51,8 @@ func Text(code int) string {
 	}
 
 	return zhCNText[code]
+}
+
+func RespErr(code int, msg string) errno.Error {
+	return errno.NewError(http.StatusOK, code, msg)
 }
