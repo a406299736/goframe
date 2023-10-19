@@ -59,9 +59,9 @@ type Context interface {
 
 	Logger() *zap.Logger
 	setLogger(logger *zap.Logger)
-	Info(msg string, fields ...zap.Field)
-	Error(msg string, fields ...zap.Field)
-	Warning(msg string, fields ...zap.Field)
+	AnyInfo(msg, key string, val any)
+	AnyError(msg, key string, val any)
+	AnyWarning(msg, key string, val any)
 
 	// Success 成功返回
 	Success(data interface{})
@@ -231,18 +231,17 @@ func (c *context) Logger() *zap.Logger {
 	return logger.(*zap.Logger).With(zap.Any("Trace-Id", c.TraceId()))
 }
 
-func (c *context) Info(msg string, fields ...zap.Field) {
-	c.Logger().Info(msg, fields...)
+func (c *context) AnyInfo(msg, key string, val any) {
+	c.Logger().Info(msg, zap.Any(key, val))
 }
 
-func (c *context) Error(msg string, fields ...zap.Field) {
-	c.Logger().Error(msg, fields...)
+func (c *context) AnyError(msg, key string, val any) {
+	c.Logger().Error(msg, zap.Any(key, val))
 }
 
-func (c *context) Warning(msg string, fields ...zap.Field) {
-	c.Logger().Warn(msg, fields...)
+func (c *context) AnyWarning(msg, key string, val any) {
+	c.Logger().Warn(msg, zap.Any(key, val))
 }
-
 func (c *context) setLogger(logger *zap.Logger) {
 	c.ctx.Set(_LoggerName, logger)
 }
