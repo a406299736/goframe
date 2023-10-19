@@ -83,18 +83,17 @@ func (c *cmdContext) setLogger(logger *zap.Logger) {
 	c.logger = logger
 }
 
-func (c *cmdContext) Info(msg string, fields ...zap.Field) {
-	c.logger.Info(msg, fields...)
+func (c *cmdContext) AnyInfo(msg, key string, val any) {
+	c.Logger().Info(msg, zap.Any(key, val))
 }
 
-func (c *cmdContext) Error(msg string, fields ...zap.Field) {
-	c.logger.Error(msg, fields...)
+func (c *cmdContext) AnyError(msg, key string, val any) {
+	c.Logger().Error(msg, zap.Any(key, val))
 }
 
-func (c *cmdContext) Warning(msg string, fields ...zap.Field) {
-	c.logger.Warn(msg, fields...)
+func (c *cmdContext) AnyWarning(msg, key string, val any) {
+	c.Logger().Warn(msg, zap.Any(key, val))
 }
-
 func (c *cmdContext) Success(data interface{}) {}
 
 func (c *cmdContext) getSuccess() interface{} {

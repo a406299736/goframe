@@ -291,7 +291,7 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 			if err := recover(); err != nil {
 				stackInfo := string(debug.Stack())
 
-				context.Error(
+				context.Logger().Error(
 					"got panic two",
 					zap.String("panic", fmt.Sprintf("%+v", err)), zap.String("stack", stackInfo),
 				)

@@ -17,7 +17,7 @@ func (src *service) Detail(c core.Context) (info *demo.Test1, err errors.Er) {
 	//err = errors.NewErr(code.UserNotExists, "msg error")
 
 	i, _ := demo.NewDemoQueryBuilder().WhereIdIn([]int32{1}).First(db.IDb.GetDbR().WithContext(c.RequestContext()))
-	c.Info("demo", zap.Any("demo", i.Id))
+	c.Logger().Info("demo", zap.Any("demo", i.Id))
 
 	dm := demo.NewDemoQueryBuilder()
 	all, er := dm.WhereIdIn([]int32{1, 2, 3}).

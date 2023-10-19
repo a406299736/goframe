@@ -48,7 +48,7 @@ func (s *service2) Info(ctx core.Context, id int32) (one *test1.Test1, e errors.
 	if err != nil {
 		fmt.Printf("%+v", err)
 	}
-	ctx.Info("apollo value USER_LIST:" + conf.GetStringValue("USER_LIST", "2222"))
+	ctx.AnyInfo("apollo value USER_LIST:"+conf.GetStringValue("USER_LIST", "2222"), "", nil)
 
 	//fmt.Printf("%p\n", s.ctx)
 

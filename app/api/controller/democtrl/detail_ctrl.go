@@ -18,7 +18,7 @@ func (h *handler) Detail() core.HandlerFunc {
 		dm := new(demo.Test1)
 		//c.ShouldBindQuery(dm) // 获取get参数
 		c.ShouldBindJSON(dm) // 获取body json
-		c.Info("demo", zap.Any("p11111", dm))
+		c.Logger().Info("demo", zap.Any("p11111", dm))
 
 		// 建议统一处理错误, 日志由 app/pkg/core/core.go 统一记录;
 		// 非必要情况也可以如下：
