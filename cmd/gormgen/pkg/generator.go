@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"go/format"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -123,7 +122,7 @@ func (g *Generator) Flush() error {
 			// 存在文件,跳过
 			continue
 		}
-		if err := ioutil.WriteFile(filename, g.buf[k].Bytes(), 0777); err != nil {
+		if err := os.WriteFile(filename, g.buf[k].Bytes(), 0777); err != nil {
 			log.Fatalln(err)
 		}
 		fmt.Println("  └── file : ", fmt.Sprintf("%s_repo/gen_%s.go", strings.ToLower(k), strings.ToLower(k)))
