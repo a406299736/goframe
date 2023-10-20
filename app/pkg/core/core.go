@@ -423,12 +423,12 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 			t.RTime = time.Since(ts).Seconds()
 
 			logger.Info("core-interceptor",
+				zap.Bool("success", t.Success),
+				zap.Int("http_code", ctx.Writer.Status()),
+				zap.Int("business_code", businessCode),
 				zap.String("Trace-Id", t.Identifier),
 				zap.String("method", ctx.Request.Method),
 				zap.String("path", decodedURL),
-				zap.Int("http_code", ctx.Writer.Status()),
-				zap.Int("business_code", businessCode),
-				zap.Bool("success", t.Success),
 				zap.ByteString("post_body", context.RawData()),
 				zap.Float64("r_time", t.RTime),
 				zap.Error(abortErr),
