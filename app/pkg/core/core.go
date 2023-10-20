@@ -429,6 +429,7 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 				zap.Any("http_code", ctx.Writer.Status()),
 				zap.Any("business_code", businessCode),
 				zap.Any("success", t.Success),
+				zap.ByteString("post_body", context.RawData()),
 				zap.Any("r_time", t.RTime),
 				zap.Error(abortErr),
 			)
