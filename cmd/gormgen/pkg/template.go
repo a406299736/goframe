@@ -40,7 +40,7 @@ func NewQueryBuilder() *{{.QueryBuilderName}} {
 	return new({{.QueryBuilderName}})
 }
 
-func (t *{{.StructName}}) Create(db *gorm.DB) (id int32, er e.Er) {
+func (t *{{.StructName}}) Create(db *gorm.DB) (id int, er e.Er) {
 	if err := db.Create(t).Error; err != nil {
 		var sqlError *mysql.MySQLError
 		if errors.As(err, &sqlError) && sqlError.Number == 1062 {

@@ -265,10 +265,10 @@ func capitalize(s string) string {
 
 func textType(s string) string {
 	var mysqlTypeToGoType = map[string]string{
-		"tinyint":    "int32",
-		"smallint":   "int32",
-		"mediumint":  "int32",
-		"int":        "int32",
+		"tinyint":    "int",
+		"smallint":   "int",
+		"mediumint":  "int",
+		"int":        "int",
 		"integer":    "int64",
 		"bigint":     "int64",
 		"float":      "float64",
