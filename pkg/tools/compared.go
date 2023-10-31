@@ -2,7 +2,9 @@ package tools
 
 import (
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 // Ordered 代表所有可比大小排序的类型
@@ -145,4 +147,12 @@ func ToStringSlice(s []int) []string {
 		i[k] = strconv.Itoa(v)
 	}
 	return i
+}
+
+// Shuffle[T comparable] 乱序
+func Shuffle[T comparable](in []T) {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	r.Shuffle(len(in), func(i, j int) {
+		in[i], in[j] = in[j], in[i]
+	})
 }

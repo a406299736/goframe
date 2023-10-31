@@ -87,3 +87,18 @@ func TrimHtml(src string) string {
 	src = re.ReplaceAllString(src, "\n")
 	return strings.TrimSpace(src)
 }
+
+// SubStr 截取字符串
+func SubStr(str string, start, length int) string {
+	r := []rune(str)
+
+	maxIndex := len(r) - 1
+	if maxIndex < start {
+		return ""
+	}
+	if maxIndex >= start && maxIndex < start+length {
+		return string(r[start:])
+	}
+
+	return string(r[start : start+length])
+}
