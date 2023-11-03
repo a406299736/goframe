@@ -130,7 +130,7 @@ func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return 0, e.NewErr(code.QueryNotExist, res.Error.Error())
+			return 0, e.NewErr(code.QueryNotExist, res.Error.Error(), e.WithEmpty(true))
 		} else {
 			return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
 		}
@@ -143,7 +143,7 @@ func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
+			return nil, e.NewErr(code.QueryNotExist, res.Error.Error(), e.WithEmpty(true))
 		} else {
 			return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
 		}

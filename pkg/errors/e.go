@@ -1,41 +1,53 @@
 package errors
 
-import (
-	"bytes"
-	"fmt"
-)
-
 type err struct {
-	errType, errMsg, fullMsg string
-	errCode                  int
-	data                     []interface{}
+	b       bool
+	errCode int
+	errMsg  string
+	data    []any
 }
 
+type option func(*err)
+
 type Er interface {
-	Type() string
+	Empty() bool
 	Error() string
 	Code() int
 	Data() []interface{}
 }
 
+func WithData(data ...any) option {
+	return func(e *err) {
+		e.data = data
+	}
+}
+
+func WithEmpty(b bool) option {
+	return func(e *err) {
+		e.b = b
+	}
+}
+
 // service侧error
-func NewErr(errCode int, errMsg string, dt ...interface{}) Er {
-	return &err{errCode: errCode, errMsg: errMsg, data: dt}
+func NewErr(errCode int, errMsg string, opts ...option) Er {
+	e := &err{errCode: errCode, errMsg: errMsg}
+	for _, opt := range opts {
+		opt(e)
+	}
+
+	return e
 }
 
 func (e *err) Code() int {
 	return e.errCode
 }
 
-func (e *err) Type() string {
-	return e.errType
+func (e *err) Empty() bool {
+	return e.b
 }
 
 func (e *err) Error() string {
-	if e.fullMsg == "" {
-		e.genFullErrMsg()
-	}
-	return e.fullMsg
+	return e.errMsg
 }
 
 func (e *err) Data() []interface{} {
@@ -43,16 +55,4 @@ func (e *err) Data() []interface{} {
 		e.data = make([]interface{}, 1)
 	}
 	return e.data
-}
-
-func (e *err) genFullErrMsg() {
-	var buffer bytes.Buffer
-	buffer.WriteString("Err: ")
-	if e.errType != "" {
-		buffer.WriteString(string(e.errType))
-		buffer.WriteString(":")
-	}
-	buffer.WriteString(e.errMsg)
-	e.fullMsg = fmt.Sprintf("%s\n", buffer.String())
-	return
 }
