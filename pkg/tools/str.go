@@ -1,47 +1,19 @@
 package tools
 
 import (
-	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"github.com/golang-module/carbon/v2"
 	"html"
-	"log"
-	"os"
+	"math/rand"
 	"regexp"
 	"strings"
+	"unicode"
 )
 
 func FmtPrintf(format string, val ...any) {
 	fmt.Printf(carbon.Now().ToDateTimeString()+" "+format+" \n", val...)
-}
-
-// FilePutContents 文件中追加内容
-func FilePutContents(filename string, data string) (n int) {
-	fileHandle, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Println("open file error :", err)
-		return
-	}
-	defer fileHandle.Close()
-	buf := bufio.NewWriter(fileHandle)
-	n, _ = buf.WriteString(data)
-	err = buf.Flush()
-	if err != nil {
-		log.Println("flush error :", err)
-	}
-
-	return
-}
-
-// CheckFileExist 文件是否存在
-func CheckFileExist(fileName string) bool {
-	_, err := os.Stat(fileName)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return true
 }
 
 // Md5 进行md5加密
@@ -101,4 +73,41 @@ func SubStr(str string, start, length int) string {
 	}
 
 	return string(r[start : start+length])
+}
+
+// UcFirst 将字符串首字母大写
+func UcFirst(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	firstRune := []rune(s)[0]
+	if unicode.IsLower(firstRune) {
+		firstRune = unicode.ToUpper(firstRune)
+	}
+	return string(firstRune) + s[1:]
+}
+
+// StrRev 字符串翻转
+func StrRev(str string) string {
+	runes := []rune(str)
+	runesLen := len(runes)
+
+	for i := 0; i < runesLen/2; i++ {
+		runes[i], runes[runesLen-1-i] = runes[runesLen-1-i], runes[i]
+	}
+
+	return string(runes)
+}
+
+// StrShuffle 打乱字符串
+func StrShuffle(str string) string {
+	runes := []rune(str)
+	runesLen := len(runes)
+
+	for i := runesLen - 1; i > 0; i-- {
+		j := rand.Intn(i + 1)
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+
+	return string(runes)
 }

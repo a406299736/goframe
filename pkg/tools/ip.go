@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+// IsIP 判断一个字符串是否是IP地址
+func IsIP(ip string) bool {
+	return net.ParseIP(ip) != nil
+}
+
 // HasLocalIPAddr 检测 IP 地址字符串是否是内网地址
 func HasLocalIPAddr(ip string) bool {
 	return HasLocalIP(net.ParseIP(ip))
