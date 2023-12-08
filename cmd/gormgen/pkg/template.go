@@ -21,13 +21,14 @@ package {{.PkgName}}
 
 import (
 	"fmt"
+	"strings"
 	"github.com/go-sql-driver/mysql"
 	"github.com/pkg/errors"
 	"time"
 
-	"github.com/a406299736/goframe/repository/dbrepo"
-	e "github.com/a406299736/goframe/pkg/errors"
-	"github.com/a406299736/goframe/app/pkg/code"
+	"com.jmbon.ai-book-api/repository/dbrepo"
+	e "com.jmbon.ai-book-api/pkg/errors"
+	"com.jmbon.ai-book-api/app/pkg/code"
 
 	"gorm.io/gorm"
 )
@@ -52,14 +53,16 @@ func (t *{{.StructName}}) Create(db *gorm.DB) (id int, er e.Er) {
 }
 
 type {{.QueryBuilderName}} struct {
-	fields []string
-	order []string
+	fields []string // 查询列
+	order []string // 排序
+	fixedOrder string // in查询时按某int类型列固定返回
 	where []struct {
 		prefix string
 		value  interface{}
 	}
 	limit  int
 	offset int
+	random bool // 是否随机
 }
 
 func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
@@ -69,6 +72,9 @@ func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
 	}
 	for _, where := range qb.where {
 		ret = ret.Where(where.prefix, where.value)
+	}
+	if qb.random {
+		ret = ret.Order("RAND()")
 	}
 	for _, order := range qb.order {
 		ret = ret.Order(order)
@@ -82,6 +88,33 @@ func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
 
 func (qb *{{.QueryBuilderName}}) Select(fields []string) *{{.QueryBuilderName}} {
 	qb.fields = fields
+	return qb
+}
+
+// FixedOrder 按int类型固定顺序返回
+func (qb *{{.QueryBuilderName}}) FixedOrder(field string, fixed []int) *{{.QueryBuilderName}} {
+	n := len(fixed)
+	if n > 0 {
+		s := strings.Builder{}
+		s.WriteString("field(")
+		s.WriteString(field)
+		s.WriteString(",")
+		for k, o := range fixed {
+			s.WriteString(fmt.Sprintf("%d", o))
+			if k+1 < n {
+				s.WriteString(",")
+			}
+		}
+		s.WriteString(")")
+		qb.fixedOrder = s.String()
+	}
+	return qb
+}
+
+// Random 简单随机取
+func (qb *{{.QueryBuilderName}}) Random(x int) *{{.QueryBuilderName}} {
+	qb.random = true
+	qb.Limit(x)
 	return qb
 }
 
@@ -130,7 +163,7 @@ func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
 	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return 0, e.NewErr(code.QueryNotExist, res.Error.Error(), e.WithEmpty(true))
+			return 0, e.NewErr(code.QueryNotExist, res.Error.Error())
 		} else {
 			return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
 		}
@@ -143,7 +176,7 @@ func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return nil, e.NewErr(code.QueryNotExist, res.Error.Error(), e.WithEmpty(true))
+			return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
 		} else {
 			return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
 		}
