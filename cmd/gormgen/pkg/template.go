@@ -26,9 +26,9 @@ import (
 	"github.com/pkg/errors"
 	"time"
 
-	"com.jmbon.ai-book-api/repository/dbrepo"
-	e "com.jmbon.ai-book-api/pkg/errors"
-	"com.jmbon.ai-book-api/app/pkg/code"
+	"github.com/a406299736/gofram/repository/dbrepo"
+	e "github.com/a406299736/gofram/pkg/errors"
+	"github.com/a406299736/gofram/app/pkg/code"
 
 	"gorm.io/gorm"
 )
