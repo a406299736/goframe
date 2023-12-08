@@ -76,6 +76,9 @@ func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
 	if qb.random {
 		ret = ret.Order("RAND()")
 	}
+	if qb.fixedOrder != "" {
+		ret = ret.Order(qb.fixedOrder)
+	}
 	for _, order := range qb.order {
 		ret = ret.Order(order)
 	}
