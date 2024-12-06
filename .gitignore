@@ -10,3 +10,5 @@
 main
 cmds
 build.sh
+.DS_Store
+**/*.toml
