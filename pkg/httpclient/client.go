@@ -3,11 +3,11 @@ package httpclient
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	httpURL "net/url"
 	"time"
 
-	"github.com/a406299736/goframe/pkg/errors"
 	"github.com/a406299736/goframe/pkg/trace"
 )
 
@@ -28,7 +28,7 @@ func Delete(url string, form httpURL.Values, options ...Option) (body []byte, er
 
 func withoutBody(method, url string, form httpURL.Values, options ...Option) (body []byte, err error) {
 	if url == "" {
-		return nil, errors.New("url required")
+		return nil, fmt.Errorf("url required")
 	}
 
 	if len(form) > 0 {
@@ -132,10 +132,10 @@ func PatchJSON(url string, raw json.RawMessage, options ...Option) (body []byte,
 
 func withFormBody(method, url string, form httpURL.Values, options ...Option) (body []byte, err error) {
 	if url == "" {
-		return nil, errors.New("url required")
+		return nil, fmt.Errorf("url required")
 	}
 	if len(form) == 0 {
-		return nil, errors.New("form required")
+		return nil, fmt.Errorf("form required")
 	}
 
 	ts := time.Now()
@@ -204,10 +204,10 @@ func withFormBody(method, url string, form httpURL.Values, options ...Option) (b
 
 func withJSONBody(method, url string, raw json.RawMessage, options ...Option) (body []byte, err error) {
 	if url == "" {
-		return nil, errors.New("url required")
+		return nil, fmt.Errorf("url required")
 	}
 	if len(raw) == 0 {
-		return nil, errors.New("raw required")
+		return nil, fmt.Errorf("raw required")
 	}
 
 	ts := time.Now()

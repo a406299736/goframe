@@ -68,7 +68,8 @@ func (g *Generator) ParserAST(p *Parser, structs []string) (ret *Generator) {
 	g.config.Helpers = structHelpers{
 		Titelize: strings.Title,
 	}
-	g.config.QueryBuilderName = SQLColumnToHumpStyle(p.pkg.Name) + "QueryBuilder"
+	//g.config.QueryBuilderName = SQLColumnToHumpStyle(p.pkg.Name) + "Builder"
+	g.config.QueryBuilderName = "builder"
 	return g
 }
 

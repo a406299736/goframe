@@ -14,29 +14,33 @@ type Config struct {
 	MySQL struct {
 		Read struct {
 			Addr string `toml:"addr"`
-			User string `toml:"user"`
+			User string `toml:"user_func"`
 			Pass string `toml:"pass"`
 			Name string `toml:"name"`
+			Port string `toml:"port"`
 		} `toml:"read"`
 		Write struct {
 			Addr string `toml:"addr"`
-			User string `toml:"user"`
+			User string `toml:"user_func"`
 			Pass string `toml:"pass"`
 			Name string `toml:"name"`
+			Port string `toml:"port"`
 		} `toml:"write"`
 		// 连接conn1读库
 		Conn1read struct {
 			Addr string `toml:"addr"`
-			User string `toml:"user"`
+			User string `toml:"user_func"`
 			Pass string `toml:"pass"`
 			Name string `toml:"name"`
+			Port string `toml:"port"`
 		} `toml:"conn1read"`
 		// 连接conn1写库
 		Conn1write struct {
 			Addr string `toml:"addr"`
-			User string `toml:"user"`
+			User string `toml:"user_func"`
 			Pass string `toml:"pass"`
 			Name string `toml:"name"`
+			Port string `toml:"port"`
 		} `toml:"conn1write"`
 		Base struct {
 			MaxOpenConn     int           `toml:"maxOpenConn"`

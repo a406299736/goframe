@@ -2,16 +2,18 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"github.com/a406299736/goframe/app/pkg/db"
-	"github.com/a406299736/goframe/app/pkg/redis"
-	"github.com/a406299736/goframe/app/router"
 	"net/http"
 	"time"
 
 	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/internal/router"
+	db2 "github.com/a406299736/goframe/pkg/db"
 	"github.com/a406299736/goframe/pkg/logger"
+	"github.com/a406299736/goframe/pkg/redis"
 	"github.com/a406299736/goframe/pkg/shutdown"
+	"github.com/a406299736/goframe/pkg/tools"
 
 	"go.uber.org/zap"
 )
@@ -50,8 +52,10 @@ func main() {
 		Handler: s.Mux,
 	}
 
+	tools.FmtPrintf("服务端口：%s", configs.ProjectPort)
+
 	go func() {
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := server.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
 			loggers.Fatal("http server startup err", zap.Error(err))
 		}
 	}()
@@ -69,22 +73,22 @@ func main() {
 
 		// 关闭 db
 		func() {
-			if db.IDb != nil {
-				if err := db.IDb.DbWClose(); err != nil {
+			if db2.IDb != nil {
+				if err := db2.IDb.DbWClose(); err != nil {
 					loggers.Error("dbw close err", zap.Error(err))
 				}
 
-				if err := db.IDb.DbRClose(); err != nil {
+				if err := db2.IDb.DbRClose(); err != nil {
 					loggers.Error("dbr close err", zap.Error(err))
 				}
 			}
 
-			if db.Conn1 != nil {
-				if err := db.Conn1.DbWClose(); err != nil {
+			if db2.Conn1 != nil {
+				if err := db2.Conn1.DbWClose(); err != nil {
 					loggers.Error("dbw close err", zap.Error(err))
 				}
 
-				if err := db.Conn1.DbRClose(); err != nil {
+				if err := db2.Conn1.DbRClose(); err != nil {
 					loggers.Error("dbr close err", zap.Error(err))
 				}
 			}

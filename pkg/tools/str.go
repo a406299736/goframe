@@ -4,12 +4,13 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"github.com/golang-module/carbon/v2"
 	"html"
 	"math/rand"
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/golang-module/carbon/v2"
 )
 
 func FmtPrintf(format string, val ...any) {
@@ -110,4 +111,12 @@ func StrShuffle(str string) string {
 	}
 
 	return string(runes)
+}
+
+func LowerFirst(s string) string {
+	if s == "" {
+		return ""
+	}
+
+	return strings.ToLower(s[:1]) + s[1:]
 }

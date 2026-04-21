@@ -6,28 +6,27 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/golang-module/carbon/v2"
 	"net/url"
 	"strings"
 
-	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/golang-module/carbon/v2"
 )
 
 // path 请求的路径 (不附带 querystring)
 func (s *signature) Generate(path string, method string, params url.Values) (authorization, date string, err error) {
 	if path == "" {
-		err = errors.New("path required")
+		err = fmt.Errorf("path required")
 		return
 	}
 
 	if method == "" {
-		err = errors.New("method required")
+		err = fmt.Errorf("method required")
 		return
 	}
 
 	methodName := strings.ToUpper(method)
 	if !methods[methodName] {
-		err = errors.New("method param error")
+		err = fmt.Errorf("method param error")
 		return
 	}
 
@@ -37,7 +36,7 @@ func (s *signature) Generate(path string, method string, params url.Values) (aut
 	// Encode() 方法中自带 sorted by key
 	sortParamsEncode, err := url.QueryUnescape(params.Encode())
 	if err != nil {
-		err = errors.Errorf("url QueryUnescape error %v", err)
+		err = fmt.Errorf("url QueryUnescape error %v", err)
 		return
 	}
 

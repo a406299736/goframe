@@ -14,8 +14,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/a406299736/goframe/pkg/errors"
-
 	"go.uber.org/zap"
 	"golang.org/x/tools/go/packages"
 )
@@ -70,17 +68,17 @@ func main() {
 
 		raw, err := os.ReadFile(path)
 		if err != nil {
-			return errors.Wrapf(err, "read file %s err", path)
+			return fmt.Errorf("read file %s err", path)
 		}
 
 		digest0 := sha256.Sum256(raw)
 		if raw, err = format.Source(raw); err != nil {
-			return errors.Wrapf(err, "format file %s err", path)
+			return fmt.Errorf("format file %s err", path)
 		}
 
 		file, err := parser.ParseFile(token.NewFileSet(), "", raw, 0)
 		if err != nil {
-			return errors.Wrapf(err, "parse file %s err", path)
+			return fmt.Errorf("parse file %s err", path)
 		}
 
 		var first, last int
@@ -119,7 +117,7 @@ func main() {
 			buf.Write(raw[last-1:])
 
 			if raw, err = format.Source(buf.Bytes()); err != nil {
-				return errors.Wrapf(err, "double format file %s err", path)
+				return fmt.Errorf("double format file %s err", path)
 			}
 		}
 
@@ -129,7 +127,7 @@ func main() {
 		}
 
 		if err = os.WriteFile(path, raw, info.Mode()); err != nil {
-			return errors.Wrapf(err, "write file %s err", path)
+			return fmt.Errorf("write file %s err", path)
 		}
 
 		return nil

@@ -3,7 +3,7 @@
 /app/**/configs
 /pkg/**/configs
 /console/**/configs
-/repository/**/configs
+/app/repository/**/configs
 /panic.log
 /console/cmd/*_demo.go
 **/logs

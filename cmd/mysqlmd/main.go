@@ -4,13 +4,14 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/a406299736/goframe/configs"
 	"log"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/a406299736/goframe/cmd/mysqlmd/mysql"
+	"github.com/a406299736/goframe/configs"
+	"github.com/a406299736/goframe/pkg/tools"
 
 	"gorm.io/gorm"
 )
@@ -38,6 +39,7 @@ var (
 	dbPass    string
 	dbName    string
 	genTables string
+	port      string
 )
 
 func init() {
@@ -51,20 +53,23 @@ func init() {
 		dbAddr = conf.Read.Addr
 		dbUser = conf.Read.User
 		dbPass = conf.Read.Pass
+		port = conf.Read.Port
 	case "conn1":
 		dbAddr = conf.Conn1read.Addr
 		dbUser = conf.Conn1read.User
 		dbPass = conf.Conn1read.Pass
+		port = conf.Conn1read.Port
 	default:
 		dbAddr = conf.Read.Addr
 		dbUser = conf.Read.User
 		dbPass = conf.Read.Pass
+		port = conf.Read.Port
 	}
 }
 
 func main() {
 	// 初始化 DB
-	db, err := mysql.New(dbAddr, dbUser, dbPass, dbName)
+	db, err := mysql.New(dbAddr, dbUser, dbPass, dbName, port)
 	if err != nil {
 		log.Fatal("new db err", err)
 	}
@@ -83,7 +88,7 @@ func main() {
 
 	for _, table := range tables {
 
-		filepath := "./repository/dbrepo/" + table.Name
+		filepath := "./internal/repository/dbrepo/" + table.Name
 		_ = os.Mkdir(filepath, 0766)
 		fmt.Println("create dir : ", filepath)
 
@@ -112,14 +117,21 @@ func main() {
 		modelContent += fmt.Sprintf("type %s struct {\n", capitalize(table.Name))
 
 		for _, info := range columnInfo {
-			if textType(info.DataType) == "time.Time" {
-				modelContent += fmt.Sprintf("%s %s `%s json:\"%s\" form:\"%s\"` // %s\n", capitalize(info.ColumnName), textType(info.DataType), "gorm:\"time\"", info.ColumnName, info.ColumnName, info.ColumnComment.String)
-			} else {
-				modelContent += fmt.Sprintf("%s %s `json:\"%s\" form:\"%s\"` // %s\n", capitalize(info.ColumnName), textType(info.DataType), info.ColumnName, info.ColumnName, info.ColumnComment.String)
-			}
+			modelContent += fmt.Sprintf("%s %s `gorm:\"column:%s\" json:\"%s\" form:\"%s\"` // %s\n", capitalize(info.ColumnName), textType(info.DataType), info.ColumnName, tools.LowerFirst(capitalize(info.ColumnName)), tools.LowerFirst(capitalize(info.ColumnName)), info.ColumnComment.String)
+
+			//if textType(info.DataType) == "time.Time" {
+			//	modelContent += fmt.Sprintf("%s %s `gorm:\"%s\" json:\"%s\" form:\"%s\"` // %s\n", capitalize(info.ColumnName), textType(info.DataType), capitalize(info.ColumnName), capitalize(info.ColumnName), capitalize(info.ColumnName), info.ColumnComment.String)
+			//} else {
+			//	modelContent += fmt.Sprintf("%s %s `gorm:\"%s\" json:\"%s\" form:\"%s\"` // %s\n", capitalize(info.ColumnName), textType(info.DataType), info.ColumnName, capitalize(info.ColumnName), capitalize(info.ColumnName), info.ColumnComment.String)
+			//}
 		}
 
 		modelContent += "}\n"
+
+		modelContent += fmt.Sprintf("func (*%s) TableName() string {\n", capitalize(table.Name))
+		modelContent += fmt.Sprintf("\treturn \"%s\"\n", table.Name)
+		modelContent += "}\n"
+
 		modelFile.WriteString(modelContent)
 		modelFile.Close()
 

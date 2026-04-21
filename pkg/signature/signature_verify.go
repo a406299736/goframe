@@ -6,45 +6,44 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/golang-module/carbon/v2"
 	"net/url"
 	"strings"
 	"time"
 
-	"github.com/a406299736/goframe/pkg/errors"
+	"github.com/golang-module/carbon/v2"
 )
 
 func (s *signature) Verify(authorization, date string, path string, method string, params url.Values) (ok bool, err error) {
 	if date == "" {
-		err = errors.New("date required")
+		err = fmt.Errorf("date required")
 		return
 	}
 
 	if path == "" {
-		err = errors.New("path required")
+		err = fmt.Errorf("path required")
 		return
 	}
 
 	if method == "" {
-		err = errors.New("method required")
+		err = fmt.Errorf("method required")
 		return
 	}
 
 	methodName := strings.ToUpper(method)
 	if !methods[methodName] {
-		err = errors.New("method param error")
+		err = fmt.Errorf("method param error")
 		return
 	}
 
 	if carbon.Parse(date).DiffInSeconds(carbon.Now()) > int64(s.ttl/time.Second) {
-		err = errors.Errorf("date exceeds limit %v", s.ttl)
+		err = fmt.Errorf("date exceeds limit %v", s.ttl)
 		return
 	}
 
 	// Encode() 方法中自带 sorted by key
 	sortParamsEncode, err := url.QueryUnescape(params.Encode())
 	if err != nil {
-		err = errors.Errorf("url QueryUnescape error %v", err)
+		err = fmt.Errorf("url QueryUnescape error %v", err)
 		return
 	}
 

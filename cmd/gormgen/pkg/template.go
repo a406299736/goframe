@@ -22,13 +22,7 @@ package {{.PkgName}}
 import (
 	"fmt"
 	"strings"
-	"github.com/go-sql-driver/mysql"
-	"github.com/pkg/errors"
-	"time"
-
-	"github.com/a406299736/gofram/repository/dbrepo"
-	e "github.com/a406299736/gofram/pkg/errors"
-	"github.com/a406299736/gofram/app/pkg/code"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -37,22 +31,19 @@ func NewModel() *{{.StructName}} {
 	return new({{.StructName}})
 }
 
-func NewQueryBuilder() *{{.QueryBuilderName}} {
-	return new({{.QueryBuilderName}})
+func NewBuilder() *builder {
+	return new(builder)
 }
 
-func (t *{{.StructName}}) Create(db *gorm.DB) (id int, er e.Er) {
+func (t *{{.StructName}}) Create(db *gorm.DB) (id int, err error) {
 	if err := db.Create(t).Error; err != nil {
-		var sqlError *mysql.MySQLError
-		if errors.As(err, &sqlError) && sqlError.Number == 1062 {
-			return 0, e.NewErr(code.UniqueKeyConflict, err.Error())
-		}
-		return 0, e.NewErr(code.MySQLExecError, err.Error())
+		return 0, err
 	}
+
 	return t.Id, nil
 }
 
-type {{.QueryBuilderName}} struct {
+type builder struct {
 	fields []string // 查询列
 	order []string // 排序
 	fixedOrder string // in查询时按某int类型列固定返回
@@ -65,37 +56,39 @@ type {{.QueryBuilderName}} struct {
 	random bool // 是否随机
 }
 
-func (qb *{{.QueryBuilderName}}) buildQuery(db *gorm.DB) *gorm.DB {
+func (b *builder) buildQuery(db *gorm.DB) *gorm.DB {
 	ret := db
-	if len(qb.fields) > 0 {
-		ret = ret.Select(qb.fields)
+	if len(b.fields) > 0 {
+		ret = ret.Select(b.fields)
 	}
-	for _, where := range qb.where {
+	for _, where := range b.where {
 		ret = ret.Where(where.prefix, where.value)
 	}
-	if qb.random {
+	if b.random {
 		ret = ret.Order("RAND()")
 	}
-	if qb.fixedOrder != "" {
-		ret = ret.Order(qb.fixedOrder)
+	if b.fixedOrder != "" {
+		ret = ret.Order(b.fixedOrder)
 	}
-	for _, order := range qb.order {
+	for _, order := range b.order {
 		ret = ret.Order(order)
 	}
-	if qb.limit > 0 {
-		ret = ret.Limit(qb.limit)
+	if b.limit > 0 {
+		ret = ret.Limit(b.limit)
 	}
-	ret = ret.Offset(qb.offset)
+	ret = ret.Offset(b.offset)
+
 	return ret
 }
 
-func (qb *{{.QueryBuilderName}}) Select(fields []string) *{{.QueryBuilderName}} {
-	qb.fields = fields
-	return qb
+func (b *builder) Select(fields []string) *builder {
+	b.fields = fields
+
+	return b
 }
 
 // FixedOrder 按int类型固定顺序返回
-func (qb *{{.QueryBuilderName}}) FixedOrder(field string, fixed []int) *{{.QueryBuilderName}} {
+func (b *builder) FixedOrder(field string, fixed []int) *builder {
 	n := len(fixed)
 	if n > 0 {
 		s := strings.Builder{}
@@ -109,155 +102,163 @@ func (qb *{{.QueryBuilderName}}) FixedOrder(field string, fixed []int) *{{.Query
 			}
 		}
 		s.WriteString(")")
-		qb.fixedOrder = s.String()
+		b.fixedOrder = s.String()
 	}
-	return qb
+
+	return b
 }
 
 // Random 简单随机取
-func (qb *{{.QueryBuilderName}}) Random(x int) *{{.QueryBuilderName}} {
-	qb.random = true
-	qb.Limit(x)
-	return qb
+func (b *builder) Random(x int) *builder {
+	b.random = true
+	b.Limit(x)
+
+	return b
 }
 
-func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) (er e.Er) {
+func (b *builder) Updates(db *gorm.DB, m map[string]interface{}) error {
 	db = db.Model(&{{.StructName}}{})
 
-	for _, where := range qb.where {
+	for _, where := range b.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if qb.limit > 0 {
-		db.Limit(qb.limit)
+	if b.limit > 0 {
+		db.Limit(b.limit)
 	}
 
-	for _, order := range qb.order {
+	for _, order := range b.order {
 		db = db.Order(order)
 	}
 
 	if err := db.Updates(m).Error; err != nil {
-		return e.NewErr(code.MySQLExecError, err.Error())
+		return err
 	}
+
 	return nil
 }
 
-func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (er e.Er) {
-	for _, where := range qb.where {
+func (b *builder) Delete(db *gorm.DB) (error) {
+	for _, where := range b.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if qb.limit > 0 {
-		db.Limit(qb.limit)
+	if b.limit > 0 {
+		db.Limit(b.limit)
 	}
 
-	for _, order := range qb.order {
+	for _, order := range b.order {
 		db = db.Order(order)
 	}
 
 	if err := db.Delete(&{{.StructName}}{}).Error; err != nil {
-		return e.NewErr(code.MySQLExecError, err.Error())
+		return err
 	}
+
 	return nil
 }
 
-func (qb *{{.QueryBuilderName}}) Count(db *gorm.DB) (int64, e.Er) {
+func (b *builder) Count(db *gorm.DB) (int64, error) {
 	var c int64
-	res := qb.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
+	res := b.buildQuery(db).Model(&{{.StructName}}{}).Count(&c)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return 0, e.NewErr(code.QueryNotExist, res.Error.Error())
+			return 0, nil
 		} else {
-			return 0, e.NewErr(code.MySQLExecError, res.Error.Error())
+			return 0, res.Error
 		}
 	}
+
 	return c, nil
 }
 
-func (qb *{{.QueryBuilderName}}) First(db *gorm.DB) (*{{.StructName}}, e.Er) {
+func (b *builder) First(db *gorm.DB) (*{{.StructName}}, error) {
 	ret := &{{.StructName}}{}
-	res := qb.buildQuery(db).First(ret)
+	res := b.buildQuery(db).First(ret)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-			return nil, e.NewErr(code.QueryNotExist, res.Error.Error())
+			return nil, nil
 		} else {
-			return nil, e.NewErr(code.MySQLExecError, res.Error.Error())
+			return nil, res.Error
 		}
 	}
+
 	return ret, nil
 }
 
-func (qb *{{.QueryBuilderName}}) QueryOne(db *gorm.DB) (*{{.StructName}}, e.Er) {
-	qb.limit = 1
-	ret, err := qb.QueryAll(db)
+func (b *builder) QueryOne(db *gorm.DB) (*{{.StructName}}, error) {
+	b.limit = 1
+	ret, err := b.QueryAll(db)
 	if len(ret) > 0 {
 		return ret[0], err
 	}
+
 	return nil, err
 }
 
-func (qb *{{.QueryBuilderName}}) QueryAll(db *gorm.DB) ([]*{{.StructName}}, e.Er) {
+func (b *builder) QueryAll(db *gorm.DB) ([]*{{.StructName}}, error) {
 	var ret []*{{.StructName}}
-	err := qb.buildQuery(db).Find(&ret).Error
+	err := b.buildQuery(db).Find(&ret).Error
 	if err != nil {
-		return nil, e.NewErr(code.MySQLExecError, err.Error())
+		return nil, err
 	}
+
 	return ret, nil
 }
 
-func (qb *{{.QueryBuilderName}}) Limit(limit int) *{{.QueryBuilderName}} {
-	qb.limit = limit
-	return qb
+func (b *builder) Limit(limit int) *builder {
+	b.limit = limit
+	return b
 }
 
-func (qb *{{.QueryBuilderName}}) Offset(offset int) *{{.QueryBuilderName}} {
-	qb.offset = offset
-	return qb
+func (b *builder) Offset(offset int) *builder {
+	b.offset = offset
+	return b
 }
 
 {{$queryBuilderName := .QueryBuilderName}}
 {{range .OptionFields}}
-func (qb *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}(p dbrepo.Predicate, value {{.FieldType}}) *{{$queryBuilderName}} {
-	 qb.where = append(qb.where, struct {
+func (b *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}(op string, value {{.FieldType}}) *{{$queryBuilderName}} {
+	 b.where = append(b.where, struct {
 		prefix string
 		value interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "{{.ColumnName}}", p),
+		fmt.Sprintf("%v %v ?", "{{.ColumnName}}", op),
 		value,
 	})
-	return qb
+	return b
 }
 
-func (qb *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}In(value []{{.FieldType}}) *{{$queryBuilderName}} {
-	 qb.where = append(qb.where, struct {
+func (b *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}In(value []{{.FieldType}}) *{{$queryBuilderName}} {
+	 b.where = append(b.where, struct {
 		prefix string
 		value interface{}
 	}{
 		fmt.Sprintf("%v %v ?", "{{.ColumnName}}", "IN"),
 		value,
 	})
-	return qb
+	return b
 }
 
-func (qb *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}NotIn(value []{{.FieldType}}) *{{$queryBuilderName}} {
-	 qb.where = append(qb.where, struct {
+func (b *{{$queryBuilderName}}) Where{{call $.Helpers.Titelize .FieldName}}NotIn(value []{{.FieldType}}) *{{$queryBuilderName}} {
+	 b.where = append(b.where, struct {
 		prefix string
 		value interface{}
 	}{
 		fmt.Sprintf("%v %v ?", "{{.ColumnName}}", "NOT IN"),
 		value,
 	})
-	return qb
+	return b
 }
 
-func (qb *{{$queryBuilderName}}) OrderBy{{call $.Helpers.Titelize .FieldName}}(asc bool) *{{$queryBuilderName}} {
+func (b *{{$queryBuilderName}}) OrderBy{{call $.Helpers.Titelize .FieldName}}(asc bool) *{{$queryBuilderName}} {
 	order := "DESC"
 	if asc {
 		order = "ASC"
 	}
 
-	qb.order = append(qb.order, "{{.ColumnName}} " + order)
-	return qb
+	b.order = append(b.order, "{{.ColumnName}} " + order)
+	return b
 }
 {{end}}
 `)

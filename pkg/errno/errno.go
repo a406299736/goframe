@@ -2,8 +2,6 @@ package errno
 
 import (
 	"encoding/json"
-
-	"github.com/a406299736/goframe/pkg/errors"
 )
 
 var _ Error = (*err)(nil)
@@ -36,7 +34,7 @@ func NewError(httpCode, businessCode int, msg string) Error {
 func (e *err) i() {}
 
 func (e *err) WithErr(err error) Error {
-	e.Err = errors.WithStack(err)
+	e.Err = err
 	return e
 }
 
